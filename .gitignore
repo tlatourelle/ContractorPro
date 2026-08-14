@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Build outputs
+dist/
+build/
+out/
+*.dll
+*.exe
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+credentials.json
+
+# IDE and OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Logs and caches
+*.log
+.cache/
+coverage/
+.pytest_cache/
+__pycache__/
+*.pyc
+
+# Local tooling
+.terraform/
+*.tfstate
+*.tfstate.*
