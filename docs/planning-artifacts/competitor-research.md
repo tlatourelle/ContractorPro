@@ -70,7 +70,7 @@ Buildertrend **already has dependency cascade**:
 - Change orders can ripple into schedule; trade-conflict warnings; baseline vs actual variance
 - Default settings: auto-notify linked subs/vendors, schedule reminders, confirmation requests
 
-**Implication for ContractorPro:** Cascade is **table stakes**, not a unique category. Differentiate on Google Calendar sync, sub friction, price, and event-triggered comms.
+**Implication for ContractorPro:** Cascade is **table stakes**, not a unique category. Differentiate on Google Calendar sync, sub friction, price, event-triggered comms, and **automated daily poke until subs confirm** (calendar invites do not do this).
 
 ### Google Calendar integration (ContractorPro opportunity)
 

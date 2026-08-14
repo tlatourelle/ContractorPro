@@ -1,7 +1,7 @@
 # Google Calendar Integration — Exploration
 
 Status: **Exploratory** (2026-08-13)  
-Related: [product-vision.md](../product-vision.md), [stack-web-api-db.md](./stack-web-api-db.md)
+Related: [product-vision.md](../product-vision.md), [stack-web-api-db.md](./stack-web-api-db.md), [schedule-confirmation-workflow.md](./schedule-confirmation-workflow.md), [job-planning-workflow.md](./job-planning-workflow.md)
 
 ## Product intent (from stakeholder)
 
@@ -14,6 +14,8 @@ Integration with Google Calendar is not only “export dates.” It is a **dual-
 > “Every person's ability to look at and use their own Google Calendar directly **as well as** use the web-app's view of the same calendars. Lots of shared calendars being managed via the app/project process.”
 
 This elevates calendar integration from a feature to a **platform principle**: **integrate, don’t replace** — Google remains a first-class UX for time.
+
+**Planning vs scheduling:** Dates are modeled in **plan mode** first (in-app only, no Google writes) — see [job-planning-workflow.md](./job-planning-workflow.md). Google Calendar receives events **after finalize** and **sub accept** — see [schedule-confirmation-workflow.md](./schedule-confirmation-workflow.md).
 
 ---
 
@@ -154,6 +156,18 @@ Docs: [Google Calendar API](https://developers.google.com/calendar/api/guides/ov
 
 **Long-term:** Two-way for **project calendar events** with clear rules (e.g. only GC can drag dates that trigger cascade).
 
+### Schedule confirmation gates calendar writes
+
+Calendar sync is tied to **sub acceptance**, not GC propose. See [schedule-confirmation-workflow.md](./schedule-confirmation-workflow.md).
+
+| Assignment status | Google Calendar action |
+|-------------------|------------------------|
+| `proposed` / `proposed_change` | **No** confirmed event write (GC sees pending in app) |
+| `confirmed` (sub accepted) | `events.insert` or `events.patch` on project calendar |
+| `declined` | No update to proposed date; GC notified |
+
+On reschedule, sub calendar keeps **last confirmed date** until they accept the new proposal.
+
 ---
 
 ## Platform reality (planning assumption)
@@ -260,8 +274,8 @@ Document answers in cascade deep-dive — calendar and cascade are **one system*
 - [ ] Company chooses **BYO or Pro-provided** (start with one mode if needed)
 - [ ] **Pro-provided:** create **one shared calendar per project** on project create
 - [ ] **BYO:** GC selects existing calendar to link per company or per project
-- [ ] Tasks → events (app → Google)
-- [ ] Cascade shifts events on target calendar
+- [ ] Tasks → events (app → Google) **on sub accept** — see [schedule-confirmation-workflow.md](./schedule-confirmation-workflow.md)
+- [ ] Cascade proposes new dates; calendar patches **per sub accept**, not on GC save alone
 - [ ] Subs invited by **email ACL** (read) even without OAuth
 - [ ] App shows same schedule (from DB; Google as sync target)
 
@@ -282,7 +296,7 @@ Document answers in cascade deep-dive — calendar and cascade are **one system*
 - [ ] **Hybrid** per company — supported day one or phase 2?
 - [ ] One calendar per project, or company calendar with project tags?
 - [ ] **Leaving ContractorPro** — who keeps Pro-provided Google calendars?
-- [ ] Can subs **write** (confirm dates) or **read-only**?
+- [x] Subs **confirm dates** via magic link (Accept/Decline); calendar ACL read-only — see [schedule-confirmation-workflow.md](./schedule-confirmation-workflow.md)
 - [ ] Should homeowners get Google calendar invites or app-only?
 - [ ] What shows in ContractorPro that **doesn’t** go to Google (internal notes)?
 - [ ] Branding: `ContractorPro: 123 Main St` vs GC company name on Pro-provided calendars?

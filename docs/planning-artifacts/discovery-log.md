@@ -8,9 +8,9 @@ Chronological and thematic capture of ideas, questions, and decisions. **Add to 
 
 **Next step when you return:** **Database schema design for v0.1**
 
-Entities to model: companies, users, projects, tasks, task dependencies (cascade), **project_participants** (subs/homeowners — name + phone join), **participant_sessions** (magic links), message threads, attachments metadata, calendar sync mappings, notification log, subscription tier.
+Entities to model: companies, users, projects (`planning` \| `active`), **work_phases** (duration, buffer — v0.2), tasks, **task_assignments** (propose/accept status), task dependencies (cascade), **project_participants** (subs/homeowners — name + phone join, `notify_via`), **participant_sessions** (magic links), message threads, attachments metadata, calendar sync mappings, **confirmation_tokens**, **reminder_schedules**, notification log, subscription tier.
 
-See [invite-join-flow.md](./technical-exploration/invite-join-flow.md).
+See [invite-join-flow.md](./technical-exploration/invite-join-flow.md), [schedule-confirmation-workflow.md](./technical-exploration/schedule-confirmation-workflow.md), [job-planning-workflow.md](./technical-exploration/job-planning-workflow.md).
 
 See [README.md](./README.md) for full session handoff (2026-08-14).
 
@@ -47,6 +47,10 @@ See [README.md](./README.md) for full session handoff (2026-08-14).
 | 2026-08-14 | Reject external roadmap Phase 2–3 | No AI estimating, T&M, embedded financing, supplier clipping in MVP |
 | 2026-08-14 | **Easy join for subs/homeowners** | GC invites → invitee confirms name + phone only; passwordless; phone = identity |
 | 2026-08-14 | **Passwordless by default** | GC: OAuth/passkeys preferred; invitees: magic link/SMS OTP — no passwords for invitees |
+| 2026-08-14 | **Schedule confirmation workflow** | GC proposes → sub accepts/declines via magic link (SMS and/or email) → calendar syncs on accept only; GC dashboard for pending/confirmed/declined — see [schedule-confirmation-workflow.md](./technical-exploration/schedule-confirmation-workflow.md) |
+| 2026-08-14 | **Sub notify_via** | Per-participant `sms` \| `email` \| `both` for schedule proposals; link-based accept (no SMS reply parsing) |
+| 2026-08-14 | **Automated poke / reminders** | Daily SMS/email reminders until sub accepts/declines — **not** Google Calendar’s job; match BT persistence; batch + quiet hours + GC escalation — see schedule-confirmation-workflow.md |
+| 2026-08-14 | **Job planning workflow (v0.2)** | Plan mode: phases, durations, buffers, in-app calendar preview, portfolio balance, sub cross-job conflicts; **finalize** hands off to schedule confirmation — see [job-planning-workflow.md](./technical-exploration/job-planning-workflow.md) |
 
 ---
 
@@ -56,9 +60,9 @@ See [README.md](./README.md) for full session handoff (2026-08-14).
 - **“What changed” feed** — homeowner-friendly timeline of schedule shifts (not full Gantt)
 - **SMS relay / virtual group member** — ContractorPro number joins SMS threads; users text natively OR use web; app logs everything (see messaging-and-media.md § SMS relay)
 - **Per-sub task slice** — sub portal shows only their trades/phases
-- **Project templates** — common residential remodel phases pre-wired with dependencies (later)
+- **Project templates** — common residential remodel phases pre-wired with dependencies — part of [job-planning-workflow.md](./technical-exploration/job-planning-workflow.md) (v0.3)
 - **AI weekly digest** for GC — “here’s what moved, who hasn’t read messages” (later)
-- **Confirm Date** toggle on sub magic-link portal — sub acks schedule without account
+- **Confirm Date** toggle on sub magic-link portal — sub acks schedule without account → **expanded:** full propose/accept/decline workflow; see [schedule-confirmation-workflow.md](./technical-exploration/schedule-confirmation-workflow.md)
 - **Event-driven notification bus** — decouple cascade, SMS, calendar sync, AI draft
 - **Async cascade via background job** — preview in UI, execute in worker after confirm
 - **Quiet hours** for SMS — respect GC and homeowner preferences
@@ -73,8 +77,8 @@ See [README.md](./README.md) for full session handoff (2026-08-14).
 - [ ] MVP: BYO only, Pro-provided only, or both at launch?
 - [ ] Pro-provided: calendar under GC's Google vs ContractorPro service account?
 - [ ] Hybrid mode (company BYO + per-project Pro-provided) — when?
-- [ ] Sub calendar access: OAuth connect vs email ACL invite only?
-- [ ] Two-way sync: what happens if sub drags event in Google?
+- [ ] Sub calendar access: OAuth connect vs email ACL invite only? → **Lean:** email ACL for MVP; confirm via magic link
+- [ ] Two-way sync: what happens if sub drags event in Google? → Defer; app is source of truth until accept
 - [ ] Homeowner: Google invite vs app-only?
 - [ ] Google OAuth verification timeline for sensitive calendar scopes?
 
@@ -82,7 +86,7 @@ See [README.md](./README.md) for full session handoff (2026-08-14).
 
 - [ ] Fixed duration vs fixed end date when cascading?
 - [ ] Partial cascade — move only some dependents?
-- [ ] What if a sub is double-booked across two GC projects? (out of scope v0.1?)
+- [ ] What if a sub is double-booked across two GC projects? → **Job planning v0.2:** sub conflict panel; see [job-planning-workflow.md](./technical-exploration/job-planning-workflow.md)
 - [ ] Manual override always wins — how is that communicated to subs?
 - [ ] Business days only vs calendar days?
 - [ ] Holidays / GC blackout dates?

@@ -25,7 +25,7 @@ Gemini proposes a **3-phase, 9-month** mobile-first MVP: Phase 1 (scheduling + m
 | **Async cascade on date change** | ✅ Aligns with stack doc | Queue: Azure Functions or `IHostedService` + Service Bus later |
 | **Zero-login SMS portal** | ✅ Core MVP | Magic link + Twilio (or ACS) |
 | **Signed short-lived magic URLs** | ✅ Aligns with invitee auth | Implement in .NET API; define TTL + rotation |
-| **Sub "Confirm Date" toggle** | ✅ New UX detail | Add to sub portal spec + discovery validation |
+| **Sub "Confirm Date" toggle** | ✅ New UX detail | Spec'd in [schedule-confirmation-workflow.md](./schedule-confirmation-workflow.md) |
 | **Sub photo upload via mobile browser** | ✅ In messaging scope | No app required; blob upload on magic-link session |
 | **Passkeys (WebAuthn)** | ✅ Already explored | GC auth; TOTP + passkeys free per auth doc |
 | **PWA / Flutter / React Native** | ⚠️ Partial | **Defer native.** Responsive web + optional PWA manifest for GC; not Flutter/RN in v0.1 |
@@ -118,7 +118,7 @@ Decouple cascade logic from SMS/calendar/AI so each can fail/retry independently
 
 ### 4. Sub portal minimal UX (from Gemini)
 
-- **Confirm Date** — binary ack; GC sees confirmation status
+- **Confirm Date** — Accept/Decline via magic link (SMS and/or email); GC sees confirmation status — see [schedule-confirmation-workflow.md](./schedule-confirmation-workflow.md)
 - **Upload photo** — camera capture from mobile browser
 - **View my tasks only** — per-sub slice (already in vision)
 - Large touch targets for field use (glove-friendly) — apply to invitee pages
@@ -158,7 +158,7 @@ Distills Gemini's 9-month plan into our narrower scope:
 | Phase | Timeline | Scope | Gemini equivalent |
 |-------|----------|-------|-------------------|
 | **v0.1** | Months 1–3 | Projects, tasks, cascade, magic links, SMS, messaging + images, Google Calendar sync, GC auth, SaaS billing | Phase 1 only (minus offline-first, minus native) |
-| **v0.2** | Months 4–6 | AI draft on cascade, read receipts, PWA polish, SMS relay opt-in, project templates | Small slice of Gemini Phase 1 + our AI comms |
+| **v0.2** | Months 4–6 | **Job planning** (phases, buffers, portfolio, finalize), AI draft on cascade, read receipts, PWA polish, SMS relay opt-in — see [job-planning-workflow.md](./job-planning-workflow.md) | Small slice of Gemini Phase 1 + our AI comms |
 | **v0.3+** | Months 7+ | QBO explore, multi-GC-user, Microsoft calendar if demanded | Partial Gemini Phase 3 |
 | **Never / parking lot** | — | AI estimating, web clipping, T&M OCR, embedded financing, client payments | Gemini Phase 2–3 bulk |
 
@@ -166,7 +166,7 @@ Distills Gemini's 9-month plan into our narrower scope:
 
 ## Open technical questions (from this review)
 
-- [ ] **Confirm Date** — required ack or optional? Does GC block schedule on unconfirmed?
+- [x] **Confirm Date** — **required** ack for assigned subs; calendar syncs on accept only — see [schedule-confirmation-workflow.md](./schedule-confirmation-workflow.md)
 - [ ] **Magic link TTL** — 24h vs 7d vs until project complete?
 - [ ] **Cascade job idempotency** — what if GC drags same task twice quickly?
 - [ ] **Notification bus** — in-process events vs Azure Service Bus at launch?
@@ -177,7 +177,7 @@ Distills Gemini's 9-month plan into our narrower scope:
 
 ## References
 
-- Internal: [stack-web-api-db.md](./stack-web-api-db.md), [messaging-and-media.md](./messaging-and-media.md), [google-calendar-integration.md](./google-calendar-integration.md)
+- Internal: [stack-web-api-db.md](./stack-web-api-db.md), [messaging-and-media.md](./messaging-and-media.md), [google-calendar-integration.md](./google-calendar-integration.md), [schedule-confirmation-workflow.md](./schedule-confirmation-workflow.md), [job-planning-workflow.md](./job-planning-workflow.md)
 - External segment: [competitor-research.md](../competitor-research.md) § Small-operator anti-Buildertrend segment
 
 Log updates in [discovery-log.md](../discovery-log.md).

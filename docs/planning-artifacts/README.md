@@ -8,11 +8,11 @@ Living documentation for discovery, exploration, and product planning. **No appl
 
 > **Next step: Database schema design for v0.1**
 >
-> Design the relational schema for projects, tasks, cascade dependencies, magic-link invitees, messaging threads, and calendar sync metadata. This is the critical path before sprint planning or PRD finalization.
+> Design the relational schema for projects, tasks, **task assignments (propose/accept)**, cascade dependencies, magic-link invitees, messaging threads, and calendar sync metadata. This is the critical path before sprint planning or PRD finalization.
 >
 > **Prompt to use:** *"John, let's design the v0.1 database schema — projects, tasks, cascade, magic links, messaging."*
 >
-> **Read first:** `product-vision.md` (MVP boundary), `discovery-log.md` (decisions), `stack-web-api-db.md` (architecture lean), `messaging-and-media.md` (attachments), `google-calendar-integration.md` (calendar entities).
+> **Read first:** `product-vision.md` (MVP boundary), `discovery-log.md` (decisions), `stack-web-api-db.md` (architecture lean), `messaging-and-media.md` (attachments), `google-calendar-integration.md` (calendar entities), `schedule-confirmation-workflow.md` (propose → accept → sync), `job-planning-workflow.md` (plan → finalize).
 
 ---
 
@@ -27,6 +27,8 @@ Living documentation for discovery, exploration, and product planning. **No appl
 | [technical-exploration/stack-web-api-db.md](./technical-exploration/stack-web-api-db.md) | .NET API + responsive web frontend architecture |
 | [technical-exploration/external-mvp-roadmap-review.md](./technical-exploration/external-mvp-roadmap-review.md) | Gemini roadmap review — what to adopt vs reject |
 | [technical-exploration/google-calendar-integration.md](./technical-exploration/google-calendar-integration.md) | Dual-view calendar, BYO vs Pro-provided |
+| [technical-exploration/schedule-confirmation-workflow.md](./technical-exploration/schedule-confirmation-workflow.md) | Propose → accept → sync; SMS/email notify; GC pending dashboard; poke engine |
+| [technical-exploration/job-planning-workflow.md](./technical-exploration/job-planning-workflow.md) | Plan phases/buffers → portfolio balance → finalize → schedule |
 | [technical-exploration/messaging-and-media.md](./technical-exploration/messaging-and-media.md) | Image messaging, Azure Blob, SMS relay |
 | [technical-exploration/invite-join-flow.md](./technical-exploration/invite-join-flow.md) | Easy join for subs/homeowners — name + phone, passwordless |
 | [technical-exploration/auth-and-data.md](./technical-exploration/auth-and-data.md) | OAuth BYOA, magic links, Postgres hosting |
@@ -121,9 +123,10 @@ Full detail: [competitor-research.md](./competitor-research.md), [external-mvp-r
 | API | ASP.NET Core (.NET) |
 | Frontend | React + TypeScript (lean; Blazor swap possible) |
 | Monetization | Flat tiers + free tier |
-| Calendar | Google primary; two-way sync; BYO or Pro-provided |
+| Calendar | Google primary; sync on sub accept; BYO or Pro-provided — see [schedule-confirmation-workflow.md](./technical-exploration/schedule-confirmation-workflow.md) |
 | Auth (GC) | OAuth BYOA or native; TOTP/passkeys |
 | Auth (invitees) | Magic links |
+| Job planning | Phases, buffers, portfolio balance, finalize → schedule (v0.2) — see [job-planning-workflow.md](./technical-exploration/job-planning-workflow.md) |
 
 ### MVP v0.1 scope (in)
 
@@ -141,6 +144,13 @@ Full detail: [competitor-research.md](./competitor-research.md), [external-mvp-r
 - Embedded financing, QBO deep sync
 - Offline-first local DB
 - Microsoft Calendar
+- Full job planning module (v0.2)
+
+### MVP v0.2 scope (in)
+
+- Job planning: phases, durations, buffers, in-app preview, portfolio balance, sub conflicts
+- Finalize → schedule confirmation handoff
+- See [job-planning-workflow.md](./technical-exploration/job-planning-workflow.md)
 
 ### Recommended next steps (ordered)
 

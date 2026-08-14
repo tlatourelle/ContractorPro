@@ -1,7 +1,7 @@
 # Invite & Join Flow — Easy Onboarding for Subs and Homeowners
 
 Status: **Exploratory** (2026-08-14)  
-Related: [product-vision.md](../product-vision.md), [auth-byoa-vs-native-mfa.md](./auth-byoa-vs-native-mfa.md), [auth-and-data.md](./auth-and-data.md)
+Related: [product-vision.md](../product-vision.md), [auth-byoa-vs-native-mfa.md](./auth-byoa-vs-native-mfa.md), [auth-and-data.md](./auth-and-data.md), [schedule-confirmation-workflow.md](./schedule-confirmation-workflow.md)
 
 ## Product intent (from stakeholder)
 
@@ -32,6 +32,7 @@ GC team member (or owner) from project screen:
 - Enters **name** + **phone** (required) and optionally **email**
 - Selects role: **Subcontractor** or **Homeowner**
 - For subs: optionally assign trade / link to tasks now or later
+- For subs: **notify via** — `SMS` | `Email` | `Both` (default from company settings; see [schedule-confirmation-workflow.md](./schedule-confirmation-workflow.md))
 - Taps **Send invite**
 
 System sends **SMS** (primary) with short link; email optional if provided.
@@ -50,6 +51,7 @@ Single screen — **no account creation wizard**:
 | **Name** | ✅ | Pre-filled if GC entered it; invitee confirms/edits |
 | **Phone** | ✅ | Pre-filled from invite; verify via SMS code **or** trust invite token |
 | **Email** | Optional | For email notifications if they prefer |
+| **Notify via** | Subs only | `sms` \| `email` \| `both` — schedule proposals and confirmations (see [schedule-confirmation-workflow.md](./schedule-confirmation-workflow.md)) |
 
 Tap **Join project** → done. No password field. Ever.
 
@@ -85,6 +87,7 @@ project_participants
   display_name
   phone_e164              -- verified
   email                   -- optional
+  notify_via              -- sms | email | both (subs; schedule notifications)
   invited_by_user_id
   joined_at
   phone_verified_at
@@ -131,7 +134,7 @@ Future: GC office manager invites another GC user via email → OAuth sign-in. S
 - **One screen** — not a 5-step wizard; target **under 60 seconds** on phone
 - **Large touch targets** — glove-friendly; camera for photos on next screen
 - **No "create account" language** — say **"Join [Project Name]"** not "Sign up"
-- **Confirm Date** — available immediately after join on sub portal
+- **Confirm Date** — available immediately after join on sub portal; full propose → accept → sync flow in [schedule-confirmation-workflow.md](./schedule-confirmation-workflow.md)
 
 ---
 

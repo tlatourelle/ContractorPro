@@ -73,7 +73,10 @@ Homeowners never see sub-only threads, sub pricing, or internal GC notes.
 Core pieces:
 
 - **Optional schedule cascade** — dependent tasks shift by the same delta (per-project toggle); preview who gets notified before confirming
-- **Google Calendar as first-class** — two-way sync; cascade updates calendar events (BT only offers one-way iCal feed)
+- **Google Calendar as first-class** — sync on sub accept; cascade proposes shifts; shared project calendars (BT only offers one-way iCal feed) — see [schedule-confirmation-workflow.md](./technical-exploration/schedule-confirmation-workflow.md)
+- **Sub date confirmation** — GC proposes → sub accepts/declines via SMS/email link → both calendars update; GC sees pending vs confirmed
+- **Automated poke until response** — daily reminders (SMS/email) until sub acts; Buildertrend-style persistence; calendar invites alone are insufficient
+- **Job planning before commit (v0.2)** — phases, durations, buffers, multi-job balance, sub conflict check; **finalize** triggers scheduling — see [job-planning-workflow.md](./technical-exploration/job-planning-workflow.md)
 - **Magic-link sub + homeowner comms** — no app install; GC stays hub (BT requires sub platform engagement)
 - **Event-triggered AI drafts** — instant “what changed” copy on schedule shift (BT AI = weekly digest requiring daily log discipline)
 
@@ -94,6 +97,7 @@ Core pieces:
 
 ### Out of scope (explicitly later)
 
+- **Full job planning module** (phases, buffers, portfolio planner, finalize) — **v0.2**; see [job-planning-workflow.md](./technical-exploration/job-planning-workflow.md). v0.1 may ship simple project + task dates only.
 - Commercial workflows, service tickets
 - **Native mobile apps** (iOS/Android) — responsive web only; see Client strategy above
 - Estimating, selections, time cards, safety/compliance modules
@@ -131,7 +135,8 @@ Not MVP: AI estimating, takeoff, document extraction.
 
 | System | Purpose | Priority |
 |--------|---------|----------|
-| Google Calendar | Dual-view + app-managed shared calendars; cascade → event updates | v0.1 — see [google-calendar-integration.md](./technical-exploration/google-calendar-integration.md) |
+| Google Calendar | Dual-view + app-managed shared calendars; sync on sub accept | v0.1 — see [google-calendar-integration.md](./technical-exploration/google-calendar-integration.md) |
+| Job planning | Phases, durations, buffers, portfolio balance, finalize → schedule | v0.2 — see [job-planning-workflow.md](./technical-exploration/job-planning-workflow.md) |
 | Twilio (or similar) | SMS to subs/homeowners | v0.1 |
 | Chargebee / Stripe | SaaS subscription for GCs | v0.1 |
 | QuickBooks Online | Customer/invoice handoff, light sync | Post-MVP explore |

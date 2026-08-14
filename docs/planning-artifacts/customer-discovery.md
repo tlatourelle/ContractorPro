@@ -41,6 +41,18 @@ Use these in informal conversations with **small residential GCs**, and optional
 
 ---
 
+## Job planning (validate — v0.2)
+
+22. When you **sell** a job, do you already have a standard list of phases (demo, rough-in, drywall, paint)?
+23. How do you figure out **how many days** each phase takes — gut feel, past jobs, spreadsheet?
+24. Do you plan **buffers** between trades (e.g., let drywall cure before paint)? How do you track that today?
+25. Do you plan **multiple sold jobs** at once on a whiteboard or spreadsheet? How do you avoid double-booking subs?
+26. How painful is **double-booking the same sub** across two jobs (1–10)?
+27. Would you want to **play with start dates** before telling subs — see the whole job on a calendar first?
+28. Is a clear **“finalize and notify subs”** button the right moment to commit, vs. living in draft forever?
+
+---
+
 ## Homeowner & sub experience
 
 16. Would your homeowners open a **web link** for schedule updates? What would make them ignore it?
