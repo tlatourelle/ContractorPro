@@ -8,7 +8,9 @@ Chronological and thematic capture of ideas, questions, and decisions. **Add to 
 
 **Next step when you return:** **Database schema design for v0.1**
 
-Entities to model: companies, users, projects, tasks, task dependencies (cascade), invitees (subs/homeowners), magic-link tokens, message threads, attachments metadata, calendar sync mappings, notification log, subscription tier.
+Entities to model: companies, users, projects, tasks, task dependencies (cascade), **project_participants** (subs/homeowners — name + phone join), **participant_sessions** (magic links), message threads, attachments metadata, calendar sync mappings, notification log, subscription tier.
+
+See [invite-join-flow.md](./technical-exploration/invite-join-flow.md).
 
 See [README.md](./README.md) for full session handoff (2026-08-14).
 
@@ -43,7 +45,8 @@ See [README.md](./README.md) for full session handoff (2026-08-14).
 | 2026-08-14 | Positioning = schedule coordination layer | Not "cheaper BT"; Google Calendar two-way + magic links + price |
 | 2026-08-14 | ICP core = 2–5 person GC crews | BT churners; solo trades = Jobber lane |
 | 2026-08-14 | Reject external roadmap Phase 2–3 | No AI estimating, T&M, embedded financing, supplier clipping in MVP |
-| 2026-08-14 | **Next step = DB schema** | Before sprint plan or PRD — see README.md handoff |
+| 2026-08-14 | **Easy join for subs/homeowners** | GC invites → invitee confirms name + phone only; passwordless; phone = identity |
+| 2026-08-14 | **Passwordless by default** | GC: OAuth/passkeys preferred; invitees: magic link/SMS OTP — no passwords for invitees |
 
 ---
 
@@ -247,6 +250,15 @@ See also: [technical-exploration/auth-and-data.md](./technical-exploration/auth-
 - SMS = text + link; images in web portal
 - Storage quotas may tie to subscription tiers
 - See `technical-exploration/messaging-and-media.md`
+
+### 2026-08-14 (easy join + passwordless)
+
+- **Idea:** GC sends invite → sub/homeowner joins with **name + phone only** — no password
+- Evolves magic links into lightweight **project_participant** identity (phone = key)
+- Return visits: magic link in SMS or OTP to verified phone — still passwordless
+- GC staff: OAuth/passkeys preferred over passwords
+- Documented in [invite-join-flow.md](./technical-exploration/invite-join-flow.md)
+- DB schema should include `project_participants` + `participant_sessions`
 
 ### 2026-08-14 (session wrap — documentation complete)
 

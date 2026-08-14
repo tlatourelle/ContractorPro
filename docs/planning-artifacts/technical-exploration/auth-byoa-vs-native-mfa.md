@@ -24,7 +24,7 @@ Additionally: **MFA** and/or **passkey** options — what can we do **for free**
 |------|-----------|----------------|------------|---------------|
 | **GC staff** (paying) | ✅ Primary | ✅ Fallback | — | ✅ Expected for native; optional for BYO |
 | **GC staff** | Google / Apple / Microsoft | Email + password in our system | — | TOTP, passkey, (not SMS if avoiding cost) |
-| **Sub / homeowner** | Optional later | Rare | ✅ Primary v0.1 | Usually N/A (low-risk magic link sessions) |
+| **Sub / homeowner** | — | ❌ Never | ✅ Join + SMS magic link return | N/A |
 
 **Native accounts** are mainly for GC users who won’t or can’t use social/work OAuth — not for every invitee.
 

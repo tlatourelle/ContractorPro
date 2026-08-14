@@ -73,6 +73,8 @@ Use these in informal conversations with **small residential GCs**, and optional
 1. How do GCs usually tell you schedule changes today?
 2. Would a simple link showing **your dates only** be useful?
 3. Would you pay for this? (expect: no — confirms GC is buyer)
+4. If a GC texted you a link, would you join with **just your name and phone** — no password, no app?
+5. For return visits, would you rather get a **new link in each text** or use **one bookmark**?
 
 ---
 
@@ -81,6 +83,8 @@ Use these in informal conversations with **small residential GCs**, and optional
 1. How do you prefer updates from your contractor — call, text, email, portal?
 2. Would you **send photos** to your contractor (issues, questions)? How do you do that today?
 3. Would you check a **schedule link** during a remodel? What would you want to see?
+4. Would you join a project portal with **name + phone only** — no account setup?
+5. Is a **6-digit phone verification code** on first join acceptable?
 
 ---
 

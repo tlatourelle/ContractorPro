@@ -23,6 +23,8 @@
 | **Integrate, don't replace** | Google Calendar is a **first-class UX** — BYO existing calendars **or** Pro-provided per-entity calendars; dual-view in Google + app |
 | **Contractor is the hub** | GC orchestrates; subs and homeowners don't talk past the GC |
 | **Lightweight portals** | Web link + SMS for subs/homeowners — no app install |
+| **Easy join** | GC sends invite → sub/homeowner confirms **name + phone** only — no password, ever |
+| **Passwordless by default** | Magic links + SMS for invitees; OAuth/passkeys for GC staff — avoid passwords wherever possible |
 | **Start small** | Ship cascade + messaging + calendar sync before estimating, invoicing, safety modules |
 | **Grow by tier** | Free tier + low flat monthly; GC company pays; invitees free |
 
@@ -59,8 +61,8 @@
 
 | Role | Access | Visibility |
 |------|--------|------------|
-| **Subcontractor** | Magic web link + SMS | Assigned tasks, sub-relevant info, **private** GC↔sub messaging |
-| **Homeowner** | Magic web link + SMS | Schedule, what-changed feed, **upload/view photos** in GC↔homeowner thread |
+| **Subcontractor** | SMS invite → **join** (name + phone) → magic-link return | Assigned tasks, sub-relevant info, **private** GC↔sub messaging |
+| **Homeowner** | SMS invite → **join** (name + phone) → magic-link return | Schedule, what-changed feed, **upload/view photos** in GC↔homeowner thread |
 
 Homeowners never see sub-only threads, sub pricing, or internal GC notes.
 
@@ -84,6 +86,7 @@ Core pieces:
 - Messaging with **image uploads from GC, subs, and homeowners** — Azure Blob + SQL; central to project tracking
 - Messaging: GC↔sub (private), GC↔homeowner (private)
 - Magic-link invites for subs and homeowners
+- **Easy join flow** — GC invites by phone; invitee confirms name + phone on one screen; no password (see [invite-join-flow.md](./technical-exploration/invite-join-flow.md))
 - SMS notifications (link back to web; tier limits TBD)
 - Subscription billing for GC (Chargebee or Stripe Billing)
 - AI-assisted comms (draft updates, thread summary — stretch in v0.1)

@@ -28,7 +28,7 @@ Living documentation for discovery, exploration, and product planning. **No appl
 | [technical-exploration/external-mvp-roadmap-review.md](./technical-exploration/external-mvp-roadmap-review.md) | Gemini roadmap review — what to adopt vs reject |
 | [technical-exploration/google-calendar-integration.md](./technical-exploration/google-calendar-integration.md) | Dual-view calendar, BYO vs Pro-provided |
 | [technical-exploration/messaging-and-media.md](./technical-exploration/messaging-and-media.md) | Image messaging, Azure Blob, SMS relay |
-| [technical-exploration/auth-byoa-vs-native-mfa.md](./technical-exploration/auth-byoa-vs-native-mfa.md) | GC OAuth/native auth, magic links, passkeys |
+| [technical-exploration/invite-join-flow.md](./technical-exploration/invite-join-flow.md) | Easy join for subs/homeowners — name + phone, passwordless |
 | [technical-exploration/auth-and-data.md](./technical-exploration/auth-and-data.md) | OAuth BYOA, magic links, Postgres hosting |
 | [technical-exploration/azure-alignment.md](./technical-exploration/azure-alignment.md) | Azure-first hosting path |
 | [technical-exploration/database-options.md](./technical-exploration/database-options.md) | Postgres hosts: Neon, Supabase, Azure |
