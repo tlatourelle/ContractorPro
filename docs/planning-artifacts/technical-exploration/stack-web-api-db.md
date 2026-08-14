@@ -11,6 +11,7 @@ Context: [azure-alignment.md](./azure-alignment.md), [auth-and-data.md](./auth-a
 | **Architecture** | **Web frontend** ↔ **API backend** ↔ **database** |
 | **Build style** | **“Vibe coded”** — AI-assisted; open to tools that accelerate, not dogmatic |
 | **Cloud lean** | Azure over AWS ([azure-alignment.md](./azure-alignment.md)) |
+| **Client UI** | **Responsive web only** — no native apps; GC = desktop-first; invitee portals = mobile-first |
 
 **No final stack decision** — this doc compares realistic options.
 
@@ -38,6 +39,34 @@ External: Google Calendar, Twilio SMS, Chargebee/Stripe, (later) QBO
 ```
 
 **Principle:** Frontend stays thin — scheduling rules, permissions, and cascade logic live in the **API**, not duplicated in the browser.
+
+---
+
+## Responsive web strategy (decided 2026-08-14)
+
+**No Flutter, React Native, or native iOS/Android.** One responsive web codebase.
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  GC app (React SPA)          │  Invitee portals (same or thin)   │
+│  Desktop-first layout        │  Mobile-first magic-link pages    │
+│  Full scheduling, cascade,   │  Confirm date, photos, messages   │
+│  messaging, settings         │  Large touch targets              │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                    Modern browser (any device)
+```
+
+| Concern | Approach |
+|---------|----------|
+| **Layout** | CSS breakpoints; sidebar/dashboard on `md+`; stacked UI on small screens |
+| **GC on phone** | Usable for checks and quick actions; not full Gantt editing target |
+| **Sub/homeowner** | Mobile viewport as primary design target for magic-link routes |
+| **Camera upload** | `<input type="file" accept="image/*" capture>` — works in mobile browsers |
+| **PWA** | Optional later (manifest + service worker); not v0.1 |
+| **Offline** | Online-first v0.1; no WatermelonDB/SQLite sync layer |
+
+**Why this fits:** Aligns with .NET API + React lean, avoids App Store friction for subs, single deployable UI, faster MVP.
 
 ---
 
@@ -206,7 +235,8 @@ Monorepo in one git repo; two deployables (API + static web).
 
 - Full Next.js monolith (API in Node) — fights .NET strength
 - Auth.js as primary — Node-oriented
-- Mobile native apps
+- **Native mobile apps (iOS/Android)** — responsive web only; stakeholder decision 2026-08-14
+- **Flutter / React Native** — same decision
 - Microservices — single API is enough for years
 
 Log decisions in [discovery-log.md](../discovery-log.md).

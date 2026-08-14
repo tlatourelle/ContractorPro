@@ -4,6 +4,16 @@ Chronological and thematic capture of ideas, questions, and decisions. **Add to 
 
 ---
 
+## ⏭️ Resume here
+
+**Next step when you return:** **Database schema design for v0.1**
+
+Entities to model: companies, users, projects, tasks, task dependencies (cascade), invitees (subs/homeowners), magic-link tokens, message threads, attachments metadata, calendar sync mappings, notification log, subscription tier.
+
+See [README.md](./README.md) for full session handoff (2026-08-14).
+
+---
+
 ## Decisions (tentative)
 
 | Date | Decision | Notes |
@@ -15,8 +25,8 @@ Chronological and thematic capture of ideas, questions, and decisions. **Add to 
 | 2026-08-13 | Google Calendar primary for scheduling integration | Most people don't use Microsoft Calendar except at work; Google is default personal/small-biz calendar |
 | 2026-08-13 | Microsoft 365 Calendar | **Later**, work-context / enterprise GCs — not v0.1 priority |
 | 2026-08-13 | Monetization = tiers + free tier | Chargebee/Stripe for our billing; flat low monthly |
-| 2026-08-13 | Wedge = cheaper, simpler, integrate-don't-replace + AI-forward | Not a BT clone or full CF feature parity |
-| 2026-08-13 | Signature feature = optional schedule cascade | Trickles changes to dependent tasks |
+| 2026-08-13 | Wedge = cheaper, simpler, integrate-don't-replace + AI-forward | Evolved 2026-08-14 → **schedule coordination layer**; see below |
+| 2026-08-13 | Signature feature = optional schedule cascade | Bundled with calendar + comms; BT has cascade too — not standalone category |
 | 2026-08-13 | US only, English, USD for foreseeable future | |
 | 2026-08-13 | QBO integration = explore post-MVP | Quicken only if users ask; often confused with QBO |
 | 2026-08-13 | Auth: BYO OAuth **or** native ContractorPro accounts | Same pattern as calendar; native unavoidable for some GCs |
@@ -29,6 +39,11 @@ Chronological and thematic capture of ideas, questions, and decisions. **Add to 
 | 2026-08-13 | Architecture: **web frontend + API + DB** | Separation of concerns; see stack-web-api-db.md |
 | 2026-08-13 | Backend lean: **.NET / ASP.NET Core** | Personal strength; vibe-coded OK; frontend TBD |
 | 2026-08-13 | Hosting on GCP vs Azure | **Azure for app/DB**; **Google Cloud project** for Calendar/OAuth APIs only — see google-cloud-vs-azure.md |
+| 2026-08-14 | **No native mobile apps** | **Responsive web only** — mobile-friendly for field/subs/homeowners; **full experience on laptop/desktop** for GC; PWA optional later, not v0.1 priority |
+| 2026-08-14 | Positioning = schedule coordination layer | Not "cheaper BT"; Google Calendar two-way + magic links + price |
+| 2026-08-14 | ICP core = 2–5 person GC crews | BT churners; solo trades = Jobber lane |
+| 2026-08-14 | Reject external roadmap Phase 2–3 | No AI estimating, T&M, embedded financing, supplier clipping in MVP |
+| 2026-08-14 | **Next step = DB schema** | Before sprint plan or PRD — see README.md handoff |
 
 ---
 
@@ -40,7 +55,9 @@ Chronological and thematic capture of ideas, questions, and decisions. **Add to 
 - **Per-sub task slice** — sub portal shows only their trades/phases
 - **Project templates** — common residential remodel phases pre-wired with dependencies (later)
 - **AI weekly digest** for GC — “here’s what moved, who hasn’t read messages” (later)
-- **Read receipts / opened link tracking** — did homeowner see the delay notice?
+- **Confirm Date** toggle on sub magic-link portal — sub acks schedule without account
+- **Event-driven notification bus** — decouple cascade, SMS, calendar sync, AI draft
+- **Async cascade via background job** — preview in UI, execute in worker after confirm
 - **Quiet hours** for SMS — respect GC and homeowner preferences
 - **Project photo timeline** — unified project tracking view aggregating images from GC, subs (GC-visible), and homeowner
 
@@ -126,7 +143,9 @@ See also: [technical-exploration/auth-and-data.md](./technical-exploration/auth-
 | Topic | Why | Status |
 |-------|-----|--------|
 | BuilderTrend, Contractor Foreman, BuildPass | Baseline competitors | ✅ Done → [competitor-research.md](./competitor-research.md) |
-| Jobber, Houzz Pro, CoConstruct | Adjacent / residential | Not started |
+| Small-operator anti-BT segment (pricing, onboarding, magic links, micro-SaaS playbook) | Market validation + positioning | ✅ Done 2026-08-14 → competitor-research.md § Small-operator segment |
+| JobTread | "Affordable full suite" adjacent to BT | Not started — next priority |
+| Jobber, Houzz Pro, CoConstruct | Adjacent / residential | CoConstruct → see BT section (sunset); Jobber/Houzz not started |
 | Google Cloud vs Azure for hosting | Calendar API does not require GCP | ✅ google-cloud-vs-azure.md |
 | Twilio SMS pricing at scale | Tier economics | Not started |
 | Chargebee vs Stripe Billing | Our subscription stack | Not started |
@@ -136,6 +155,7 @@ See also: [technical-exploration/auth-and-data.md](./technical-exploration/auth-
 | Messaging + image attachments (blob storage) | Core comms pattern | ✅ messaging-and-media.md |
 | Stack: web + API + DB | .NET API lean; frontend open | ✅ stack-web-api-db.md |
 | Cascade scheduling UX in other industries | Inspiration (MS Project, Asana deps) | Not started |
+| Gemini MVP roadmap (technical phases) | External architecture patterns | ✅ Done 2026-08-14 → technical-exploration/external-mvp-roadmap-review.md |
 
 ---
 
@@ -146,7 +166,9 @@ See also: [technical-exploration/auth-and-data.md](./technical-exploration/auth-
 | Small GCs will pay for coordination, not full ERP | They expect invoicing in v0.1 |
 | Google Calendar is universal for target GCs | Many use paper/whiteboard only |
 | Homeowners will use a link | Low engagement; SMS-only insufficient |
-| Cascade is the killer feature | Nice-to-have; messaging alone might be wedge |
+| Cascade is the killer feature | BT already has Gantt cascade — must bundle with calendar + lightweight comms |
+| "Cheaper BT" positioning | JobTread + Contractor Foreman also undercut; we're narrower + calendar-native |
+| AI comms race | BT shipped weekly AI Client Updates (Jun 2025) — we need event-triggered, not digest parity |
 | Free tier converts to paid | Abuse, no conversion |
 | AI drafts save time | GCs don’t trust or edit anyway |
 
@@ -154,12 +176,16 @@ See also: [technical-exploration/auth-and-data.md](./technical-exploration/auth-
 
 ## Parking lot (maybe never)
 
-- Native iOS/Android apps
+- Native iOS/Android apps — **decided out** (responsive web only, 2026-08-14)
 - In-app video calls
 - Lien waiver / compliance document workflows
 - Material ordering integrations
 - CompanyCam-style photo timeline
-- Xactimate / insurance restoration
+- AI photo estimating / blueprint reading (KonstructIQ territory)
+- Supplier "clipping" from Home Depot/Lowe's (Materio-style)
+- T&M time-and-materials logging + receipt-to-invoice
+- Embedded consumer financing in proposals (GreenSky/Nelnet-style partnerships)
+- WhatsApp integration (defer until beyond US SMS-first)
 
 ---
 
@@ -221,6 +247,54 @@ See also: [technical-exploration/auth-and-data.md](./technical-exploration/auth-
 - SMS = text + link; images in web portal
 - Storage quotas may tie to subscription tiers
 - See `technical-exploration/messaging-and-media.md`
+
+### 2026-08-14 (session wrap — documentation complete)
+
+- Full session documented in planning hub README.md (handoff 2026-08-14)
+- All research logged: BT deep dive, small-operator blueprint, Gemini technical roadmap, responsive web decision
+- **Next step when returning:** database schema for v0.1 (projects, tasks, cascade deps, invitees, magic links, messaging, calendar sync)
+- Prompt: *"John, let's design the v0.1 database schema"*
+
+### 2026-08-14 (client UI strategy)
+
+- **Decision:** No native mobile apps for MVP or foreseeable roadmap
+- **Approach:** Responsive web — mobile-friendly on all devices; **GC experience desktop-first**; **sub/homeowner magic-link pages mobile-first**
+- PWA optional later; offline-first deferred
+- Reinforces stack lean (React + .NET API) vs Gemini Flutter/RN proposal
+- Logged in product-vision.md § Client strategy, stack-web-api-db.md § Responsive web strategy
+
+### 2026-08-14 (Gemini technical MVP roadmap)
+
+- External 3-phase roadmap: PWA/native, serverless, AI estimating, T&M, embedded financing
+- **Phase 1 validates us:** 10-min TTV, async cascade, magic-link SMS, passkeys, sub photo upload
+- **Phase 2–3 rejected for MVP:** OCR estimating, web clipping, receipt pipeline, Stripe Connect client payments, embedded loans
+- **Useful gleanings:** Confirm Date UX, signed short-lived magic URLs, event-driven notification bus, staged offline (v0.2+)
+- **Stack conflicts:** Flutter/RN and full serverless vs .NET + React + App Service lean
+- **Gemini gap:** no Google Calendar two-way — our wedge they missed
+- Logged in [external-mvp-roadmap-review.md](./technical-exploration/external-mvp-roadmap-review.md)
+
+### 2026-08-14 (small-operator anti-BT blueprint)
+
+- External strategic analysis: micro-ops fastest-growing segment; 80% admin burden; anti-bloat playbook
+- **Strong alignment:** transparent pricing, 10-min onboarding, magic-link subs, anti-bloat UX
+- **Reject for MVP:** AI estimating, supplier clipping, T&M invoicing, embedded financing — scope creep toward CF/KonstructIQ
+- **Our unique wedge not in blueprint:** Google Calendar two-way, GC-as-hub messaging, event-triggered AI
+- **ICP refinement:** core sweet spot 2–5 person GC crews; solo specialty trades = Jobber lane
+- **Strategic warning:** "direct BT competitor" framing is trap — stay coordination-layer narrow
+- Logged in competitor-research.md § Small-operator anti-Buildertrend segment
+
+### 2026-08-14 (Buildertrend deep dive)
+
+- Aggregated user pros/cons from G2, Capterra, Software Advice, Trustpilot
+- **2026 pricing shift:** published tiers removed; volume-based custom quotes ($0–499K → $31M+ brackets)
+- **Cascade parity:** BT has Gantt predecessor/successor auto-shift + sub notifications — not unique to us
+- **Google Calendar:** BT offers one-way iCal feed only (read-only, 30d past / 60d future) — major ContractorPro opportunity
+- **Sub resistance** confirmed as structural BT weakness — profile/app required
+- **AI:** Client Updates (Jun 2025) = weekly digest from platform data; Bill Pay (Feb 2026); no AI scheduling
+- **Positioning refinement:** "Schedule coordination layer" not "cascade tool"; cascade is feature within bundle
+- **ICP signal:** GCs who demo'd/churned BT due to price, setup, or sub adoption
+- **Next competitor research:** JobTread (transparent pricing, estimating strength)
+- Logged in [competitor-research.md](./competitor-research.md)
 
 ### 2026-08-13 (SMS relay exploration)
 

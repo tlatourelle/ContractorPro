@@ -24,6 +24,11 @@ Use these in informal conversations with **small residential GCs**, and optional
 9. Do you use **Google Calendar** for job scheduling? Do subs and homeowners use it too, or mostly text/calls?
 10. Does anyone on your team rely on **Outlook / Microsoft calendar** for jobs, or only for office email?
 11. Have you tried BuilderTrend, Contractor Foreman, Jobber, or similar? Why stay or leave?
+12. If you demo'd Buildertrend — what killed it? Price, setup time, or getting subs on board?
+13. When a date moves, do you update Google Calendar, your PM tool, or both?
+14. Would you pay for schedule sync + sub texts **without** estimating/invoicing built in?
+15. Weekly summary vs instant "here's what changed" when you drag a date — which saves more phone tag?
+16. How long did onboarding take for your last construction software? Would 10 minutes to first invite matter?
 
 ---
 
@@ -43,7 +48,8 @@ Use these in informal conversations with **small residential GCs**, and optional
 18. If we gave you a **project phone number** and subs/homeowners texted it (like adding someone to a group chat) — and everything logged to the project — would you **switch** from your current text thread or run both?
 19. Do you use **one group text per job** or separate threads per sub/homeowner?
 20. Should subs see **only their tasks** or more of the job timeline?
-21. Should homeowners ever message subs directly, or always through you?
+21. Should subs **confirm dates** with a one-tap ack, or is view-only enough?
+22. Should homeowners ever message subs directly, or always through you?
 
 ---
 

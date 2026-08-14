@@ -1,6 +1,7 @@
 # ContractorPro — Product Vision (Draft)
 
-> Status: **Exploratory** — reflects conversation through 2026-08-13. Expect changes.
+> Status: **Exploratory** — reflects conversation through 2026-08-14. Expect changes.  
+> **Next step:** Database schema design — see [README.md](./README.md).
 
 ## One-liner
 
@@ -25,11 +26,34 @@
 | **Start small** | Ship cascade + messaging + calendar sync before estimating, invoicing, safety modules |
 | **Grow by tier** | Free tier + low flat monthly; GC company pays; invitees free |
 
+## Client strategy (UI)
+
+**Responsive web only — no native iOS/Android apps** for MVP or foreseeable roadmap.
+
+| Surface | Device priority | Experience |
+|---------|-----------------|------------|
+| **GC dashboard** | **Laptop / desktop first** | Full scheduling, cascade, messaging, settings, billing — rich layouts, keyboard-friendly |
+| **GC field use** | Mobile browser (secondary) | Core actions work on phone (check schedule, send update, approve cascade) but not feature parity with desktop |
+| **Sub / homeowner portals** | **Mobile browser first** | Magic-link pages optimized for phone — confirm dates, read updates, upload photos, reply in thread |
+| **All surfaces** | Any modern browser | Single codebase; progressive enhancement, not separate apps |
+
+**Principles:**
+
+- One web app (or thin portal routes), not App Store / Play Store deliverables
+- **Mobile-friendly ≠ mobile-only** — GCs plan at a desk; subs and homeowners act from the field
+- Touch-friendly targets on invitee pages (large buttons, camera upload from browser)
+- Optional **PWA** (install prompt, basic caching) is a later enhancement — not required for v0.1
+- **No offline-first local DB** in v0.1 — online-first with graceful errors; revisit only if discovery proves field connectivity is a blocker
+
 ## Target users
 
 ### Primary (pays)
 
-**Small general contractor** — roughly 2–15 employees, handful of active **residential** jobs.
+**Small general contractor** — roughly **2–8 employees** (core ICP), up to 15 employees (expansion). Handful of active **residential** jobs. Boutique remodelers and small GC crews — **not** solo specialty trades (see below).
+
+**ICP sweet spot (refined 2026-08-14):** 2–5 person crews who demo'd or churned from Buildertrend due to price, setup time, or sub adoption friction. Solo operators (1 person) are adjacent — may lack enough sub coordination pain to pay; validate in discovery.
+
+**Explicitly not primary (v0.1):** Solo specialty trades doing their own work without sub coordination (Jobber/Housecall Pro territory).
 
 ### Secondary (invited, free)
 
@@ -40,9 +64,16 @@
 
 Homeowners never see sub-only threads, sub pricing, or internal GC notes.
 
-## Signature feature (primary differentiator)
+## Signature capability (primary differentiator)
 
-**Optional schedule cascade** — when a task moves, dependent downstream tasks shift by the same delta (per-project toggle). Notify affected subs and homeowner. AI can draft homeowner-friendly “what changed” copy.
+**Schedule coordination layer** — not a full ERP. When the schedule moves, everyone who needs to know finds out in **Google Calendar** and via **text/link** — without adopting another platform.
+
+Core pieces:
+
+- **Optional schedule cascade** — dependent tasks shift by the same delta (per-project toggle); preview who gets notified before confirming
+- **Google Calendar as first-class** — two-way sync; cascade updates calendar events (BT only offers one-way iCal feed)
+- **Magic-link sub + homeowner comms** — no app install; GC stays hub (BT requires sub platform engagement)
+- **Event-triggered AI drafts** — instant “what changed” copy on schedule shift (BT AI = weekly digest requiring daily log discipline)
 
 ## MVP boundary (v0.1 — draft)
 
@@ -56,11 +87,12 @@ Homeowners never see sub-only threads, sub pricing, or internal GC notes.
 - SMS notifications (link back to web; tier limits TBD)
 - Subscription billing for GC (Chargebee or Stripe Billing)
 - AI-assisted comms (draft updates, thread summary — stretch in v0.1)
+- **Responsive web UI** — mobile-friendly across devices; GC experience optimized for laptop/desktop
 
 ### Out of scope (explicitly later)
 
 - Commercial workflows, service tickets
-- Native mobile apps (responsive web first)
+- **Native mobile apps** (iOS/Android) — responsive web only; see Client strategy above
 - Estimating, selections, time cards, safety/compliance modules
 - Microsoft Calendar, multi-currency, multi-language
 - Deep QBO sync (explore after MVP)
