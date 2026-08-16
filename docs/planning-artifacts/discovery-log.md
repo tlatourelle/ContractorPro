@@ -51,6 +51,8 @@ See [README.md](./README.md) for full session handoff (2026-08-14).
 | 2026-08-14 | **Sub notify_via** | Per-participant `sms` \| `email` \| `both` for schedule proposals; link-based accept (no SMS reply parsing) |
 | 2026-08-14 | **Automated poke / reminders** | Daily SMS/email reminders until sub accepts/declines — **not** Google Calendar’s job; match BT persistence; batch + quiet hours + GC escalation — see schedule-confirmation-workflow.md |
 | 2026-08-14 | **Job planning workflow (v0.2)** | Plan mode: phases, durations, buffers, in-app calendar preview, portfolio balance, sub cross-job conflicts; **finalize** hands off to schedule confirmation — see [job-planning-workflow.md](./technical-exploration/job-planning-workflow.md) |
+| 2026-08-15 | **Identity vs roles** | **Contractor** = only fixed SaaS subscription; **Subcontractor** / **Customer** = per-project roles; same Person may differ by project; Team member may also be Sub on another Contractor's project — PRD §3, FR-20 |
+| 2026-08-15 | **v0.1 PRD (fast path)** | Product-only PRD drafted; tech in addendum — [prd.md](./prds/prd-ContractorPro-2026-08-15/prd.md); 20 FRs, 5 UJs, job planning = v0.2 OUT |
 
 ---
 
