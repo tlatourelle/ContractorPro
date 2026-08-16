@@ -30,6 +30,7 @@ Living documentation for discovery, exploration, and product planning. **No appl
 | [technical-exploration/schedule-confirmation-workflow.md](./technical-exploration/schedule-confirmation-workflow.md) | Propose → accept → sync; SMS/email notify; GC pending dashboard; poke engine |
 | [technical-exploration/job-planning-workflow.md](./technical-exploration/job-planning-workflow.md) | Plan phases/buffers → portfolio balance → finalize → schedule |
 | [prds/prd-ContractorPro-2026-08-15/prd.md](./prds/prd-ContractorPro-2026-08-15/prd.md) | **v0.1 MVP PRD** (draft) — product requirements; tech in addendum |
+| [prds/prd-ContractorPro-2026-08-15/epics-and-stories.md](./prds/prd-ContractorPro-2026-08-15/epics-and-stories.md) | v0.1 epics & user stories (31 stories, 11 epics) |
 | [technical-exploration/messaging-and-media.md](./technical-exploration/messaging-and-media.md) | Image messaging, Azure Blob, SMS relay |
 | [technical-exploration/invite-join-flow.md](./technical-exploration/invite-join-flow.md) | Easy join for subs/homeowners — name + phone, passwordless |
 | [technical-exploration/auth-and-data.md](./technical-exploration/auth-and-data.md) | OAuth BYOA, magic links, Postgres hosting |
