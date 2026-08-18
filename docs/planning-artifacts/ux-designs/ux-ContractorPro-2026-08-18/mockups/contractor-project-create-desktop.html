@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ContractorPro — Create Project (Desktop)</title>
+<!-- Spine: contractor C-1, C-17; onboarding -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F4F6F8; color: #1A2332; display: flex; min-height: 100vh; }
+  .sidebar { width: 220px; background: #1B4B7A; color: white; padding: 24px 0; flex-shrink: 0; }
+  .logo { padding: 0 20px 24px; font-weight: 700; font-size: 18px; border-bottom: 1px solid rgba(255,255,255,0.15); margin-bottom: 16px; }
+  .logo span { font-weight: 400; opacity: 0.7; font-size: 12px; display: block; margin-top: 2px; }
+  .nav-item { padding: 10px 20px; font-size: 14px; opacity: 0.75; }
+  .nav-item.active { background: rgba(255,255,255,0.12); opacity: 1; font-weight: 600; border-left: 3px solid #E87722; }
+  .main { flex: 1; padding: 28px 32px; max-width: 900px; }
+  .breadcrumb { font-size: 13px; color: #6B7A8D; margin-bottom: 8px; }
+  h1 { font-size: 24px; font-weight: 600; margin-bottom: 6px; }
+  .subtitle { font-size: 14px; color: #6B7A8D; margin-bottom: 28px; }
+  .steps { display: flex; gap: 8px; margin-bottom: 28px; }
+  .step { flex: 1; text-align: center; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 600; }
+  .step.done { background: #E8F5EC; color: #2D8A4E; }
+  .step.active { background: #1B4B7A; color: white; }
+  .step.pending { background: #EEF1F5; color: #6B7A8D; }
+  .card { background: white; border-radius: 12px; border: 1px solid #D8DEE6; margin-bottom: 20px; }
+  .card-header { padding: 14px 20px; border-bottom: 1px solid #D8DEE6; font-weight: 600; font-size: 15px; }
+  .card-body { padding: 20px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .form-row.full { grid-template-columns: 1fr; }
+  label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #1A2332; }
+  label .hint { font-weight: 400; color: #6B7A8D; }
+  input, select { width: 100%; padding: 10px 12px; border: 1px solid #D8DEE6; border-radius: 8px; font-size: 14px; font-family: inherit; }
+  input:focus { outline: 2px solid #1B4B7A; border-color: #1B4B7A; }
+  .task-list { border: 1px solid #D8DEE6; border-radius: 8px; overflow: hidden; }
+  .task-item { display: grid; grid-template-columns: 1fr 140px 140px auto; gap: 12px; padding: 12px 14px; border-bottom: 1px solid #EEF1F5; align-items: center; font-size: 14px; }
+  .task-item:last-child { border-bottom: none; }
+  .task-item.header { background: #F4F6F8; font-size: 12px; font-weight: 600; color: #6B7A8D; text-transform: uppercase; }
+  .add-link { font-size: 13px; color: #1B4B7A; font-weight: 600; cursor: pointer; margin-top: 10px; display: inline-block; }
+  .info-box { background: #E8EEF5; border-radius: 8px; padding: 14px; font-size: 13px; color: #1B4B7A; margin-top: 12px; line-height: 1.5; }
+  .info-box strong { display: block; margin-bottom: 4px; }
+  .handle-box { background: #F4F6F8; border: 1px dashed #D8DEE6; border-radius: 8px; padding: 14px; margin-top: 12px; font-size: 13px; }
+  .handle-box .number { font-size: 18px; font-weight: 700; color: #1B4B7A; margin: 6px 0; }
+  .btn-row { display: flex; justify-content: space-between; margin-top: 24px; }
+  .btn { padding: 12px 24px; border-radius: 8px; border: none; font-weight: 600; font-size: 14px; cursor: pointer; }
+  .btn-ghost { background: white; color: #1A2332; border: 1px solid #D8DEE6; }
+  .btn-primary { background: #1B4B7A; color: white; }
+  .btn-accent { background: #E87722; color: white; }
+  .frame-label { position: fixed; bottom: 12px; right: 16px; font-size: 11px; color: #6B7A8D; background: white; padding: 4px 10px; border-radius: 4px; border: 1px solid #D8DEE6; }
+</style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="logo">ContractorPro<span>Riverside Remodeling</span></div>
+    <div class="nav-item">Dashboard</div>
+    <div class="nav-item active">Projects</div>
+    <div class="nav-item">Subs</div>
+    <div class="nav-item">Customers</div>
+    <div class="nav-item">Settings</div>
+  </aside>
+  <main class="main">
+    <div class="breadcrumb">Projects › New project</div>
+    <h1>Create project</h1>
+    <p class="subtitle">Set up Maple St Kitchen — customer, tasks, and first sub in one flow (~20 min)</p>
+
+    <div class="steps">
+      <div class="step done">1 · Calendar ✓</div>
+      <div class="step active">2 · Project details</div>
+      <div class="step pending">3 · First sub</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Project</div>
+      <div class="card-body">
+        <div class="form-row">
+          <div>
+            <label>Project name</label>
+            <input type="text" value="Maple St Kitchen">
+          </div>
+          <div>
+            <label>Address <span class="hint">(optional)</span></label>
+            <input type="text" value="142 Maple St, Riverside">
+          </div>
+        </div>
+        <div class="handle-box">
+          <strong>Project text number (auto-assigned)</strong>
+          <div class="number">(555) 100-0001</div>
+          Use this number when creating group texts with subs and customers on this job.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Primary customer <span style="font-weight:400;color:#6B7A8D;font-size:13px">— connect links sent automatically on save</span></div>
+      <div class="card-body">
+        <div class="form-row">
+          <div><label>Name</label><input type="text" value="Lauren Chen"></div>
+          <div><label>Phone</label><input type="tel" value="(555) 234-5678"></div>
+        </div>
+        <div class="form-row full">
+          <div><label>Email</label><input type="email" value="lauren.chen@email.com"></div>
+        </div>
+        <div class="info-box">
+          <strong>On save:</strong> Lauren receives email + MMS confirm links. Both channels must be confirmed before schedule notifications are sent.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Tasks <span style="font-weight:400;color:#6B7A8D;font-size:13px">— dates optional at first</span></div>
+      <div class="card-body">
+        <div class="task-list">
+          <div class="task-item header">
+            <div>Task</div><div>Start date</div><div>Assigned sub</div><div></div>
+          </div>
+          <div class="task-item">
+            <div>Demo</div>
+            <div><input type="text" value="Sep 5" style="padding:6px 8px"></div>
+            <div><select style="padding:6px 8px"><option>—</option></select></div>
+            <div></div>
+          </div>
+          <div class="task-item">
+            <div>Rough electric</div>
+            <div><input type="text" value="Sep 10" style="padding:6px 8px"></div>
+            <div><select style="padding:6px 8px"><option>Nate Torres</option></select></div>
+            <div></div>
+          </div>
+          <div class="task-item">
+            <div>Drywall</div>
+            <div><input type="text" placeholder="TBD" style="padding:6px 8px"></div>
+            <div><select style="padding:6px 8px"><option>—</option></select></div>
+            <div></div>
+          </div>
+          <div class="task-item">
+            <div>Paint</div>
+            <div><input type="text" placeholder="TBD" style="padding:6px 8px"></div>
+            <div><select style="padding:6px 8px"><option>Jesse Torres</option></select></div>
+            <div></div>
+          </div>
+        </div>
+        <span class="add-link">+ Add task</span>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost">Save draft</button>
+      <button class="btn btn-accent">Create project &amp; invite subs →</button>
+    </div>
+  </main>
+  <div class="frame-label">Desktop · Project Creation · C-1, C-17</div>
+</body>
+</html>

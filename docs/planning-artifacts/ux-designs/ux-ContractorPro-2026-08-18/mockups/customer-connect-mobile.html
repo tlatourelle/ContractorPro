@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ContractorPro — Customer Connect</title>
+<!-- Spine: EXPERIENCE.md WF-3; customer H-1, H-4 -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #1A2332; display: flex; justify-content: center; padding: 24px; }
+  .phone { width: 390px; background: #F4F6F8; border-radius: 40px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); border: 8px solid #1A2332; }
+  .status-bar { background: #1B4B7A; color: white; padding: 12px 20px 8px; font-size: 12px; display: flex; justify-content: space-between; }
+  .header { background: #1B4B7A; color: white; padding: 16px 20px 24px; text-align: center; }
+  .header .company { font-size: 12px; opacity: 0.8; }
+  .header h1 { font-size: 20px; font-weight: 600; margin-top: 6px; }
+  .header p { font-size: 14px; opacity: 0.9; margin-top: 4px; }
+  .content { padding: 24px 20px; }
+  .intro { font-size: 14px; color: #6B7A8D; margin-bottom: 20px; line-height: 1.5; text-align: center; }
+  .channel-card { background: white; border-radius: 12px; border: 1px solid #D8DEE6; padding: 18px; margin-bottom: 12px; display: flex; align-items: center; gap: 14px; }
+  .channel-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .icon-email { background: #E8EEF5; }
+  .icon-phone { background: #E8F5EC; }
+  .channel-info { flex: 1; }
+  .channel-name { font-weight: 600; font-size: 15px; }
+  .channel-detail { font-size: 13px; color: #6B7A8D; margin-top: 2px; }
+  .status { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 12px; }
+  .status-ok { background: #E8F5EC; color: #2D8A4E; }
+  .status-pending { background: #FFF8E6; color: #8B6914; }
+  .btn { width: 100%; padding: 16px; border-radius: 10px; border: none; font-weight: 600; font-size: 16px; cursor: pointer; margin-top: 8px; }
+  .btn-primary { background: #1B4B7A; color: white; }
+  .btn:disabled { opacity: 0.5; }
+  .gate-note { font-size: 12px; color: #6B7A8D; text-align: center; margin-top: 16px; line-height: 1.5; }
+  .frame-label { text-align: center; font-size: 11px; color: #6B7A8D; padding: 8px; }
+</style>
+</head>
+<body>
+  <div>
+    <div class="phone">
+      <div class="status-bar"><span>9:41</span><span>📶 🔋</span></div>
+      <div class="header">
+        <div class="company">Riverside Remodeling invited you</div>
+        <h1>Maple St Kitchen</h1>
+        <p>Confirm how we can reach you</p>
+      </div>
+      <div class="content">
+        <p class="intro">Ryan added you to this project. Please confirm both channels so we can send schedule updates.</p>
+
+        <div class="channel-card">
+          <div class="channel-icon icon-email">✉️</div>
+          <div class="channel-info">
+            <div class="channel-name">Email</div>
+            <div class="channel-detail">lauren.chen@email.com</div>
+          </div>
+          <span class="status status-ok">✅ Confirmed</span>
+        </div>
+
+        <div class="channel-card">
+          <div class="channel-icon icon-phone">📱</div>
+          <div class="channel-info">
+            <div class="channel-name">Text / MMS</div>
+            <div class="channel-detail">(555) 234-5678</div>
+          </div>
+          <span class="status status-pending">⏳ Pending</span>
+        </div>
+
+        <button class="btn btn-primary">Confirm phone number</button>
+        <p class="gate-note">Schedule notifications won't be sent until both channels are confirmed.</p>
+      </div>
+    </div>
+    <div class="frame-label">Mobile · Customer Connect · H-1, H-4</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ContractorPro — Mobile Queue</title>
+<!-- Spine: contractor C-19 mobile; UJ-9 step 7 -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #1A2332; display: flex; justify-content: center; padding: 24px; }
+  .phone { width: 390px; background: #F4F6F8; border-radius: 40px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); border: 8px solid #1A2332; }
+  .status-bar { background: #1B4B7A; color: white; padding: 12px 20px 8px; font-size: 12px; display: flex; justify-content: space-between; }
+  .header { background: #1B4B7A; color: white; padding: 8px 20px 20px; }
+  .header h1 { font-size: 22px; font-weight: 600; }
+  .header p { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+  .content { padding: 16px; }
+  .alert { background: #FFF8E6; border: 1px solid #F0D878; border-radius: 10px; padding: 12px 14px; font-size: 13px; margin-bottom: 16px; }
+  .alert strong { color: #8B6914; }
+  .card { background: white; border-radius: 12px; border: 1px solid #D8DEE6; margin-bottom: 12px; overflow: hidden; }
+  .card-header { padding: 12px 16px; font-weight: 600; font-size: 14px; border-bottom: 1px solid #EEF1F5; display: flex; justify-content: space-between; }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 10px; background: #FFF8E6; color: #8B6914; font-weight: 600; }
+  .item { padding: 14px 16px; border-bottom: 1px solid #EEF1F5; }
+  .item:last-child { border-bottom: none; }
+  .item-title { font-size: 14px; font-weight: 600; }
+  .item-detail { font-size: 12px; color: #6B7A8D; margin-top: 3px; }
+  .item-status { font-size: 12px; margin-top: 6px; }
+  .ok { color: #2D8A4E; }
+  .pending { color: #8B6914; }
+  .nav-bar { display: flex; justify-content: space-around; padding: 12px; background: white; border-top: 1px solid #D8DEE6; font-size: 11px; color: #6B7A8D; }
+  .nav-bar .active { color: #1B4B7A; font-weight: 600; }
+  .frame-label { text-align: center; font-size: 11px; color: #6B7A8D; padding: 8px; }
+</style>
+</head>
+<body>
+  <div>
+    <div class="phone">
+      <div class="status-bar"><span>9:41</span><span>📶 🔋</span></div>
+      <div class="header">
+        <h1>Pending</h1>
+        <p>Maple St Kitchen · 3 waiting</p>
+      </div>
+      <div class="content">
+        <div class="alert">⚠️ <strong>Cascade published</strong> — waiting on Jesse, Marcus, Lauren</div>
+        <div class="card">
+          <div class="card-header">Confirmations <span class="badge">3 pending</span></div>
+          <div class="item">
+            <div class="item-title">Jesse — Paint (3 tasks)</div>
+            <div class="item-detail">Sep 22→25, Sep 24→27, Sep 26→29</div>
+            <div class="item-status pending">⏳ Sent 2h ago · Day 1</div>
+          </div>
+          <div class="item">
+            <div class="item-title">Marcus — Flooring</div>
+            <div class="item-detail">Sep 24 → Sep 27</div>
+            <div class="item-status pending">⏳ Sent 2h ago · Day 1</div>
+          </div>
+          <div class="item">
+            <div class="item-title">Lauren — Cabinets milestone</div>
+            <div class="item-detail">Oct 1 → Oct 5</div>
+            <div class="item-status pending">⏳ MMS · Day 1</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">Confirmed today</div>
+          <div class="item">
+            <div class="item-title">Rough electric — Nate</div>
+            <div class="item-status ok">✅ Confirmed 8:15 AM</div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-bar">
+        <span class="active">Queue</span>
+        <span>Projects</span>
+        <span>Comms</span>
+        <span>More</span>
+      </div>
+    </div>
+    <div class="frame-label">Mobile · Contractor Queue · C-19, UJ-9 step 7</div>
+  </div>
+</body>
+</html>

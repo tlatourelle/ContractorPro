@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ContractorPro — Dashboard (Desktop)</title>
+<!-- Spine: EXPERIENCE.md WF-1 step 7; contractor C-6, C-7, C-19 -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F4F6F8; color: #1A2332; display: flex; min-height: 100vh; }
+  .sidebar { width: 220px; background: #1B4B7A; color: white; padding: 24px 0; flex-shrink: 0; }
+  .logo { padding: 0 20px 24px; font-weight: 700; font-size: 18px; border-bottom: 1px solid rgba(255,255,255,0.15); margin-bottom: 16px; }
+  .logo span { font-weight: 400; opacity: 0.7; font-size: 12px; display: block; margin-top: 2px; }
+  .nav-item { padding: 10px 20px; font-size: 14px; opacity: 0.75; cursor: pointer; }
+  .nav-item.active { background: rgba(255,255,255,0.12); opacity: 1; font-weight: 600; border-left: 3px solid #E87722; }
+  .main { flex: 1; padding: 28px 32px; }
+  .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+  h1 { font-size: 24px; font-weight: 600; }
+  .user { font-size: 13px; color: #6B7A8D; }
+  .alert-banner { background: #FFF8E6; border: 1px solid #F0D878; border-radius: 10px; padding: 14px 18px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; font-size: 14px; }
+  .alert-banner strong { color: #8B6914; }
+  .grid { display: grid; grid-template-columns: 1fr 340px; gap: 24px; }
+  .card { background: white; border-radius: 12px; border: 1px solid #D8DEE6; }
+  .card-header { padding: 16px 20px; border-bottom: 1px solid #D8DEE6; font-weight: 600; font-size: 15px; display: flex; justify-content: space-between; }
+  .badge { font-size: 12px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+  .badge-pending { background: #FFF8E6; color: #8B6914; }
+  .badge-ok { background: #E8F5EC; color: #2D8A4E; }
+  .project-row { padding: 16px 20px; border-bottom: 1px solid #EEF1F5; display: flex; justify-content: space-between; align-items: center; }
+  .project-row:last-child { border-bottom: none; }
+  .project-name { font-weight: 600; font-size: 15px; }
+  .project-meta { font-size: 13px; color: #6B7A8D; margin-top: 3px; }
+  .pending-item { padding: 14px 20px; border-bottom: 1px solid #EEF1F5; }
+  .pending-item:last-child { border-bottom: none; }
+  .pending-title { font-size: 14px; font-weight: 600; }
+  .pending-detail { font-size: 13px; color: #6B7A8D; margin-top: 4px; }
+  .pending-actions { margin-top: 10px; display: flex; gap: 8px; }
+  .btn { font-size: 12px; padding: 6px 12px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; }
+  .btn-primary { background: #1B4B7A; color: white; }
+  .btn-ghost { background: #F4F6F8; color: #1A2332; border: 1px solid #D8DEE6; }
+  .status-icons { display: flex; gap: 12px; font-size: 13px; }
+  .status-icons span { display: flex; align-items: center; gap: 4px; }
+  .frame-label { position: fixed; bottom: 12px; right: 16px; font-size: 11px; color: #6B7A8D; background: white; padding: 4px 10px; border-radius: 4px; border: 1px solid #D8DEE6; }
+</style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="logo">ContractorPro<span>Riverside Remodeling</span></div>
+    <div class="nav-item active">Dashboard</div>
+    <div class="nav-item">Projects</div>
+    <div class="nav-item">Subs</div>
+    <div class="nav-item">Customers</div>
+    <div class="nav-item">Settings</div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <h1>Good morning, Maci</h1>
+      <div class="user">Ryan Riverside · Owner</div>
+    </div>
+
+    <div class="alert-banner">
+      ⚠️ <strong>Maple St Kitchen</strong> — 3 confirmations pending after cascade (+3 days)
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="card-header">Active Projects <span class="badge badge-pending">1 needs attention</span></div>
+        <div class="project-row">
+          <div>
+            <div class="project-name">Maple St Kitchen</div>
+            <div class="project-meta">Framing · Paint · Flooring · Cabinets</div>
+          </div>
+          <div class="status-icons">
+            <span>⏳ 3 pending</span>
+            <span style="color:#2D8A4E">✅ 2 confirmed</span>
+          </div>
+        </div>
+        <div class="project-row">
+          <div>
+            <div class="project-name">Oak Ave Bath</div>
+            <div class="project-meta">Demo · Tile · Fixtures</div>
+          </div>
+          <div class="status-icons">
+            <span style="color:#2D8A4E">✅ All clear</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">Pending Confirmations</div>
+        <div class="pending-item">
+          <div class="pending-title">Jesse Torres — Paint dates</div>
+          <div class="pending-detail">3 tasks moved · Sent 2h ago · Day 1</div>
+          <div class="pending-actions">
+            <button class="btn btn-primary">Send reminder</button>
+            <button class="btn btn-ghost">Snooze 2 days</button>
+          </div>
+        </div>
+        <div class="pending-item">
+          <div class="pending-title">Marcus Webb — Flooring</div>
+          <div class="pending-detail">Sept 12 → Sept 15 · Sent 2h ago</div>
+          <div class="pending-actions">
+            <button class="btn btn-primary">Send reminder</button>
+            <button class="btn btn-ghost">Snooze 2 days</button>
+          </div>
+        </div>
+        <div class="pending-item">
+          <div class="pending-title">Lauren Chen — Cabinet milestone</div>
+          <div class="pending-detail">Oct 1 → Oct 5 · MMS sent · Day 1</div>
+          <div class="status-icons" style="margin-top:8px">
+            <span>✉️ ✅</span>
+            <span>📱 ✅</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div class="frame-label">Desktop · Contractor Dashboard · C-6, C-7, C-19</div>
+</body>
+</html>

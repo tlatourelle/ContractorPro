@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ContractorPro — Customer Timeline</title>
+<!-- Spine: EXPERIENCE.md WF-4; customer H-21 -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #1A2332; display: flex; justify-content: center; padding: 24px; }
+  .phone { width: 390px; background: #F4F6F8; border-radius: 40px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); border: 8px solid #1A2332; }
+  .status-bar { background: #1B4B7A; color: white; padding: 12px 20px 8px; font-size: 12px; display: flex; justify-content: space-between; }
+  .header { background: #1B4B7A; color: white; padding: 16px 20px 20px; }
+  .header .company { font-size: 12px; opacity: 0.8; }
+  .header h1 { font-size: 20px; font-weight: 600; margin-top: 4px; }
+  .header p { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+  .content { padding: 16px; }
+  .section-title { font-size: 13px; font-weight: 600; color: #6B7A8D; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+  .timeline { position: relative; padding-left: 20px; }
+  .timeline::before { content: ''; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 2px; background: #D8DEE6; }
+  .event { position: relative; margin-bottom: 16px; }
+  .event::before { content: ''; position: absolute; left: -17px; top: 8px; width: 10px; height: 10px; border-radius: 50%; background: #1B4B7A; border: 2px solid white; }
+  .event.pending::before { background: #E87722; }
+  .event.confirmed::before { background: #2D8A4E; }
+  .event-card { background: white; border-radius: 10px; border: 1px solid #D8DEE6; padding: 14px; }
+  .event-date { font-size: 11px; color: #6B7A8D; margin-bottom: 4px; }
+  .event-title { font-size: 14px; font-weight: 600; }
+  .event-change { font-size: 13px; color: #1B4B7A; margin-top: 4px; }
+  .event-change .old { text-decoration: line-through; color: #6B7A8D; }
+  .event-actions { margin-top: 10px; display: flex; gap: 8px; }
+  .btn-sm { padding: 8px 16px; border-radius: 6px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .btn-accept { background: #2D8A4E; color: white; }
+  .btn-decline { background: #F4F6F8; color: #6B7A8D; border: 1px solid #D8DEE6; }
+  .static-note { font-size: 12px; color: #6B7A8D; margin-top: 4px; }
+  .frame-label { text-align: center; font-size: 11px; color: #6B7A8D; padding: 8px; }
+</style>
+</head>
+<body>
+  <div>
+    <div class="phone">
+      <div class="status-bar"><span>9:41</span><span>📶 🔋</span></div>
+      <div class="header">
+        <div class="company">Riverside Remodeling</div>
+        <h1>Maple St Kitchen</h1>
+        <p>Your remodel timeline</p>
+      </div>
+      <div class="content">
+        <div class="section-title">What changed</div>
+        <div class="timeline">
+          <div class="event pending">
+            <div class="event-card">
+              <div class="event-date">Today</div>
+              <div class="event-title">Cabinet installation</div>
+              <div class="event-change"><span class="old">Oct 1</span> → Oct 5</div>
+              <div class="event-actions">
+                <button class="btn-sm btn-accept">Accept</button>
+                <button class="btn-sm btn-decline">Decline</button>
+              </div>
+            </div>
+          </div>
+          <div class="event confirmed">
+            <div class="event-card">
+              <div class="event-date">Sep 10</div>
+              <div class="event-title">Rough electric complete</div>
+              <div class="static-note">✅ Confirmed · On track</div>
+            </div>
+          </div>
+          <div class="event confirmed">
+            <div class="event-card">
+              <div class="event-date">Sep 5</div>
+              <div class="event-title">Demo complete</div>
+              <div class="static-note">✅ Confirmed</div>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:12px;color:#6B7A8D;margin-top:16px;text-align:center">Questions? Text Ryan in your project group.</p>
+      </div>
+    </div>
+    <div class="frame-label">Mobile · Customer Timeline · H-21, UJ-9 step 6</div>
+  </div>
+</body>
+</html>

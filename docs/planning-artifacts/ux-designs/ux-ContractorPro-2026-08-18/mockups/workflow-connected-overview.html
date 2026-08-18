@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ContractorPro — Connected Workflow Overview (UJ-9)</title>
+<!-- Spine: EXPERIENCE.md WF-1; DESIGN.md tokens -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #E8ECF0; color: #1A2332; padding: 32px; }
+  h1 { font-size: 28px; margin-bottom: 8px; color: #1B4B7A; }
+  .subtitle { color: #6B7A8D; margin-bottom: 32px; font-size: 15px; }
+  .workflow { display: flex; flex-direction: column; gap: 0; max-width: 1100px; }
+  .step { display: grid; grid-template-columns: 48px 1fr; gap: 20px; position: relative; }
+  .step:not(:last-child) .rail::after { content: ''; position: absolute; left: 23px; top: 48px; bottom: -24px; width: 2px; background: #D8DEE6; }
+  .num { width: 48px; height: 48px; border-radius: 50%; background: #1B4B7A; color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 18px; position: relative; z-index: 1; }
+  .num.mms { background: #34C759; }
+  .num.portal { background: #E87722; }
+  .card { background: white; border-radius: 12px; border: 1px solid #D8DEE6; padding: 20px 24px; margin-bottom: 24px; }
+  .card h3 { font-size: 16px; margin-bottom: 6px; }
+  .card p { font-size: 14px; color: #6B7A8D; line-height: 1.5; }
+  .tag { display: inline-block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; }
+  .tag-mms { background: #E8F8EC; color: #1A7A3A; }
+  .tag-app { background: #E8EEF5; color: #1B4B7A; }
+  .tag-portal { background: #FFF0E6; color: #C45A00; }
+  .actors { font-size: 13px; color: #1B4B7A; font-weight: 600; margin-top: 8px; }
+  .mock-link { display: inline-block; margin-top: 10px; font-size: 13px; color: #1B4B7A; text-decoration: none; border-bottom: 1px dashed #1B4B7A; }
+  .mock-link:hover { color: #E87722; border-color: #E87722; }
+  .lane-legend { display: flex; gap: 24px; margin-bottom: 32px; flex-wrap: wrap; }
+  .lane-legend span { font-size: 13px; display: flex; align-items: center; gap: 8px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .principle { background: #1B4B7A; color: white; padding: 16px 24px; border-radius: 12px; margin-bottom: 32px; font-size: 15px; max-width: 1100px; }
+  .principle strong { color: #FBC470; }
+</style>
+</head>
+<body>
+  <h1>Connected Workflow — Schedule Slip (UJ-9)</h1>
+  <p class="subtitle">SME review walkthrough for Ryan &amp; Maci · Maple St Kitchen · Framing finishes 3 days late</p>
+  <p class="subtitle" style="margin-top:-20px;margin-bottom:24px"><a href="contractor-project-create-desktop.html" style="color:#1B4B7A">← Start with project creation (C-1)</a> · <a href="contractor-mms-group-setup-desktop.html" style="color:#1B4B7A">MMS group setup (C-13)</a></p>
+
+  <div class="principle">
+    <strong>Two lanes, one workflow:</strong> Negotiation happens in MMS. Commitment happens in the app. Confirmation goes back out via magic links.
+  </div>
+
+  <div class="lane-legend">
+    <span><span class="dot" style="background:#34C759"></span> Native MMS (phone Messages)</span>
+    <span><span class="dot" style="background:#1B4B7A"></span> ContractorPro web app</span>
+    <span><span class="dot" style="background:#E87722"></span> Sub / customer magic-link portal</span>
+  </div>
+
+  <div class="workflow">
+    <div class="step">
+      <div class="rail"><div class="num mms">1</div></div>
+      <div class="card">
+        <span class="tag tag-mms">MMS — Field</span>
+        <h3>Marcus texts delay in group thread</h3>
+        <p>"Supplier slipped — can't start flooring Thursday." Message ingested via project handle # (555) 100-0001.</p>
+        <div class="actors">Marcus (flooring sub) · Group: Ryan + Marcus + Maple St handle</div>
+        <a class="mock-link" href="mms-sub-delay-thread.png">→ View MMS mockup</a>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="rail"><div class="num">2</div></div>
+      <div class="card">
+        <span class="tag tag-app">App — Mirror</span>
+        <h3>Maci sees message in app thread mirror</h3>
+        <p>MMS appears in project comms panel. Maci can read context without leaving the app. Reply still happens in native Messages if needed.</p>
+        <div class="actors">Maci · Desktop or mobile</div>
+        <a class="mock-link" href="contractor-mms-mirror-desktop.html">→ View app mirror mockup</a>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="rail"><div class="num">3</div></div>
+      <div class="card">
+        <span class="tag tag-app">App — Schedule</span>
+        <h3>Maci drafts cascade (+3 days)</h3>
+        <p>Opens Maple St, shifts framing + downstream tasks. Preview shows: 4 tasks move, Jesse + Marcus must re-confirm, Lauren sees cabinet milestone change.</p>
+        <div class="actors">Maci drafts · Ryan approves on phone</div>
+        <a class="mock-link" href="contractor-cascade-preview-desktop.html">→ View cascade preview mockup</a>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="rail"><div class="num mms">4</div></div>
+      <div class="card">
+        <span class="tag tag-mms">MMS — System outbound</span>
+        <h3>Confirm links sent to each party</h3>
+        <p>After Maci publishes: Jesse gets SMS with 3 task date changes. Marcus gets flooring old→new. Lauren gets cabinet milestone Oct 1→Oct 5.</p>
+        <div class="actors">Jesse · Marcus · Lauren</div>
+        <a class="mock-link" href="mms-system-confirm.png">→ View system MMS mockup</a>
+        <a class="mock-link" href="mms-customer-milestone.png">→ View customer MMS mockup</a>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="rail"><div class="num portal">5</div></div>
+      <div class="card">
+        <span class="tag tag-portal">Portal — Sub</span>
+        <h3>Jesse taps link → accepts new dates</h3>
+        <p>One screen per batch or per task. Accept records in system; calendar updates if linked.</p>
+        <div class="actors">Jesse (painter)</div>
+        <a class="mock-link" href="sub-accept-decline-mobile.html">→ View sub portal mockup</a>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="rail"><div class="num portal">6</div></div>
+      <div class="card">
+        <span class="tag tag-portal">Portal — Customer</span>
+        <h3>Lauren accepts milestone change</h3>
+        <p>Read-only schedule view. Accept/reject on milestone updates only — no counter-propose.</p>
+        <div class="actors">Lauren (homeowner)</div>
+        <a class="mock-link" href="customer-timeline-mobile.html">→ View customer timeline mockup</a>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="rail"><div class="num">7</div></div>
+      <div class="card">
+        <span class="tag tag-app">App — Dashboard</span>
+        <h3>Pending queue clears</h3>
+        <p>Ryan/Macie dashboard shows ✅ as each party confirms. Portfolio triage returns to green for Maple St.</p>
+        <div class="actors">Ryan · Maci</div>
+        <a class="mock-link" href="contractor-dashboard-desktop.html">→ View desktop dashboard</a>
+        <a class="mock-link" href="contractor-mobile-queue.html">→ View mobile queue</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

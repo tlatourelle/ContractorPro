@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ContractorPro — Cascade Preview (Desktop)</title>
+<!-- Spine: EXPERIENCE.md WF-1 step 3; contractor C-12, C-20 -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F4F6F8; color: #1A2332; display: flex; min-height: 100vh; }
+  .sidebar { width: 220px; background: #1B4B7A; color: white; padding: 24px 0; flex-shrink: 0; }
+  .logo { padding: 0 20px 24px; font-weight: 700; font-size: 18px; }
+  .main { flex: 1; padding: 28px 32px; }
+  .breadcrumb { font-size: 13px; color: #6B7A8D; margin-bottom: 8px; }
+  .breadcrumb a { color: #1B4B7A; }
+  h1 { font-size: 22px; font-weight: 600; margin-bottom: 24px; }
+  .layout { display: grid; grid-template-columns: 1fr 380px; gap: 24px; }
+  .card { background: white; border-radius: 12px; border: 1px solid #D8DEE6; }
+  .card-header { padding: 14px 18px; border-bottom: 1px solid #D8DEE6; font-weight: 600; font-size: 14px; }
+  .task-row { padding: 12px 18px; border-bottom: 1px solid #EEF1F5; display: grid; grid-template-columns: 1fr 100px 100px 80px; gap: 8px; align-items: center; font-size: 14px; }
+  .task-row.header { font-size: 12px; color: #6B7A8D; font-weight: 600; text-transform: uppercase; }
+  .task-name { font-weight: 500; }
+  .date-old { color: #6B7A8D; text-decoration: line-through; }
+  .date-new { color: #1B4B7A; font-weight: 600; }
+  .shift { background: #FFF8E6; color: #8B6914; font-size: 12px; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+  .preview-panel { padding: 20px; }
+  .preview-panel h3 { font-size: 15px; margin-bottom: 16px; }
+  .impact-item { padding: 12px; background: #F4F6F8; border-radius: 8px; margin-bottom: 10px; font-size: 13px; }
+  .impact-item strong { display: block; margin-bottom: 4px; }
+  .impact-item span { color: #6B7A8D; }
+  .btn-row { display: flex; gap: 10px; margin-top: 20px; }
+  .btn { padding: 10px 20px; border-radius: 8px; border: none; font-weight: 600; font-size: 14px; cursor: pointer; }
+  .btn-accent { background: #E87722; color: white; flex: 1; }
+  .btn-ghost { background: white; color: #1A2332; border: 1px solid #D8DEE6; }
+  .toggle { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-size: 14px; }
+  .toggle input { width: 18px; height: 18px; }
+  .frame-label { position: fixed; bottom: 12px; right: 16px; font-size: 11px; color: #6B7A8D; background: white; padding: 4px 10px; border-radius: 4px; border: 1px solid #D8DEE6; }
+</style>
+</head>
+<body>
+  <aside class="sidebar"><div class="logo">ContractorPro</div></aside>
+  <main class="main">
+    <div class="breadcrumb"><a href="#">Maple St Kitchen</a> › Schedule › Cascade</div>
+    <h1>Reschedule with cascade — +3 days</h1>
+
+    <div class="layout">
+      <div class="card">
+        <div class="card-header">Tasks affected (4)</div>
+        <div class="task-row header">
+          <div>Task</div><div>Old date</div><div>New date</div><div>Shift</div>
+        </div>
+        <div class="task-row">
+          <div class="task-name">Framing complete</div>
+          <div class="date-old">Sep 18</div>
+          <div class="date-new">Sep 21</div>
+          <div><span class="shift">+3</span></div>
+        </div>
+        <div class="task-row">
+          <div class="task-name">Paint — Jesse</div>
+          <div class="date-old">Sep 22</div>
+          <div class="date-new">Sep 25</div>
+          <div><span class="shift">+3</span></div>
+        </div>
+        <div class="task-row">
+          <div class="task-name">Flooring — Marcus</div>
+          <div class="date-old">Sep 24</div>
+          <div class="date-new">Sep 27</div>
+          <div><span class="shift">+3</span></div>
+        </div>
+        <div class="task-row">
+          <div class="task-name">Cabinets (milestone)</div>
+          <div class="date-old">Oct 1</div>
+          <div class="date-new">Oct 5</div>
+          <div><span class="shift">+3</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">Publish preview</div>
+        <div class="preview-panel">
+          <div class="toggle"><input type="checkbox" checked> Cascade downstream tasks</div>
+          <h3>Who gets notified</h3>
+          <div class="impact-item">
+            <strong>Jesse Torres (Paint)</strong>
+            <span>3 tasks · SMS re-confirm required</span>
+          </div>
+          <div class="impact-item">
+            <strong>Marcus Webb (Flooring)</strong>
+            <span>1 task · SMS re-confirm required</span>
+          </div>
+          <div class="impact-item">
+            <strong>Lauren Chen (Customer)</strong>
+            <span>Cabinet milestone Oct 1→Oct 5 · MMS accept link</span>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-ghost">Save draft</button>
+            <button class="btn btn-accent">Publish &amp; notify</button>
+          </div>
+          <p style="font-size:12px;color:#6B7A8D;margin-top:12px">Ryan approval required before publish</p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div class="frame-label">Desktop · Cascade Preview · C-12, C-20, UJ-9 step 3</div>
+</body>
+</html>

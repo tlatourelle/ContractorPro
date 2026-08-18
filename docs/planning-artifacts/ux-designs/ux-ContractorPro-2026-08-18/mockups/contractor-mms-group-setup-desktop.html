@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ContractorPro — MMS Group Setup (Desktop)</title>
+<!-- Spine: contractor C-13; triggered after sub assign -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: rgba(26,35,50,0.5); color: #1A2332; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 32px; }
+  .backdrop-hint { position: fixed; top: 20px; left: 24px; font-size: 13px; color: #6B7A8D; }
+  .modal { background: white; border-radius: 16px; max-width: 560px; width: 100%; box-shadow: 0 24px 80px rgba(0,0,0,0.2); overflow: hidden; }
+  .modal-header { background: #1B4B7A; color: white; padding: 24px 28px; }
+  .modal-header h2 { font-size: 20px; font-weight: 600; }
+  .modal-header p { font-size: 14px; opacity: 0.9; margin-top: 6px; }
+  .modal-body { padding: 28px; }
+  .step-list { counter-reset: steps; }
+  .step-item { display: flex; gap: 16px; margin-bottom: 20px; align-items: flex-start; }
+  .step-num { width: 32px; height: 32px; border-radius: 50%; background: #E8EEF5; color: #1B4B7A; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content h4 { font-size: 15px; margin-bottom: 4px; }
+  .step-content p { font-size: 13px; color: #6B7A8D; line-height: 1.5; }
+  .contact-card { background: #F4F6F8; border-radius: 10px; padding: 16px; margin: 16px 0; }
+  .contact-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #D8DEE6; font-size: 14px; }
+  .contact-row:last-child { border-bottom: none; }
+  .contact-name { font-weight: 600; }
+  .contact-detail { color: #6B7A8D; font-size: 13px; }
+  .copy-btn { font-size: 12px; padding: 4px 10px; background: #1B4B7A; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; }
+  .warning { background: #FFF8E6; border: 1px solid #F0D878; border-radius: 8px; padding: 14px; font-size: 13px; margin-top: 16px; line-height: 1.5; }
+  .warning strong { color: #8B6914; }
+  .btn-row { display: flex; gap: 12px; margin-top: 24px; }
+  .btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 600; font-size: 14px; cursor: pointer; }
+  .btn-primary { background: #1B4B7A; color: white; }
+  .btn-ghost { background: #F4F6F8; color: #1A2332; border: 1px solid #D8DEE6; }
+  .preview-link { display: block; text-align: center; margin-top: 12px; font-size: 13px; color: #1B4B7A; }
+  .frame-label { position: fixed; bottom: 12px; right: 16px; font-size: 11px; color: #6B7A8D; background: white; padding: 4px 10px; border-radius: 4px; border: 1px solid #D8DEE6; }
+</style>
+</head>
+<body>
+  <div class="backdrop-hint">Shown after assigning Marcus to Flooring on Maple St</div>
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Set up group text with Marcus</h2>
+      <p>Create a new Messages group so field texts are captured on this project</p>
+    </div>
+    <div class="modal-body">
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Open Messages on your phone</h4>
+            <p>Start a <strong>new group text</strong> — don't add to an existing thread</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Add these two contacts</h4>
+            <div class="contact-card">
+              <div class="contact-row">
+                <div>
+                  <div class="contact-name">Marcus Webb</div>
+                  <div class="contact-detail">(555) 876-5432 · Flooring sub</div>
+                </div>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <div class="contact-row">
+                <div>
+                  <div class="contact-name">Maple St · ContractorPro</div>
+                  <div class="contact-detail">(555) 100-0001 · Project handle</div>
+                </div>
+                <button class="copy-btn">Copy</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Name the group (suggested)</h4>
+            <p><strong>Maple St - Marcus</strong> — helps when you have multiple active jobs</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="warning">
+        <strong>Important:</strong> Each sub gets their own group with the same project handle #. Subs never see each other's threads. Customer gets a separate group too.
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost">I'll do this later</button>
+        <button class="btn btn-primary">I've created the group</button>
+      </div>
+      <a class="preview-link" href="mms-group-created.png">→ See what the group looks like on iPhone</a>
+    </div>
+  </div>
+  <div class="frame-label">Desktop · MMS Group Setup Modal · C-13</div>
+</body>
+</html>

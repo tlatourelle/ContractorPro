@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ContractorPro — Create Project (Mobile)</title>
+<!-- Spine: contractor C-1 mobile check-in -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #1A2332; display: flex; justify-content: center; padding: 24px; }
+  .phone { width: 390px; background: #F4F6F8; border-radius: 40px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); border: 8px solid #1A2332; }
+  .status-bar { background: #1B4B7A; color: white; padding: 12px 20px 8px; font-size: 12px; display: flex; justify-content: space-between; }
+  .header { background: #1B4B7A; color: white; padding: 8px 20px 16px; }
+  .header h1 { font-size: 18px; font-weight: 600; }
+  .header p { font-size: 12px; opacity: 0.85; margin-top: 4px; }
+  .content { padding: 16px; padding-bottom: 80px; }
+  .card { background: white; border-radius: 12px; border: 1px solid #D8DEE6; margin-bottom: 12px; overflow: hidden; }
+  .card-header { padding: 12px 16px; font-weight: 600; font-size: 14px; border-bottom: 1px solid #EEF1F5; }
+  .card-body { padding: 14px 16px; }
+  label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #6B7A8D; }
+  input { width: 100%; padding: 10px; border: 1px solid #D8DEE6; border-radius: 8px; font-size: 14px; margin-bottom: 12px; }
+  .handle { background: #E8EEF5; border-radius: 8px; padding: 12px; font-size: 13px; }
+  .handle .num { font-size: 17px; font-weight: 700; color: #1B4B7A; margin-top: 4px; }
+  .task-chip { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #EEF1F5; font-size: 14px; }
+  .task-chip:last-child { border-bottom: none; }
+  .task-meta { font-size: 12px; color: #6B7A8D; }
+  .pending-badge { background: #FFF8E6; color: #8B6914; font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+  .sticky-btn { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px; background: white; border-top: 1px solid #D8DEE6; }
+  .phone-wrap { position: relative; }
+  .btn { width: 100%; padding: 14px; border-radius: 10px; border: none; font-weight: 600; font-size: 15px; background: #E87722; color: white; }
+  .frame-label { text-align: center; font-size: 11px; color: #6B7A8D; padding: 8px; }
+</style>
+</head>
+<body>
+  <div>
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><span>📶 🔋</span></div>
+        <div class="header">
+          <h1>New project</h1>
+          <p>Step 2 of 3 · Project details</p>
+        </div>
+        <div class="content">
+          <div class="card">
+            <div class="card-header">Maple St Kitchen</div>
+            <div class="card-body">
+              <label>Address</label>
+              <input type="text" value="142 Maple St, Riverside">
+              <div class="handle">
+                Project text #<div class="num">(555) 100-0001</div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">Customer · Lauren Chen</div>
+            <div class="card-body">
+              <label>Email</label>
+              <input type="email" value="lauren.chen@email.com">
+              <label>Phone</label>
+              <input type="tel" value="(555) 234-5678">
+              <p style="font-size:12px;color:#6B7A8D">Email + MMS sent on create</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">Tasks (4)</div>
+            <div class="card-body" style="padding-top:8px">
+              <div class="task-chip">
+                <div>Rough electric<div class="task-meta">Sep 10 · Nate</div></div>
+                <span class="pending-badge">⏳</span>
+              </div>
+              <div class="task-chip">
+                <div>Paint<div class="task-meta">TBD · Jesse</div></div>
+              </div>
+              <div class="task-chip">
+                <div>Drywall<div class="task-meta">No date</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sticky-btn">
+          <button class="btn">Create &amp; invite subs</button>
+        </div>
+      </div>
+    </div>
+    <div class="frame-label">Mobile · Project Creation · C-1</div>
+  </div>
+</body>
+</html>

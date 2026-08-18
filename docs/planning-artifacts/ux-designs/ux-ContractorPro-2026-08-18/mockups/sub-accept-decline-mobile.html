@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ContractorPro — Sub Accept/Decline</title>
+<!-- Spine: EXPERIENCE.md WF-2; sub S-1, S-5 -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #1A2332; display: flex; justify-content: center; padding: 24px; }
+  .phone { width: 390px; background: #F4F6F8; border-radius: 40px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); border: 8px solid #1A2332; }
+  .status-bar { background: #1B4B7A; color: white; padding: 12px 20px 8px; font-size: 12px; display: flex; justify-content: space-between; }
+  .header { background: #1B4B7A; color: white; padding: 16px 20px 24px; text-align: center; }
+  .header .company { font-size: 12px; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.5px; }
+  .header h1 { font-size: 20px; font-weight: 600; margin-top: 6px; }
+  .header p { font-size: 14px; opacity: 0.9; margin-top: 4px; }
+  .content { padding: 24px 20px; }
+  .task-card { background: white; border-radius: 12px; border: 1px solid #D8DEE6; padding: 20px; margin-bottom: 20px; }
+  .task-label { font-size: 12px; color: #6B7A8D; text-transform: uppercase; letter-spacing: 0.5px; }
+  .task-name { font-size: 22px; font-weight: 600; margin: 6px 0 16px; color: #1A2332; }
+  .date-change { display: flex; align-items: center; gap: 12px; padding: 14px; background: #F4F6F8; border-radius: 8px; }
+  .date-old { font-size: 16px; color: #6B7A8D; text-decoration: line-through; }
+  .arrow { color: #E87722; font-size: 20px; font-weight: 600; }
+  .date-new { font-size: 20px; font-weight: 700; color: #1B4B7A; }
+  .note { font-size: 13px; color: #6B7A8D; margin-top: 16px; line-height: 1.5; }
+  .btn-row { display: flex; gap: 12px; }
+  .btn { flex: 1; padding: 16px; border-radius: 10px; border: none; font-weight: 600; font-size: 16px; cursor: pointer; }
+  .btn-accept { background: #2D8A4E; color: white; }
+  .btn-decline { background: white; color: #C0392B; border: 2px solid #E8B4B0; }
+  .calendar-link { text-align: center; margin-top: 20px; font-size: 13px; color: #1B4B7A; }
+  .frame-label { text-align: center; font-size: 11px; color: #6B7A8D; padding: 8px; }
+</style>
+</head>
+<body>
+  <div>
+    <div class="phone">
+      <div class="status-bar"><span>9:41</span><span>📶 🔋</span></div>
+      <div class="header">
+        <div class="company">Riverside Remodeling</div>
+        <h1>Maple St Kitchen</h1>
+        <p>Hi Jesse — confirm your updated dates</p>
+      </div>
+      <div class="content">
+        <div class="task-card">
+          <div class="task-label">Painting · 3 tasks updated</div>
+          <div class="task-name">Paint — Interior</div>
+          <div class="date-change">
+            <span class="date-old">Sep 22</span>
+            <span class="arrow">→</span>
+            <span class="date-new">Sep 25</span>
+          </div>
+          <p class="note">+2 more tasks also moved +3 days. Accepting confirms all three. Your calendar will update if linked.</p>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-decline">Decline</button>
+          <button class="btn btn-accept">Accept</button>
+        </div>
+        <div class="calendar-link">📅 Link Google Calendar (optional)</div>
+      </div>
+    </div>
+    <div class="frame-label">Mobile · Sub Magic Link · S-1, S-5, UJ-9 step 5</div>
+  </div>
+</body>
+</html>
