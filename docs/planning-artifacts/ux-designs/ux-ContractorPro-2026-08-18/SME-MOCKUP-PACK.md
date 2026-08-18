@@ -5,13 +5,16 @@
 **Audience:** Ryan (contractor/owner) + Maci (office manager) — same v0.1 access  
 **Goal:** Validate *"is this how you work?"* — not pixel-perfect brand
 
+> **Browse in browser:** Open <a href="index.html" target="_blank">index.html</a> (all mockup links open in a new browser tab).  
+> From terminal in this folder: `start index.html`
+
 ---
 
 ## How to use this pack
 
-1. **Onboarding first:** Open [contractor-project-create-desktop.html](./mockups/contractor-project-create-desktop.html) — walk C-1 project setup with Ryan/Macie.
-2. **Then MMS setup:** [contractor-mms-group-setup-desktop.html](./mockups/contractor-mms-group-setup-desktop.html) + [mms-group-created.png](./mockups/mms-group-created.png) — C-13 group text creation.
-3. **Then the slip workflow:** [workflow-connected-overview.html](./mockups/workflow-connected-overview.html) — UJ-9 connecting MMS + app + portals.
+1. **Onboarding first:** <a href="mockups/contractor-project-create-desktop.html" target="_blank">contractor-project-create-desktop.html</a> — walk C-1 project setup with Ryan/Macie.
+2. **Then MMS setup:** <a href="mockups/contractor-mms-group-setup-desktop.html" target="_blank">contractor-mms-group-setup-desktop.html</a> + <a href="mockups/mms-group-created.png" target="_blank">mms-group-created.png</a> — C-13 group text creation.
+3. **Then the slip workflow:** <a href="mockups/workflow-connected-overview.html" target="_blank">workflow-connected-overview.html</a> — UJ-9 connecting MMS + app + portals.
 4. **Log decisions** in [discovery-log.md](../../discovery-log.md).
 
 ---
@@ -22,41 +25,41 @@
 
 | File | Surface | Journey |
 |------|---------|---------|
-| [workflow-connected-overview.html](./mockups/workflow-connected-overview.html) | Overview | UJ-9 full walkthrough |
+| <a href="mockups/workflow-connected-overview.html" target="_blank">workflow-connected-overview.html</a> | Overview | UJ-9 full walkthrough |
 
 ### Contractor — Ryan / Maci
 
 | File | Form factor | Journey |
 |------|-------------|---------|
-| [contractor-project-create-desktop.html](./mockups/contractor-project-create-desktop.html) | Desktop | C-1, C-17 |
-| [contractor-project-create-mobile.html](./mockups/contractor-project-create-mobile.html) | Mobile | C-1 |
-| [contractor-mms-group-setup-desktop.html](./mockups/contractor-mms-group-setup-desktop.html) | Desktop modal | C-13 |
-| [contractor-dashboard-desktop.html](./mockups/contractor-dashboard-desktop.html) | Desktop | C-6, C-7, C-19 |
-| [contractor-cascade-preview-desktop.html](./mockups/contractor-cascade-preview-desktop.html) | Desktop | C-12, C-20 |
-| [contractor-mms-mirror-desktop.html](./mockups/contractor-mms-mirror-desktop.html) | Desktop | C-14, C-15 |
-| [contractor-mobile-queue.html](./mockups/contractor-mobile-queue.html) | Mobile | C-19 |
+| <a href="mockups/contractor-project-create-desktop.html" target="_blank">contractor-project-create-desktop.html</a> | Desktop | C-1, C-17 |
+| <a href="mockups/contractor-project-create-mobile.html" target="_blank">contractor-project-create-mobile.html</a> | Mobile | C-1 |
+| <a href="mockups/contractor-mms-group-setup-desktop.html" target="_blank">contractor-mms-group-setup-desktop.html</a> | Desktop modal | C-13 |
+| <a href="mockups/contractor-dashboard-desktop.html" target="_blank">contractor-dashboard-desktop.html</a> | Desktop | C-6, C-7, C-19 |
+| <a href="mockups/contractor-cascade-preview-desktop.html" target="_blank">contractor-cascade-preview-desktop.html</a> | Desktop | C-12, C-20 |
+| <a href="mockups/contractor-mms-mirror-desktop.html" target="_blank">contractor-mms-mirror-desktop.html</a> | Desktop | C-14, C-15 |
+| <a href="mockups/contractor-mobile-queue.html" target="_blank">contractor-mobile-queue.html</a> | Mobile | C-19 |
 
 ### Sub — Jesse (role-play with Ryan/Macie)
 
 | File | Form factor | Journey |
 |------|-------------|---------|
-| [sub-accept-decline-mobile.html](./mockups/sub-accept-decline-mobile.html) | Mobile portal | S-1, S-5 |
+| <a href="mockups/sub-accept-decline-mobile.html" target="_blank">sub-accept-decline-mobile.html</a> | Mobile portal | S-1, S-5 |
 
 ### Customer — Lauren (role-play with Ryan/Macie)
 
 | File | Form factor | Journey |
 |------|-------------|---------|
-| [customer-connect-mobile.html](./mockups/customer-connect-mobile.html) | Mobile portal | H-1, H-4 |
-| [customer-timeline-mobile.html](./mockups/customer-timeline-mobile.html) | Mobile portal | H-21 |
+| <a href="mockups/customer-connect-mobile.html" target="_blank">customer-connect-mobile.html</a> | Mobile portal | H-1, H-4 |
+| <a href="mockups/customer-timeline-mobile.html" target="_blank">customer-timeline-mobile.html</a> | Mobile portal | H-21 |
 
 ### MMS — native phone (images)
 
 | File | Shows | Journey |
 |------|-------|---------|
-| [mms-group-created.png](./mockups/mms-group-created.png) | New group with Marcus + handle # | C-13 |
-| [mms-sub-delay-thread.png](./mockups/mms-sub-delay-thread.png) | Marcus texts delay in group | UJ-9 step 1, C-14 |
-| [mms-system-confirm.png](./mockups/mms-system-confirm.png) | Jesse gets re-confirm SMS | UJ-9 step 4, S-5 |
-| [mms-customer-milestone.png](./mockups/mms-customer-milestone.png) | Lauren gets milestone MMS | UJ-9 step 4, H-21 |
+| <a href="mockups/mms-group-created.png" target="_blank">mms-group-created.png</a> | New group with Marcus + handle # | C-13 |
+| <a href="mockups/mms-sub-delay-thread.png" target="_blank">mms-sub-delay-thread.png</a> | Marcus texts delay in group | UJ-9 step 1, C-14 |
+| <a href="mockups/mms-system-confirm.png" target="_blank">mms-system-confirm.png</a> | Jesse gets re-confirm SMS | UJ-9 step 4, S-5 |
+| <a href="mockups/mms-customer-milestone.png" target="_blank">mms-customer-milestone.png</a> | Lauren gets milestone MMS | UJ-9 step 4, H-21 |
 
 ---
 
