@@ -34,6 +34,8 @@ Living documentation for discovery, exploration, and product planning. **No appl
 | [prds/prd-ContractorPro-2026-08-15/user-journeys/](./prds/prd-ContractorPro-2026-08-15/user-journeys/) | **v0.1 user journeys (SME review)** — contractor, sub, customer bulleted lists |
 | [prds/prd-ContractorPro-2026-08-15/user-journeys.md](./prds/prd-ContractorPro-2026-08-15/user-journeys.md) | **v0.1 user journeys (full detail)** — step tables, system behavior, epic mapping |
 | [technical-exploration/messaging-and-media.md](./technical-exploration/messaging-and-media.md) | Image messaging, Azure Blob, SMS relay |
+| [technical-exploration/project-handle-numbers.md](./technical-exploration/project-handle-numbers.md) | Project handle # vendor (Twilio), number pool, unit economics |
+| [../finances/monthly-run-rate.md](../finances/monthly-run-rate.md) | **Operating budget** — Azure, domain, telco COGS, design, ads |
 | [technical-exploration/invite-join-flow.md](./technical-exploration/invite-join-flow.md) | Easy join for subs/homeowners — name + phone, passwordless |
 | [technical-exploration/auth-and-data.md](./technical-exploration/auth-and-data.md) | OAuth BYOA, magic links, Postgres hosting |
 | [technical-exploration/azure-alignment.md](./technical-exploration/azure-alignment.md) | Azure-first hosting path |

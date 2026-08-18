@@ -19,6 +19,22 @@
 
 ---
 
+## Project handle # — planning note (for facilitators)
+
+Each active project gets a **dedicated text number** (the handle) via **Twilio** — not Google Voice or the GC's personal line. Numbers are **reused** from a pool when jobs finish (with a cooling period).
+
+| What | Rough cost (Twilio, US) |
+|------|-------------------------|
+| Per project number | ~**$1.15/mo** while active |
+| Per project messaging | ~**$4–7/mo** (typical group MMS + system texts) |
+| 5 active jobs (Ryan-sized crew) | ~**$22–46/mo** telco COGS total |
+
+Full vendor analysis: [project-handle-numbers.md](../../technical-exploration/project-handle-numbers.md). Full operating budget: [monthly-run-rate.md](../../../finances/monthly-run-rate.md).
+
+**SME prompts:** Is the auto-assigned number clear? Would subs trust **"Maple St · ContractorPro"** as the contact name? Do you expect heavy photo texting (drives cost)?
+
+---
+
 ## Mockup inventory
 
 ### Connected workflow (start here)

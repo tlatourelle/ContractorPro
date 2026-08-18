@@ -201,7 +201,7 @@ Dana is always the contractor on record and owner of the project.
 
 | Piece | Approach |
 |-------|----------|
-| Group MMS | Twilio Group MMS or Conversations API — handle # is a participant |
+| Group MMS | Twilio Group MMS or Conversations API — handle # is a participant — see [project-handle-numbers.md](./project-handle-numbers.md) for vendor, pooling, costs |
 | Inbound | Webhook → store message + attachments → blob storage |
 | Outbound | System messages + poke reminders sent into thread or 1:1 from handle |
 | Images | **MMS photos ingested** into thread in app (v0.1); also viewable in web |

@@ -58,6 +58,8 @@ See [README.md](./README.md) for full session handoff (2026-08-14).
 | 2026-08-17 | **AI out of MVP** | No SMS intent parsing, no AI drafts, no auto-schedule from chat in v0.1 — defer to v0.2+ |
 | 2026-08-17 | **Two lanes: MMS vs app** | **Conversation** = group MMS (logged). **Scheduling** = web app (Dana); multi-job complexity stays in app; MMS carries confirm links after Dana commits |
 | 2026-08-17 | **MMS routing: per-project handle #** | One phone number per **project** (Maple # in all Dana↔sub/customer groups on that job); inbound `To` → project, `From` → membership; store platform `conversation_sid` / internal thread id at provision — [messaging-and-media.md](./technical-exploration/messaging-and-media.md) |
+| 2026-08-18 | **Handle # vendor & pooling** | CPaaS (Twilio default; Telnyx spike); per-company **number pool** with cooling on archive; Google Voice ❌; ACS group MMS ❌ — [project-handle-numbers.md](./technical-exploration/project-handle-numbers.md) |
+| 2026-08-18 | **Operating budget doc** | Monthly run rate + COGS tracking — [finances/monthly-run-rate.md](../finances/monthly-run-rate.md); **~$10/mo** telco planning default per active project |
 
 ---
 
@@ -148,7 +150,7 @@ See also: [technical-exploration/auth-and-data.md](./technical-exploration/auth-
 - [ ] Account linking: same email from Google + Microsoft — auto-merge?
 - [ ] Apple Sign-In: required for v0.1? ($99/yr Apple Developer)
 - [ ] Enterprise SSO (SAML) — which tier / how late?
-- [ ] SMS provider: Twilio, AWS SNS, other — cost model per tier
+- [x] SMS/MMS provider — **Twilio default** (Telnyx spike); number pool model — see [project-handle-numbers.md](./technical-exploration/project-handle-numbers.md)
 - [ ] Chargebee vs Stripe Billing — feature/cost comparison
 - [ ] QBO OAuth + minimal sync scope (customer create only?)
 - [ ] Hosting: Azure vs other — pairs with Entra + Azure PG path
@@ -165,7 +167,7 @@ See also: [technical-exploration/auth-and-data.md](./technical-exploration/auth-
 | JobTread | "Affordable full suite" adjacent to BT | Not started — next priority |
 | Jobber, Houzz Pro, CoConstruct | Adjacent / residential | CoConstruct → see BT section (sunset); Jobber/Houzz not started |
 | Google Cloud vs Azure for hosting | Calendar API does not require GCP | ✅ google-cloud-vs-azure.md |
-| Twilio SMS pricing at scale | Tier economics | Not started |
+| Twilio SMS/MMS pricing at scale | Tier economics | ✅ Draft → [project-handle-numbers.md](./technical-exploration/project-handle-numbers.md) |
 | Chargebee vs Stripe Billing | Our subscription stack | Not started |
 | QBO integration patterns for construction SaaS | Post-MVP path | Not started |
 | Magic link auth best practices | Sub/homeowner access | In progress → auth-and-data.md |
