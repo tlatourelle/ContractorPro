@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ContractorPro — How the System Works (Overview)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #E8ECF0; color: #1A2332; padding: 32px 24px 64px; line-height: 1.5; }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 28px; color: #1B4B7A; margin-bottom: 8px; }
+  .subtitle { color: #6B7A8D; font-size: 15px; margin-bottom: 8px; }
+  .nav { font-size: 14px; margin-bottom: 28px; }
+  .nav a { color: #1B4B7A; }
+  .principle { background: #1B4B7A; color: white; padding: 16px 24px; border-radius: 12px; margin-bottom: 28px; font-size: 15px; }
+  .principle strong { color: #FBC470; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 16px 24px; margin-bottom: 28px; font-size: 13px; }
+  .legend span { display: flex; align-items: center; gap: 8px; }
+  .swatch { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; }
+
+  /* Diagram layout */
+  .diagram { background: white; border: 1px solid #D8DEE6; border-radius: 16px; padding: 28px 24px 32px; margin-bottom: 28px; overflow-x: auto; }
+  .diagram-title { font-size: 13px; font-weight: 600; color: #6B7A8D; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 20px; }
+
+  .flow { display: grid; grid-template-columns: 1fr minmax(280px, 1.4fr) 1fr; gap: 20px; align-items: start; min-width: 720px; }
+  @media (max-width: 900px) {
+    .flow { grid-template-columns: 1fr; min-width: 0; }
+    .connector-col { display: none; }
+  }
+
+  .col h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #6B7A8D; margin-bottom: 12px; font-weight: 600; }
+
+  .box { border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; border: 2px solid; font-size: 14px; }
+  .box strong { display: block; font-size: 15px; margin-bottom: 4px; }
+  .box p { font-size: 13px; color: #6B7A8D; margin: 0; }
+  .box ul { font-size: 12px; color: #6B7A8D; margin: 8px 0 0 18px; }
+  .box li { margin-bottom: 3px; }
+
+  .you { background: #FFF8E6; border-color: #E87722; }
+  .you strong { color: #C45A00; }
+  .phone { background: #E8F8EC; border-color: #34C759; }
+  .phone strong { color: #1A7A3A; }
+  .portal { background: #FFF0E6; border-color: #E87722; }
+  .portal strong { color: #C45A00; }
+  .core { background: #E8EEF5; border-color: #1B4B7A; }
+  .core strong { color: #1B4B7A; }
+  .vendor { background: #F4F6F8; border-color: #6B7A8D; }
+  .vendor strong { color: #1A2332; }
+  .vendor .tag { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; background: #D8DEE6; color: #1A2332; padding: 2px 6px; border-radius: 3px; margin-bottom: 6px; }
+
+  .connector-col { display: flex; flex-direction: column; justify-content: center; gap: 8px; padding-top: 40px; }
+  .arrow-row { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #6B7A8D; min-height: 52px; }
+  .arrow { color: #1B4B7A; font-size: 18px; font-weight: bold; flex-shrink: 0; }
+  .arrow.bidir::before { content: '↔'; }
+  .arrow.right::before { content: '→'; }
+  .arrow.left::before { content: '←'; }
+
+  .center-stack { display: flex; flex-direction: column; gap: 0; }
+  .center-stack .box { margin-bottom: 10px; }
+  .stack-label { font-size: 11px; font-weight: 600; color: #1B4B7A; text-align: center; margin: 4px 0 10px; }
+
+  table { width: 100%; border-collapse: collapse; background: white; border: 1px solid #D8DEE6; border-radius: 12px; overflow: hidden; margin-bottom: 24px; font-size: 14px; }
+  th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #EEF1F5; vertical-align: top; }
+  th { background: #F4F6F8; font-weight: 600; color: #6B7A8D; font-size: 12px; text-transform: uppercase; }
+  tr:last-child td { border-bottom: none; }
+
+  .section { margin-bottom: 32px; }
+  .section h2 { font-size: 18px; color: #1B4B7A; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #D8DEE6; }
+  .section p { font-size: 14px; color: #6B7A8D; margin-bottom: 12px; max-width: 800px; }
+
+  .lanes { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 8px; }
+  @media (max-width: 700px) { .lanes { grid-template-columns: 1fr; } }
+  .lane-card { background: white; border: 1px solid #D8DEE6; border-radius: 12px; padding: 18px 20px; }
+  .lane-card h3 { font-size: 15px; margin-bottom: 8px; }
+  .lane-card.mms h3 { color: #1A7A3A; }
+  .lane-card.app h3 { color: #1B4B7A; }
+  .lane-card p { font-size: 13px; color: #6B7A8D; }
+
+  .facilitator { background: #F4F6F8; border: 1px solid #D8DEE6; border-radius: 12px; padding: 16px 20px; font-size: 13px; color: #6B7A8D; }
+  .facilitator strong { color: #1A2332; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>How ContractorPro Works</h1>
+  <p class="subtitle">High-level overview for Ryan &amp; Maci — what you use, what runs in the cloud, and where outside services plug in.</p>
+  <p class="nav"><a href="../index.html" target="_blank">← All mockups</a> · <a href="workflow-connected-overview.html" target="_blank">Schedule slip workflow (UJ-9)</a></p>
+
+  <div class="principle">
+    <strong>Two lanes:</strong> Day-to-day talk happens in <strong>group text (MMS)</strong> on your phone. Schedule changes and cascade happen in the <strong>ContractorPro web app</strong>. The app logs texts and sends confirm links back out.
+  </div>
+
+  <div class="legend">
+    <span><span class="swatch" style="background:#E87722"></span> You (Ryan / Maci)</span>
+    <span><span class="swatch" style="background:#34C759"></span> Phone / group text</span>
+    <span><span class="swatch" style="background:#1B4B7A"></span> ContractorPro (hosted)</span>
+    <span><span class="swatch" style="background:#6B7A8D"></span> Outside vendor</span>
+  </div>
+
+  <div class="diagram">
+    <div class="diagram-title">System map — v0.1 planning</div>
+    <div class="flow">
+      <!-- LEFT: People -->
+      <div class="col">
+        <h3>People &amp; devices</h3>
+
+        <div class="box you">
+          <strong>Ryan / Maci</strong>
+          <p>General contractor team</p>
+          <ul>
+            <li><strong>Laptop</strong> — scheduling, cascade, dashboard</li>
+            <li><strong>Phone</strong> — group texts with subs &amp; customers</li>
+          </ul>
+        </div>
+
+        <div class="box phone">
+          <strong>Subs (e.g. Marcus, Jesse)</strong>
+          <p>Field trades</p>
+          <ul>
+            <li><strong>Phone</strong> — group MMS with you + project #</li>
+            <li><strong>Magic link</strong> — tap to accept/decline dates (no password)</li>
+          </ul>
+        </div>
+
+        <div class="box portal">
+          <strong>Customers (e.g. Lauren)</strong>
+          <p>Homeowners</p>
+          <ul>
+            <li><strong>Phone</strong> — group MMS for updates</li>
+            <li><strong>Magic link</strong> — timeline, milestone confirms</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- CENTER: Core + connectors -->
+      <div class="col">
+        <div class="connector-col" style="padding-top:0;margin-bottom:12px">
+          <div class="arrow-row"><span class="arrow bidir"></span> Browser ↔ web app</div>
+          <div class="arrow-row"><span class="arrow bidir"></span> Group MMS ↔ project handle #</div>
+          <div class="arrow-row"><span class="arrow right"></span> SMS / email with links</div>
+        </div>
+
+        <div class="stack-label">Hosted on Microsoft Azure</div>
+        <div class="center-stack">
+          <div class="box core">
+            <strong>ContractorPro web app</strong>
+            <p>What you log into — projects, tasks, cascade, message mirror, pending queue. Works in any modern browser (desktop or phone).</p>
+          </div>
+          <div class="box core">
+            <strong>ContractorPro API</strong>
+            <p>Business logic behind the scenes — permissions, schedule rules, reminders, routing texts to the right project.</p>
+          </div>
+          <div class="box core">
+            <strong>Database + file storage</strong>
+            <p>Project data, participants, messages. Photos from MMS stored securely in the cloud (not on your phone only).</p>
+          </div>
+        </div>
+
+        <div class="connector-col" style="margin-top:16px">
+          <div class="arrow-row"><span class="arrow bidir"></span> Calendar sync</div>
+          <div class="arrow-row"><span class="arrow bidir"></span> MMS / SMS plumbing</div>
+          <div class="arrow-row"><span class="arrow right"></span> Transactional email</div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Vendors -->
+      <div class="col">
+        <h3>Outside services (vendors)</h3>
+
+        <div class="box vendor">
+          <span class="tag">Twilio</span>
+          <strong>Project text numbers</strong>
+          <p>Each active job gets a dedicated handle # (e.g. Maple St). Powers group MMS, ingests texts into the app, sends system confirmations. ~$10/mo per active project (planning estimate).</p>
+        </div>
+
+        <div class="box vendor">
+          <span class="tag">Google</span>
+          <strong>Calendar + optional sign-in</strong>
+          <p>Two-way sync with <strong>Google Calendar</strong> when you connect. Optional “Sign in with Google” for your team. Google hosts calendars — not the ContractorPro app.</p>
+        </div>
+
+        <div class="box vendor">
+          <span class="tag">Email provider</span>
+          <strong>Magic links &amp; invites</strong>
+          <p>Sends passwordless links to subs and customers (confirm dates, join project). TBD vendor (e.g. Resend, SendGrid).</p>
+        </div>
+
+        <div class="box vendor">
+          <span class="tag">Stripe</span>
+          <strong>Your subscription</strong>
+          <p>How you pay for ContractorPro monthly. Separate from job texting costs.</p>
+        </div>
+
+        <div class="box vendor">
+          <span class="tag">Domain / DNS</span>
+          <strong>contractorpro.com (TBD)</strong>
+          <p>Web address for the app and magic links. Small annual fee.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Two lanes in plain English</h2>
+    <div class="lanes">
+      <div class="lane-card mms">
+        <h3>Lane 1 — Conversation (phone)</h3>
+        <p>You create a <strong>group text</strong> per sub or customer: you + them + the project handle #. Everyone texts normally. ContractorPro logs the thread. Photos in text are saved to the project.</p>
+      </div>
+      <div class="lane-card app">
+        <h3>Lane 2 — Scheduling (web app)</h3>
+        <p>When dates move, <strong>you change the schedule in ContractorPro</strong> — not by texting back and forth. The app sends confirm links via text/email. Subs and customers tap to accept.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>What lives where</h2>
+    <table>
+      <thead>
+        <tr><th>Thing</th><th>Where it runs</th><th>You interact?</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Scheduling, cascade, dashboard</strong></td>
+          <td>ContractorPro web app (Azure)</td>
+          <td>Yes — browser on laptop or phone</td>
+        </tr>
+        <tr>
+          <td><strong>Field chat with subs/customers</strong></td>
+          <td>Native <strong>Messages</strong> app on your phone</td>
+          <td>Yes — same as today, plus project # in the group</td>
+        </tr>
+        <tr>
+          <td><strong>Project handle #</strong></td>
+          <td>Twilio (virtual phone line per job)</td>
+          <td>You add it as a contact; you don’t “call Twilio”</td>
+        </tr>
+        <tr>
+          <td><strong>Sub/customer date confirms</strong></td>
+          <td>Magic-link web pages (Azure) opened from SMS/email</td>
+          <td>They tap; no app install</td>
+        </tr>
+        <tr>
+          <td><strong>Google Calendar events</strong></td>
+          <td>Google (synced when connected)</td>
+          <td>Your existing calendar app</td>
+        </tr>
+        <tr>
+          <td><strong>Photos from MMS</strong></td>
+          <td>Azure file storage + shown in app</td>
+          <td>View in app mirror; originals in text thread</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>What we are NOT building in v0.1</h2>
+    <p>No native iPhone/Android app for you or subs. No replacing your personal cell number. No injecting into old group texts — you start a <strong>new</strong> group with the project handle. No AI reading texts to auto-reschedule (you commit changes in the app).</p>
+  </div>
+
+  <div class="facilitator">
+    <strong>Facilitator note:</strong> This is the planning architecture for SME validation — vendors and hosting may change slightly before build, but the <em>two-lane</em> pattern (MMS for talk, app for schedule) is the product bet. Technical detail: <code>project-handle-numbers.md</code>, <code>monthly-run-rate.md</code>.
+  </div>
+</div>
+</body>
+</html>

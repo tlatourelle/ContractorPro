@@ -6,12 +6,14 @@
 **Goal:** Validate *"is this how you work?"* — not pixel-perfect brand
 
 > **Browse in browser:** Open <a href="index.html" target="_blank">index.html</a> (all mockup links open in a new browser tab).  
+> **System overview (for SMEs):** <a href="mockups/system-overview.html" target="_blank">system-overview.html</a> — how the pieces fit together.  
 > From terminal in this folder: `start index.html`
 
 ---
 
 ## How to use this pack
 
+0. **Optional context:** <a href="mockups/system-overview.html" target="_blank">system-overview.html</a> — high-level diagram (who uses what, Azure vs vendors).
 1. **Onboarding first:** <a href="mockups/contractor-project-create-desktop.html" target="_blank">contractor-project-create-desktop.html</a> — walk C-1 project setup with Ryan/Macie.
 2. **Then MMS setup:** <a href="mockups/contractor-mms-group-setup-desktop.html" target="_blank">contractor-mms-group-setup-desktop.html</a> + <a href="mockups/mms-group-created.png" target="_blank">mms-group-created.png</a> — C-13 group text creation.
 3. **Then the slip workflow:** <a href="mockups/workflow-connected-overview.html" target="_blank">workflow-connected-overview.html</a> — UJ-9 connecting MMS + app + portals.
@@ -41,6 +43,7 @@ Full vendor analysis: [project-handle-numbers.md](../../technical-exploration/pr
 
 | File | Surface | Journey |
 |------|---------|---------|
+| <a href="mockups/system-overview.html" target="_blank">system-overview.html</a> | Architecture | How the system fits together (SME-friendly) |
 | <a href="mockups/workflow-connected-overview.html" target="_blank">workflow-connected-overview.html</a> | Overview | UJ-9 full walkthrough |
 
 ### Contractor — Ryan / Maci
