@@ -77,8 +77,9 @@ Core pieces:
 - **Sub date confirmation** — GC proposes → sub accepts/declines via SMS/email link → both calendars update; GC sees pending vs confirmed
 - **Automated poke until response** — daily reminders (SMS/email) until sub acts; Buildertrend-style persistence; calendar invites alone are insufficient
 - **Job planning before commit (v0.2)** — phases, durations, buffers, multi-job balance, sub conflict check; **finalize** triggers scheduling — see [job-planning-workflow.md](./technical-exploration/job-planning-workflow.md)
-- **Magic-link sub + homeowner comms** — no app install; GC stays hub (BT requires sub platform engagement)
-- **Event-triggered AI drafts** — instant “what changed” copy on schedule shift (BT AI = weekly digest requiring daily log discipline)
+- **Magic-link sub + homeowner comms** — group MMS per relationship (logged); GC hub between threads
+- **Scheduling in web app** — GC manages multi-job schedule, cascade, confirmations; not in MMS
+- **Event-triggered AI drafts** — instant “what changed” copy on schedule shift (**v0.2+**; not MVP)
 
 ## MVP boundary (v0.1 — draft)
 
@@ -86,11 +87,11 @@ Core pieces:
 
 - Residential projects with linked task timeline
 - Optional cascade on schedule changes
-- Messaging with **image uploads from GC, subs, and homeowners** — Azure Blob + SQL; central to project tracking
-- Messaging: GC↔sub (private), GC↔homeowner (private)
+- Messaging with **image uploads** — MMS ingest + web; Azure Blob + SQL
+- Messaging: **group MMS** per GC↔sub and GC↔customer (Dana + party + project handle #); logged in app
 - Magic-link invites for subs and homeowners
 - **Easy join flow** — GC invites by phone; invitee confirms name + phone on one screen; no password (see [invite-join-flow.md](./technical-exploration/invite-join-flow.md))
-- SMS notifications (link back to web; tier limits TBD)
+- SMS/MMS notifications (confirm links, poke; tier limits TBD)
 - Subscription billing for GC (Chargebee or Stripe Billing)
 - AI-assisted comms (draft updates, thread summary — stretch in v0.1)
 - **Responsive web UI** — mobile-friendly across devices; GC experience optimized for laptop/desktop

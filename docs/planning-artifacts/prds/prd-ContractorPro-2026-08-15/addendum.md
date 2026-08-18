@@ -48,7 +48,8 @@ These were decided in exploration and should land in architecture/TRD, not PRD:
 
 | Decision | Lean for v0.1 |
 |----------|----------------|
-| Calendar provider | Google Calendar API first |
+| Calendar provider (invitee link) | **Google Calendar + Apple iCal/iCloud** at v0.1; **Google preferred** (default UI, primary adapter) |
+| Calendar provider (GC company) | Google Calendar API first |
 | Sub calendar access | Email ACL on shared project calendar; no sub OAuth required |
 | Calendar write timing | On sub **accept** only |
 | Accept mechanism | Magic link (SMS/email); no SMS reply parsing |
@@ -64,7 +65,7 @@ These were decided in exploration and should land in architecture/TRD, not PRD:
 ## Deferred technical topics (v0.2+)
 
 - Microsoft Graph calendar adapter
-- Personalized iCal/webcal feeds for Apple-only users
+- GC-side Apple Calendar connect (if not v0.1)
 - SMS relay / virtual group member per thread
 - Job planning: `work_phases`, portfolio conflict engine
 - Google free/busy overlay for GC personal calendar

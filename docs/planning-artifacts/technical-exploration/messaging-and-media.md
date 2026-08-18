@@ -99,13 +99,127 @@ Subs and homeowners **do not** share a thread; image ACL follows message ACL.
 
 ### SMS
 
-- **Do not** send images via MMS by default (cost, complexity, carrier limits)
-- SMS: *“New photo on 123 Main St — [link]”*
-- Full image in web thread
+- **v0.1:** Group **MMS** is primary channel for GC↔sub and GC↔customer (see § MMS group threads)
+- System-generated messages (propose, poke, confirm links) sent via MMS/SMS into the thread
+- Web portal: read mirror + Dana schedule actions; not required for subs to chat
 
 ---
 
-## SMS relay: “virtual group member” (exploration)
+## MMS group threads + project handle (v0.1 decision — 2026-08-17)
+
+**Decision:** Field communication runs through **native group MMS** on the phone, not through the web app as primary UI. The web app **records** conversations and is where Dana **commits** schedule changes.
+
+### Two lanes (2026-08-17)
+
+| Lane | Where | Owner |
+|------|-------|-------|
+| **General conversation** | Group MMS → ingested to app | Everyone texts naturally |
+| **Scheduling** | Web app (portfolio, tasks, cascade) | Dana — contractor controls the schedule |
+
+Scheduling does not happen in MMS threads — too messy across multiple jobs/teams. MMS may *trigger* a schedule action (sub says they're delayed); Dana executes in the app; system sends confirm links via MMS.
+
+### Pattern
+
+Each **project × relationship** gets a group MMS thread:
+
+```text
+[Dana / Riverside]  +  [Mike the painter]  +  [ContractorPro project handle #]
+```
+
+Same for each sub and each customer — **separate groups**, not one project megachat. Dana coordinates between threads.
+
+| Role | What they do |
+|------|----------------|
+| **Dana (contractor)** | Creates group text with sub + project handle #; decision maker; reads MMS; **reschedules in web app** when needed |
+| **Sub / customer** | Texts in the group Dana started (or was added to); e.g. "can't start on time" |
+| **ContractorPro handle #** | Virtual participant — ingests MMS (text + images); mirrors to project in web app |
+| **System** | After Dana acts in app (propose, reschedule, cascade), sends **confirmation MMS/SMS** into the thread or with magic link |
+
+### Example flow (flooring slip)
+
+1. Dana previously started group: Dana + flooring guy + Maple St handle #
+2. Flooring guy texts group: *"Can't start Thursday — supplier delay"*
+3. Message logged in app under Maple St / flooring thread
+4. Dana opens **web app**, moves task, triggers reschedule (UJ-2a)
+5. System sends MMS to group: *`[Maple St] Flooring moved to next Tuesday. Confirm: [link]`*
+6. Sub confirms via link; calendars sync
+
+**Negotiation is often in MMS; commitment is in the app + confirm link.**
+
+### What this is NOT
+
+| Not this | Why |
+|----------|-----|
+| App-orchestrated chat (subs use portal first) | Subs live in Messages |
+| One group per whole project | Privacy — subs don't see each other |
+| AI parsing "yes" from MMS in v0.1 | Deferred — Dana reads and acts manually |
+| Inject into Dana's **existing** iMessage group | Must be a **new** group with handle # |
+
+### Project handle # (routing — locked 2026-08-17)
+
+Each **project** gets its own ContractorPro phone number — the **project handle**. All group MMS on that job use the same handle; each **relationship** still has its own group (Dana + Mike + Maple#, Dana + Jose + Maple#).
+
+| Inbound webhook | Maps to |
+|-----------------|---------|
+| `To` = Maple handle # | `project_id` (Maple St) |
+| `From` = Mike's phone | `membership_id` (Mike, Sub on Maple) |
+
+**Why per-project number (not one company number):** Same sub on Maple + Oak needs different handles so messages don't collapse into one thread. iPhone does not expose its thread id to our API — project is not embedded in the MMS payload.
+
+**Thread id:** When a relationship group is provisioned, store platform `conversation_sid` (Twilio Conversations) or internal `mms_thread_id` → `(project_id, membership_id)`. Used for dedupe, audit, and outbound routing — not a substitute for per-project `To` on inbound.
+
+**Branding:** Outbound system messages also prefix `[Maple St · Riverside]` for humans; routing uses the number.
+
+**On project create:** Provision Maple handle # and show Dana in onboarding:
+
+```text
+Maple St group text — add with each sub/customer:
+  [Sub phone]
+  Maple St: (555) 100-0001
+```
+
+### Data model (sketch)
+
+```text
+projects
+  id, handle_phone_e164, ...     -- one number per project
+
+mms_threads
+  id, project_id, membership_id
+  conversation_sid?              -- Twilio Conversations id when provisioned
+  handle_phone_e164              -- denormalized from project
+  created_at
+
+messages
+  id, mms_thread_id, project_id, membership_id
+  direction (inbound|outbound), body, provider_message_sid, ...
+```
+
+Dana is always the contractor on record and owner of the project.
+
+### Technical implementation (lean)
+
+| Piece | Approach |
+|-------|----------|
+| Group MMS | Twilio Group MMS or Conversations API — handle # is a participant |
+| Inbound | Webhook → store message + attachments → blob storage |
+| Outbound | System messages + poke reminders sent into thread or 1:1 from handle |
+| Images | **MMS photos ingested** into thread in app (v0.1); also viewable in web |
+| Web mirror | Dana can read full thread in dashboard; optional reply from web → MMS to group |
+| Compliance | A2P 10DLC; opt-in when added to group |
+
+### Known constraints (accept, don't fight in v0.1)
+
+- iPhone users see **green bubble** (not iMessage blue) for handle #
+- Group MMS: carrier limits (~10 participants), higher cost than SMS
+- Dana must **create** the group — can't silently monitor old threads
+- Dual-send: text in MMS + post in web → dedupe or show both `[OPEN]`
+
+---
+
+## SMS relay: “virtual group member” (exploration — superseded by MMS decision above)
+
+> **Note:** Pre-2026-08-17 exploration below. v0.1 follows **MMS group threads** per relationship + project handle #. Relay-per-thread concepts still apply; delivery is **group MMS**, not notify-only.
 
 **Idea:** ContractorPro acts as an extra participant in SMS conversations. GC, subs, and homeowners keep using their normal Messages app; ContractorPro logs everything and mirrors it in the web UI. Users can reply via SMS **or** the portal — same thread.
 
@@ -157,7 +271,7 @@ ContractorPro is always the third party. Messages in = logged + visible in web. 
 | **Images** | Always web upload; SMS only nudges |
 | **GC dashboard** | Unified inbox — whether message arrived via SMS or web |
 
-**Verdict:** Strong product instinct (capture + low friction), but **literal group-chat takeover** should become **hub-aligned SMS relay**, not one project megagroup. Validate with GCs: *“Would you move your sub texts to a number we give you if everything got logged to the project?”*
+**Verdict (2026-08-17):** v0.1 = **MMS group per relationship** + project handle #; hub model preserved; AI deferred.
 
 ---
 

@@ -8,7 +8,7 @@ Living documentation for discovery, exploration, and product planning. **No appl
 
 > **Next step: Database schema design for v0.1**
 >
-> Design the relational schema for projects, tasks, **task assignments (propose/accept)**, cascade dependencies, magic-link invitees, messaging threads, and calendar sync metadata. This is the critical path before sprint planning or PRD finalization.
+> Design the relational schema for projects (**handle # per project**), tasks, **task assignments (propose/accept)**, cascade dependencies, magic-link invitees, **mms_threads + messages**, and calendar sync metadata. This is the critical path before sprint planning or PRD finalization.
 >
 > **Prompt to use:** *"John, let's design the v0.1 database schema — projects, tasks, cascade, magic links, messaging."*
 >
@@ -30,7 +30,9 @@ Living documentation for discovery, exploration, and product planning. **No appl
 | [technical-exploration/schedule-confirmation-workflow.md](./technical-exploration/schedule-confirmation-workflow.md) | Propose → accept → sync; SMS/email notify; GC pending dashboard; poke engine |
 | [technical-exploration/job-planning-workflow.md](./technical-exploration/job-planning-workflow.md) | Plan phases/buffers → portfolio balance → finalize → schedule |
 | [prds/prd-ContractorPro-2026-08-15/prd.md](./prds/prd-ContractorPro-2026-08-15/prd.md) | **v0.1 MVP PRD** (draft) — product requirements; tech in addendum |
-| [prds/prd-ContractorPro-2026-08-15/epics-and-stories.md](./prds/prd-ContractorPro-2026-08-15/epics-and-stories.md) | v0.1 epics & user stories (31 stories, 11 epics) |
+| [prds/prd-ContractorPro-2026-08-15/epics-and-stories.md](./prds/prd-ContractorPro-2026-08-15/epics-and-stories.md) | v0.1 dev stories (31) — implementation breakdown |
+| [prds/prd-ContractorPro-2026-08-15/user-journeys/](./prds/prd-ContractorPro-2026-08-15/user-journeys/) | **v0.1 user journeys (SME review)** — contractor, sub, customer bulleted lists |
+| [prds/prd-ContractorPro-2026-08-15/user-journeys.md](./prds/prd-ContractorPro-2026-08-15/user-journeys.md) | **v0.1 user journeys (full detail)** — step tables, system behavior, epic mapping |
 | [technical-exploration/messaging-and-media.md](./technical-exploration/messaging-and-media.md) | Image messaging, Azure Blob, SMS relay |
 | [technical-exploration/invite-join-flow.md](./technical-exploration/invite-join-flow.md) | Easy join for subs/homeowners — name + phone, passwordless |
 | [technical-exploration/auth-and-data.md](./technical-exploration/auth-and-data.md) | OAuth BYOA, magic links, Postgres hosting |

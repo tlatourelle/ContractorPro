@@ -68,8 +68,9 @@ Derived from [prd.md](./prd.md). Product-facing stories only — implementation 
 **Acceptance:**
 - [ ] Project belongs to my Contractor subscription only
 - [ ] Subcontractor/Customer memberships cannot create projects
+- [ ] System provisions **project handle #** (dedicated MMS phone number) on create
 
-**FR:** FR-2, FR-20
+**FR:** FR-2, FR-14, FR-20
 
 ---
 
@@ -210,29 +211,60 @@ Derived from [prd.md](./prd.md). Product-facing stories only — implementation 
 
 ---
 
+### E5-S2b: Counter-propose a date
+
+**As a** Subcontractor or team member, **I can** suggest a different date on a pending proposal **so that** we can negotiate without a phone call.
+
+**Acceptance:**
+- [ ] Proposed dates update; `pending_party` flips
+- [ ] Negotiation history visible on confirm page and dashboard
+- [ ] Other party notified; poke timer resets for new pending party
+- [ ] Last confirmed calendar dates unchanged until Accept
+
+**FR:** FR-8, FR-9 · **UJ:** UJ-2d
+
+---
+
 ### E5-S3: Decline proposed date
 
 **As a** Subcontractor, **I can** tap Decline **so that** the Contractor knows I cannot make that date.
 
 **Acceptance:**
-- [ ] Status → `declined` (or last confirmed preserved per product rule)
+- [ ] Status → `declined` (or last confirmed preserved per product rule on reschedule decline)
 - [ ] Calendar not updated to proposed date
 - [ ] Team member notified in-app (decline alert on by default)
+- [ ] Team member can reassign per E5-S3b
 
-**FR:** FR-8
+**FR:** FR-8 · **UJ:** UJ-2b
 
 ---
 
-### E5-S4: Reschedule with re-confirmation
+### E5-S3b: Reassign task after decline
 
-**As a** team member, **I can** change a confirmed date **so that** the Subcontractor must accept the new date before it is agreed.
+**As a** team member, **I can** assign a declined task to a different Subcontractor **so that** the schedule keeps moving.
 
 **Acceptance:**
-- [ ] Status → `proposed_change`
-- [ ] Subcontractor calendar keeps last **confirmed** date until re-accept
-- [ ] Notification shows old → new date
+- [ ] Declined assignment closed; poke stopped
+- [ ] Confirmed calendar event removed from declined sub (if any)
+- [ ] New assignment → `proposed` for replacement sub
+- [ ] Assignment history shows decline + reassignment
 
-**FR:** FR-9 · **UJ:** UJ-2
+**FR:** FR-9a · **UJ:** UJ-2e
+
+---
+
+### E5-S4: Reschedule with re-confirmation (either direction)
+
+**As a** team member or Subcontractor, **I can** propose a new date on a confirmed assignment **so that** the other party must accept before calendars change.
+
+**Acceptance:**
+- [ ] Status → `proposed_change`; records `change_initiator`
+- [ ] Calendars keep last **confirmed** date until re-accept
+- [ ] Notification shows old → new date
+- [ ] **Team member initiated:** Sub notified via SMS/email + poke per FR-11
+- [ ] **Sub initiated:** Team member notified in-app (+ optional SMS); sub sees pending state
+
+**FR:** FR-9 · **UJ:** UJ-2, UJ-2a, UJ-2c, UJ-2d
 
 ---
 
@@ -243,7 +275,7 @@ Derived from [prd.md](./prd.md). Product-facing stories only — implementation 
 **Acceptance:**
 - [ ] Filters: all / pending / confirmed / declined
 - [ ] "Who's holding me up" summary panel
-- [ ] Shows time since notify and reminder count
+- [ ] Shows time since notify, reminder count, and negotiation thread when applicable
 
 **FR:** FR-10
 
@@ -330,44 +362,48 @@ Derived from [prd.md](./prd.md). Product-facing stories only — implementation 
 
 ---
 
-## Epic E8 — Messaging & Photos
+## Epic E8 — MMS Group Threads & Photos
 
-*Private threads per relationship.*
+*Group MMS per relationship (Dana + party + project handle #); ingest + web mirror.*
 
-### E8-S1: Contractor↔Subcontractor messaging
+### E8-S1: MMS group thread per Subcontractor
 
-**As a** team member, **I can** message a Subcontractor privately on a project **so that** trade-specific comms stay separate.
+**As a** team member, **I can** run field comms in a group MMS with a Subcontractor and the project handle # **so that** texts are logged to the project without subs using the portal.
 
 **Acceptance:**
-- [ ] Thread per team member↔sub membership per project
-- [ ] Subcontractor can reply via portal
-- [ ] No sub↔customer shared thread
+- [ ] **One handle # per project** provisioned on project create
+- [ ] Inbound MMS: `To` → project, `From` → membership
+- [ ] `mms_thread` record per relationship (`conversation_sid` when provisioned)
+- [ ] Inbound MMS ingested and tied to project + sub membership
+- [ ] Thread visible in web dashboard (mirror)
+- [ ] Separate group per sub — no sub↔sub thread
 
-**FR:** FR-14
+**FR:** FR-14 · **UJ:** UJ-8
 
 ---
 
-### E8-S2: Contractor↔Customer messaging
+### E8-S2: MMS group thread per Customer
 
-**As a** team member, **I can** message a Customer privately **so that** homeowner comms stay separate from subs.
+**As a** team member, **I can** use group MMS with a Customer and the project handle # **so that** homeowner comms are captured separately from subs.
 
 **Acceptance:**
-- [ ] Customer can reply via portal
+- [ ] Same ingest/mirror pattern as E8-S1
 - [ ] Customer cannot see sub threads
 
-**FR:** FR-14 · **UJ:** UJ-4
+**FR:** FR-14 · **UJ:** UJ-8, UJ-4
 
 ---
 
-### E8-S3: Photo upload in messages
+### E8-S3: MMS and web photos
 
-**As a** team member, Subcontractor, or Customer, **I can** attach photos to messages from my phone **so that** we document the job visually.
+**As a** team member, Subcontractor, or Customer, **I can** send photos via **MMS in the group** or web upload **so that** job photos live on the project record.
 
 **Acceptance:**
-- [ ] Camera capture works in mobile browser
-- [ ] Images render in thread; SMS uses link-back for new activity
+- [ ] MMS images ingested to blob storage and shown in thread
+- [ ] Optional camera upload via magic-link web session
+- [ ] System schedule messages (propose/poke/confirm) sent via MMS/SMS to relationship thread
 
-**FR:** FR-15
+**FR:** FR-15 · **UJ:** UJ-6, UJ-8
 
 ---
 

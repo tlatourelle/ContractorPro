@@ -68,9 +68,13 @@ Mike receives an SMS (his preferred channel) with a link. On his phone he taps *
 
 *Edge case:* Mike ignores the text. ContractorPro sends daily reminders (batched if multiple pending items). Dana sees "Pending 2 days" and optional escalation alert.
 
-**UJ-2. Dana bumps the date; Mike must re-confirm.**
+**UJ-2. Either party can propose a reschedule; the other must re-confirm.**
 
-Dana moves painting from Sept 10 → Sept 11. Mike's calendar **still shows Sept 10** until he accepts. He gets SMS/email with old → new date and a link. On **Accept**, both calendars update to Sept 11. On **Decline**, Dana is notified immediately and the last agreed date stands until she resolves it.
+Dana moves painting Sept 10 → Sept 11 (**contractor-initiated**). Mike's calendar **still shows Sept 10** until he accepts. He gets SMS/email with old → new date and a link. On **Accept**, both calendars update to Sept 11.
+
+Mike can also **request** a different date (**sub-initiated**): he picks Sept 12 from his portal; Dana gets notified. Either party can **counter-propose** (e.g. Dana counters Sept 11) until someone **Accepts** or **Declines** — calendars keep the last confirmed date through the whole thread.
+
+On **Decline**, Dana is notified immediately. She can negotiate with Mike again, or **reassign the task to a different Subcontractor** (Jose) — Mike's assignment closes, calendar event removed, Jose enters the standard propose flow.
 
 **UJ-3. Jose joins a job in under 60 seconds.**
 
@@ -138,9 +142,12 @@ A Person may be **Subcontractor** on Project A and **Customer** on Project B —
 - **Customer** — Project membership role: hired the Contractor for the project; cannot create projects. Multiple Customers allowed per project.
 - **Task** — A schedulable unit of work on a Project (e.g., "Rough electric").
 - **Task Assignment** — Link between a Task and a Subcontractor project membership with **confirmation status** (proposed, confirmed, proposed_change, declined).
-- **Propose** — Team member sets or changes a date; Subcontractor has not yet accepted.
-- **Confirm / Accept** — Subcontractor agrees to proposed dates via magic link; triggers calendar sync.
+- **Propose** — Either party sets or changes a date on an assignment; the other has not yet accepted.
+- **Reschedule** — Change to a previously **confirmed** date; always enters propose/re-confirm flow regardless of who initiated.
+- **Confirm / Accept** — Subcontractor or Team member agrees to proposed dates via magic link or dashboard; triggers calendar sync.
+- **Counter-propose** — Pending party offers a different date instead of Accept/Decline; pending party flips; negotiation continues.
 - **Poke** — Automated reminder (SMS and/or email) until Subcontractor accepts, declines, or Team member stops reminders.
+- **Project handle #** — Dedicated phone number per **Project** for MMS routing; shared across all Dana↔sub/customer groups on that job; inbound `To` identifies project.
 - **Magic Link** — Signed URL for passwordless access (join, confirm date, view portal).
 - **Cascade** — Optional shift of dependent tasks by the same delta when a predecessor moves.
 - **Portal** — Mobile-first web experience for project memberships (not a native app).
@@ -221,7 +228,7 @@ Customer project memberships cannot view Subcontractor-only threads, sub pricing
 
 ### 5.3 Schedule Proposal & Confirmation
 
-**Description:** Core coordination loop. Team member **proposes** dates; Subcontractor **accepts or declines** via link; calendars update on accept only. Realizes UJ-1, UJ-2.
+**Description:** Core coordination loop. Team member **proposes** dates; either party can **accept, counter-propose, or decline**; calendars update on accept only. On decline, team member may **reassign** to another sub. Realizes UJ-1, UJ-2.
 
 **Functional Requirements:**
 
@@ -234,28 +241,47 @@ Team member can assign a Subcontractor project membership to a Task and **propos
 - Notification includes task name, project name, date(s), and Accept/Decline link.
 - No "reply YES to SMS" — link-based only.
 
-#### FR-8: Subcontractor accept or decline
+#### FR-8: Accept, counter-propose, or decline
 
-Person with Subcontractor role on the project can open magic link and tap **Accept** or **Decline** on a mobile-friendly page without installing an app.
+Person with Subcontractor role (or Team member when sub-initiated) can open magic link or dashboard and respond to a pending proposal on a mobile-friendly page without installing an app.
 
-**Consequences (testable):**
-- **Accept:** status → `confirmed`; shared project calendar event created/updated; Team member notified in-app.
-- **Decline:** Team member notified in-app (decline notification on by default); calendar unchanged for proposed date.
-
-#### FR-9: Reschedule requires re-confirmation
-
-When Team member changes dates on a previously **confirmed** assignment, Subcontractor must re-confirm. Subcontractor calendar shows last **confirmed** date until re-accept.
+**Response options:** **Accept** | **Counter-propose** (suggest different date) | **Decline**.
 
 **Consequences (testable):**
-- Status → `proposed_change` after Team member edit on confirmed assignment.
-- New proposal notification includes old → new date.
+- **Accept:** status → `confirmed`; shared project calendar event created/updated; other party notified in-app.
+- **Counter-propose:** proposed dates update; `pending_party` flips to the other party; negotiation history appended; poke timer resets for new pending party; other party notified.
+- **Decline:** status → `declined`; other party notified in-app (decline alert on by default); calendar unchanged for proposed date; Team member may reassign per FR-9a.
+
+#### FR-9: Reschedule requires re-confirmation (either direction)
+
+When **either** Team member or Subcontractor changes dates on a previously **confirmed** assignment, the **other party** must re-confirm. Calendars show last **confirmed** date until re-accept.
+
+**Consequences (testable):**
+- Status → `proposed_change` after date edit on confirmed assignment (regardless of initiator).
+- Assignment records **who proposed** the change (`team_member` | `subcontractor`).
+- **Team member initiated:** Subcontractor notified via SMS/email with old → new date and magic link; poke reminders per FR-11.
+- **Subcontractor initiated:** Team member notified in-app (optional SMS); Subcontractor sees "pending contractor approval."
+- **Accept:** status → `confirmed`; calendars update to new dates; other party notified.
+- **Counter-propose:** same as FR-8 counter-propose (applies to `proposed_change` and initial `proposed`).
+- **Decline:** other party notified; last confirmed dates remain on calendars until reassignment or new proposal is agreed.
+
+#### FR-9a: Reassign task after decline
+
+When a Task Assignment is `declined`, Team member can assign the same Task to a **different** Subcontractor project membership without creating a duplicate open assignment.
+
+**Consequences (testable):**
+- Declined assignment is closed (terminal); poke reminders stop.
+- Any **confirmed** calendar event for the declined Subcontractor on that Task is removed.
+- New Task Assignment created for replacement Sub → `proposed`; standard notify + poke cycle (UJ-3+ if first task for that sub on project).
+- Assignment history preserved on Task (declined sub + replacement visible to Team member).
+- Declined Subcontractor remains on project if they have other tasks; only this assignment closes.
 
 #### FR-10: Contractor confirmation dashboard
 
 Team member can view all Task Assignments filtered by status: pending, confirmed, declined; and see per-sub pending summary ("who is holding me up").
 
 **Consequences (testable):**
-- Pending items show time since last notification and reminder count.
+- Pending items show time since last notification, reminder count, and **negotiation thread** (counter-propose history) where applicable.
 - Team member can manually "send reminder now" or snooze automated pokes.
 
 ---
@@ -303,28 +329,35 @@ Team member can preview which tasks and which Subcontractors will be affected be
 
 ---
 
-### 5.6 Messaging & Photos
+### 5.6 Messaging & Photos (MMS-first) + Scheduling (app-first)
 
-**Description:** Private messaging threads per relationship (Contractor↔sub, Contractor↔customer) with image upload from Team members, Subcontractors, and Customers. Realizes UJ-4 and project communication needs.
+**Description:** **Two lanes:** (1) General conversation via group MMS per relationship — ingested and mirrored in web. (2) **Scheduling** — Team member manages dates, dependencies, cascade, and reassignment in the **web app** (multi-job portfolio); system sends confirmation MMS/SMS with magic links after commits. Realizes UJ-8, UJ-4.
 
 **Functional Requirements:**
 
-#### FR-14: Private messaging threads
+#### FR-14: MMS group thread per relationship
 
-Team member can message each Subcontractor membership privately and each Customer membership privately. Subcontractors and Customers can reply via portal.
-
-**Consequences (testable):**
-- No shared sub↔customer thread.
-- Message history visible to Team member and the project membership in that thread.
-
-#### FR-15: Image upload in messages
-
-Team member, Subcontractor, and Customer can attach photos to messages from mobile browser (camera capture supported).
+When Team member invites or assigns a Subcontractor or Customer, system provisions a **project handle #** (dedicated phone number per project) and documents a **group MMS thread**: Team member's phone + that membership's phone + project handle. All MMS in the group is ingested and visible in the web app under that project and thread.
 
 **Consequences (testable):**
-- Images display in thread; SMS for new messages uses link-back pattern (not MMS attachment by default).
+- **One handle # per project** — provisioned on project create; shared across all relationship groups on that job.
+- Inbound routing: `To` (handle #) → project; `From` (sender phone) → project membership.
+- Each relationship stores `conversation_sid` or internal `mms_thread_id` at provision time.
+- Separate group per relationship — no shared sub↔sub or sub↔customer thread.
+- Team member is decision maker; coordinates between threads manually.
+- Subcontractors and Customers communicate via native Messages app, not portal-first.
+- Team member can view full thread history in web dashboard; optional reply from web → MMS to group.
+- Outbound system messages use `[Project · Contractor]` prefix plus handle # for delivery.
 
-`[ASSUMPTION: SMS = notification + link; conversation primary in web portal.]`
+#### FR-15: MMS and web images
+
+Photos sent as **MMS** in group threads are stored (blob) and displayed in the web thread mirror. Team member, Subcontractor, and Customer may also attach photos via web portal when using magic-link session.
+
+**Consequences (testable):**
+- MMS images ingested from group threads appear in app alongside text.
+- System schedule messages (propose, poke, confirm) sent via MMS/SMS into the relationship thread or from handle #.
+
+`[DECISION: v0.1 conversation primary in group MMS; web app for capture + Dana schedule actions; confirm via magic link in MMS.]`
 
 ---
 
@@ -369,11 +402,11 @@ Contractor can subscribe to a paid tier (with free tier limits) to use Contracto
 
 ---
 
-### 5.9 AI-Assisted Comms (Stretch)
+### 5.9 AI-Assisted Comms (Deferred — v0.2+)
 
-**Description:** Reduce Team member admin when schedule moves — draft customer update, summarize thread. **Stretch for v0.1**; not blocking launch.
+**Description:** Reduce Team member admin when schedule moves — draft customer update, summarize thread, interpret SMS intent. **Not in v0.1** (2026-08-17 decision).
 
-#### FR-19: Draft update on schedule change (stretch)
+#### FR-19: Draft update on schedule change (v0.2+)
 
 Team member can generate a draft message explaining what changed after cascade or major reschedule; Team member must approve before send.
 
@@ -423,22 +456,24 @@ The system must evaluate permissions from **subscription context** (Team member 
 - Invite project memberships: Subcontractor and Customer (name + phone join)
 - Propose → accept/decline → poke until response
 - Team member pending/confirmed/declined dashboard
-- Contractor↔sub and Contractor↔customer messaging with image upload
-- SMS/email notifications with magic links scoped to project membership
+- Contractor↔sub and Contractor↔customer **MMS group threads** (handle #) with ingest + web mirror
+- MMS/SMS confirmation and poke messages after Team member schedule actions
+- Image capture from MMS + web upload
 - Customer simplified schedule / what-changed view
 - Contractor subscription billing
-- Responsive web: Team member desktop-first; project membership mobile-first
-- AI draft on schedule change (**stretch**)
+- Responsive web: Team member desktop-first; magic-link pages mobile-first for confirm/join
 - Identity: separate subscription role from per-project Subcontractor/Customer roles
 
 ### 7.2 Out of Scope for MVP
+
+- AI (SMS intent parsing, draft messages, auto-schedule from chat) — **v0.2+**
 
 | Item | Reason / Target |
 |------|-----------------|
 | Job planning (phases, buffers, portfolio) | v0.2 — see job-planning-workflow.md |
 | Microsoft Calendar | Post-MVP; Google covers most subs |
 | Native apps | Web-only strategy |
-| SMS relay / virtual group chat | v0.2 opt-in; higher cost/complexity |
+| AI (drafts, SMS intent) | v0.2+ |
 | PWA / offline | v0.2+ if validated |
 | Multi-team-member permissions | Simplify v0.1; owner + basic staff later |
 | Unified Person profile across all projects | v0.2; v0.1 uses per-project memberships keyed by phone |
@@ -469,10 +504,10 @@ The system must evaluate permissions from **subscription context** (Team member 
 
 1. v0.1 calendar mode: BYO only, Pro-provided only, or both?
 2. Free tier limits: projects count, SMS/month, cascade on/off?
-3. Can Subcontractors **decline** without Team member phone call — what UX nudges reschedule?
+3. ~~Can Subcontractors **decline** without Team member phone call~~ — **Resolved:** Decline in-app; Dana can counter-propose (UJ-2d) or reassign (UJ-2e). `[OPEN: courtesy SMS to removed sub?]`
 4. Customer calendar invite (Google ACL) in v0.1 or portal-only?
 5. Multiple Team members per Contractor in v0.1 or single owner account?
-6. AI draft: ship in v0.1 or defer to v0.2?
+6. ~~AI draft~~ — **Deferred v0.2+** (2026-08-17)
 7. Customer discovery: validate ICP (2–5 person contractor crews) before public launch.
 8. v0.2: link **Person** identity across project memberships (one portal listing all projects for a phone)?
 

@@ -50,9 +50,14 @@ See [README.md](./README.md) for full session handoff (2026-08-14).
 | 2026-08-14 | **Schedule confirmation workflow** | GC proposes → sub accepts/declines via magic link (SMS and/or email) → calendar syncs on accept only; GC dashboard for pending/confirmed/declined — see [schedule-confirmation-workflow.md](./technical-exploration/schedule-confirmation-workflow.md) |
 | 2026-08-14 | **Sub notify_via** | Per-participant `sms` \| `email` \| `both` for schedule proposals; link-based accept (no SMS reply parsing) |
 | 2026-08-14 | **Automated poke / reminders** | Daily SMS/email reminders until sub accepts/declines — **not** Google Calendar’s job; match BT persistence; batch + quiet hours + GC escalation — see schedule-confirmation-workflow.md |
-| 2026-08-14 | **Job planning workflow (v0.2)** | Plan mode: phases, durations, buffers, in-app calendar preview, portfolio balance, sub cross-job conflicts; **finalize** hands off to schedule confirmation — see [job-planning-workflow.md](./technical-exploration/job-planning-workflow.md) |
+| 2026-08-18 | **Journey expansion + backlog** | Added C-19–C-27, M-1–M-5 (Maci same access as Ryan), S-16–S-22, H-21–H-24, UJ-9 cross-persona slip; [backlog.md](./prds/prd-ContractorPro-2026-08-15/user-journeys/backlog.md) for discovery items; [future-journeys-v02.md](./prds/prd-ContractorPro-2026-08-15/user-journeys/future-journeys-v02.md) for v0.2+ |
 | 2026-08-15 | **Identity vs roles** | **Contractor** = only fixed SaaS subscription; **Subcontractor** / **Customer** = per-project roles; same Person may differ by project; Team member may also be Sub on another Contractor's project — PRD §3, FR-20 |
 | 2026-08-15 | **v0.1 epics & stories** | 11 epics, 31 user stories, suggested solo build order — [epics-and-stories.md](./prds/prd-ContractorPro-2026-08-15/epics-and-stories.md) |
+| 2026-08-15 | **Counter-propose + reassignment** | Pending party can Accept / Counter-propose / Decline; negotiation thread; on decline Dana reassigns task to different sub (UJ-2d, UJ-2e; FR-8, FR-9a) — [user-journeys.md](./prds/prd-ContractorPro-2026-08-15/user-journeys.md) |
+| 2026-08-17 | **MMS group threads (v0.1)** | Primary comms = native group MMS: Dana + sub + **project handle #** per relationship; app ingests/logs; Dana acts on schedule in web app; system sends confirmation MMS/SMS — **not** app-orchestrated chat — [messaging-and-media.md](./technical-exploration/messaging-and-media.md), UJ-8 |
+| 2026-08-17 | **AI out of MVP** | No SMS intent parsing, no AI drafts, no auto-schedule from chat in v0.1 — defer to v0.2+ |
+| 2026-08-17 | **Two lanes: MMS vs app** | **Conversation** = group MMS (logged). **Scheduling** = web app (Dana); multi-job complexity stays in app; MMS carries confirm links after Dana commits |
+| 2026-08-17 | **MMS routing: per-project handle #** | One phone number per **project** (Maple # in all Dana↔sub/customer groups on that job); inbound `To` → project, `From` → membership; store platform `conversation_sid` / internal thread id at provision — [messaging-and-media.md](./technical-exploration/messaging-and-media.md) |
 
 ---
 
@@ -60,7 +65,7 @@ See [README.md](./README.md) for full session handoff (2026-08-14).
 
 - **Cascade preview** — before applying, show GC which tasks/subs/homeowner notifications will fire
 - **“What changed” feed** — homeowner-friendly timeline of schedule shifts (not full Gantt)
-- **SMS relay / virtual group member** — ContractorPro number joins SMS threads; users text natively OR use web; app logs everything (see messaging-and-media.md § SMS relay)
+- **SMS relay / virtual group member** — **→ Decision 2026-08-17:** MMS group per Dana↔sub (+ handle); see messaging-and-media.md
 - **Per-sub task slice** — sub portal shows only their trades/phases
 - **Project templates** — common residential remodel phases pre-wired with dependencies — part of [job-planning-workflow.md](./technical-exploration/job-planning-workflow.md) (v0.3)
 - **AI weekly digest** for GC — “here’s what moved, who hasn’t read messages” (later)
@@ -74,8 +79,10 @@ See [README.md](./README.md) for full session handoff (2026-08-14).
 
 ## Open questions — product
 
-### Google Calendar
+### Calendar (invitees + GC)
 
+- [x] **v0.1 providers:** Google Calendar + Apple Calendar (iCal/iCloud) — **Google preferred** internally
+- [ ] Apple iCal: CalDAV/iCloud OAuth vs webcal subscribe — two-way write path for TRD
 - [ ] MVP: BYO only, Pro-provided only, or both at launch?
 - [ ] Pro-provided: calendar under GC's Google vs ContractorPro service account?
 - [ ] Hybrid mode (company BYO + per-project Pro-provided) — when?
@@ -98,8 +105,9 @@ See [README.md](./README.md) for full session handoff (2026-08-14).
 - [ ] File/photo attachments in v0.1 — **yes, images expected heavily** (blob + SQL metadata)
 - [ ] Can GC @mention or tag a specific sub on a task thread?
 - [ ] Message retention / export for disputes?
-- [ ] Can homeowner reply via SMS or only via web? → **Explore SMS relay** (virtual 3rd party per thread)
-- [ ] SMS relay: MVP default or opt-in per thread? Cost model per tier?
+- [ ] Can homeowner reply via SMS or only via web? → **Resolved for v0.1:** same MMS group model as subs (Dana + customer + handle)
+- [ ] SMS relay: MVP default or opt-in per thread? → **Resolved:** default per relationship when Dana invites; not opt-in
+- [ ] MMS group: one handle # per project vs per thread? → **Resolved (2026-08-17):** **per-project handle #** + thread record (`conversation_sid` / `mms_thread_id`) per relationship
 - [ ] Moderation — can GC delete/edit messages?
 
 ### Roles & permissions
@@ -116,9 +124,10 @@ See [README.md](./README.md) for full session handoff (2026-08-14).
 
 ### AI
 
+- [ ] **Deferred past v0.1** — no AI in MVP (2026-08-17 decision)
 - [ ] Which model/provider? Cost per GC on free tier?
 - [ ] GC must approve every AI draft before send? (likely yes)
-- [ ] What data can AI see — full project or redacted sub info in homeowner drafts?
+- [ ] SMS intent → schedule action suggestions (v0.2+)
 
 ### Monetization
 

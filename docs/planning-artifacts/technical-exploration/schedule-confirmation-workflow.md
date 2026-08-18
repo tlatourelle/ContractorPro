@@ -97,7 +97,16 @@ Smith Remodeling — Maple St remodel
 Painting — XYZ Kitchen
 Proposed: Wednesday, Sept 10
 
-[ Accept ]     [ Decline ]
+[ Accept ]  [ Suggest different date ]  [ Decline ]
+```
+
+When counter-proposing, show negotiation thread:
+
+```
+Mike suggested: Sept 12
+Dana countered: Sept 11  ← you are here
+
+[ Accept Sept 11 ]  [ Suggest different date ]  [ Decline ]
 ```
 
 No app install. No password. Magic link doubles as re-auth (see [invite-join-flow.md](./invite-join-flow.md)).
@@ -121,7 +130,9 @@ No app install. No password. Magic link doubles as re-auth (see [invite-join-flo
 
 ---
 
-## Flow 2 — GC reschedules (bump Sept 10 → Sept 11)
+## Flow 2 — Team member reschedules (bump Sept 10 → Sept 11)
+
+**Initiator:** `team_member` (contractor side)
 
 ### 1. GC changes date
 
@@ -129,7 +140,7 @@ Drag task or edit date in app.
 
 ### 2. System actions
 
-- If previously `confirmed`: `status` → `proposed_change`
+- If previously `confirmed`: `status` → `proposed_change`; `change_initiator` → `team_member`
 - Update `proposed_start` / `proposed_end` to Sept 11
 - **Keep** `confirmed_*` at Sept 10 until sub accepts
 - GC view: Sept 11 as *Pending sub confirmation*
@@ -154,6 +165,116 @@ Sept 10 → Sept 11. Please confirm: https://app.contractorpro.com/c/xyz789
 - `status` → `declined` (or revert to `confirmed` at Sept 10 — **product decision**; lean: stay `confirmed` at last agreed dates, flag decline for GC)
 - Notify GC urgently
 - GC must negotiate new date
+
+---
+
+## Flow 3 — Sub requests reschedule (Sept 10 → Sept 12)
+
+### 1. Sub opens assignment
+
+From portal or magic link on a **confirmed** assignment.
+
+### 2. Sub requests new date
+
+Taps **Request different date**, picks Sept 12, optional note.
+
+### 3. System actions
+
+- `status` → `proposed_change`
+- `change_initiator` → `subcontractor`
+- Update `proposed_start` / `proposed_end` to Sept 12
+- **Keep** `confirmed_*` at Sept 10 until team member accepts
+- Sub calendar: **still Sept 10**
+- Notify team member (in-app + optional SMS)
+
+**In-app / SMS example (to Dana):**
+
+```
+Mike requested a date change: Painting — Maple St Kitchen
+Sept 10 → Sept 12. Review: https://app.contractorpro.com/p/maple/assignments/...
+```
+
+### 4. Team member accepts
+
+- `status` → `confirmed`; `confirmed_*` → Sept 12
+- `events.patch` on Google → both calendars show Sept 12
+- Notify sub (SMS/email)
+
+### 5. Team member declines
+
+- Revert pending proposal; remain `confirmed` at Sept 10 (lean default)
+- Notify sub urgently
+- Sub may decline assignment entirely (Flow 1 / UJ-2b) or propose another date
+
+**v0.1:** Automated poke (daily reminders) applies when **sub** is the pending party. Team member pending on sub-initiated change: immediate notification only; no automated chase unless added later.
+
+---
+
+## Flow 4 — Counter-propose (negotiation loop)
+
+Applies to `proposed`, `proposed_change`, and sub-initiated requests. Either party can counter instead of Accept/Decline.
+
+### 1. Pending party taps **Suggest different date**
+
+Picks new date(s) + optional note.
+
+### 2. System actions
+
+- Update `proposed_start` / `proposed_end`
+- Flip `pending_party` (and `change_initiator` for audit)
+- Append row to `assignment_negotiation_events` (who, date, note, timestamp)
+- **Keep** `confirmed_*` unchanged until final Accept
+- Notify other party (SMS/email if sub pending; in-app if team member pending)
+- Reset poke schedule for new pending party
+
+### 3. Loop until resolution
+
+| Outcome | Result |
+|---------|--------|
+| **Accept** | `confirmed`; calendars sync to agreed dates |
+| **Counter-propose** | Repeat Flow 4 |
+| **Decline** | `declined` → Flow 5 / GC reassignment |
+
+**Example thread:**
+```
+Sept 10 confirmed
+→ Mike requests Sept 12 (sub-initiated)
+→ Dana counters Sept 11
+→ Mike accepts Sept 11
+→ confirmed Sept 11; calendars patch
+```
+
+---
+
+## Flow 5 — Decline → reassign to different sub
+
+### 1. Sub declines (or team member gives up on negotiation)
+
+- `status` → `declined` on current assignment
+- Stop poke for that assignment
+- Notify team member urgently
+
+### 2. Team member reassigns task
+
+From declined assignment or task detail: **Assign to different sub** → pick Jose → date (same or new).
+
+### 3. System actions
+
+- Close declined assignment (terminal)
+- If declined sub had **confirmed** calendar event: `events.delete` for that sub on this task
+- Create new assignment: Jose → `proposed`
+- If Jose not on project: bundled invite + propose (UJ-3+)
+- Notify Jose; poke cycle starts
+
+### 4. Dashboard state
+
+```
+Paint — Maple St
+  Mike     ❌ Declined Sept 11
+  Jose     ⏳ Proposed Sept 10 — pending
+```
+
+Assignment history retained for audit; Mike may still appear on other tasks on the project.
 
 ---
 
@@ -228,6 +349,10 @@ Configurable per company; these are **defaults**:
 - GC **cancels** proposal or **reassigns** task
 - GC **snoozes** reminders (e.g. “I talked to him, poke again Friday”)
 - Task or project **archived**
+
+### Customer connect poke (primary customer at project create)
+
+When a GC adds the **primary customer** at project creation, the system sends **email and MMS** and tracks **`email_confirmed`** and **`phone_confirmed`** separately. The poke engine reminds on **unconfirmed channel(s) only** until **both** are ✅ — same default cadence (+24h, +48h, daily). GC dashboard shows per-channel status (✉️ ⏳/✅ · 📱 ⏳/✅). See UJ-3b / customer journeys H-1–H-4.
 
 ### Quiet hours
 
@@ -412,7 +537,9 @@ Sync to Google happens **on Accept only** (not on propose).
 
 **Sub calendar access:** Email ACL on shared project calendar (no sub OAuth required for MVP). See [google-calendar-integration.md](./google-calendar-integration.md).
 
-**Provider abstraction:** Calendar writes go through `CalendarProvider` adapter; MVP = Google only. Samsung / Apple calendars receive updates via Google sync on the sub’s device.
+**Provider abstraction:** Calendar writes go through `CalendarProvider` adapter. **v0.1:** Google Calendar (primary) + Apple Calendar / iCal (iCloud). **Internal preference: Google** — implement and test Google path first; show Google as default connect option in invitee UI. GC/project shared calendars remain Google API-first.
+
+**Invitee personal calendar:** Sub or customer links Google or Apple at join/settings; accept/reject updates linked provider per shared rule. Do not assume Apple users sync via Google on device.
 
 ---
 
