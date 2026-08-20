@@ -12,6 +12,7 @@ For workshop review with SMEs, use the bulleted lists in separate files:
 | Contractor (GC team member) | [user-journeys/contractor-journeys.md](./user-journeys/contractor-journeys.md) |
 | Subcontractor | [user-journeys/subcontractor-journeys.md](./user-journeys/subcontractor-journeys.md) |
 | Customer / homeowner | [user-journeys/customer-journeys.md](./user-journeys/customer-journeys.md) |
+| App / site admin (platform ops) | [user-journeys/admin-journeys.md](./user-journeys/admin-journeys.md) |
 
 Index: [user-journeys/README.md](./user-journeys/README.md) · Backlog: [user-journeys/backlog.md](./user-journeys/backlog.md)
 
@@ -107,7 +108,7 @@ Applies to **subcontractors** and **customers** whenever they Accept or Reject a
 
 - **Always in our system** — Ryan sees ✅ accepted, ❌ declined, or ⏳ pending regardless of calendar link.
 - **Calendar is optional** for invitees — link during join or later from portal; view schedule in app either way.
-- **Calendar providers (v0.1):** **Google Calendar** and **Apple Calendar (iCal / iCloud)** — both supported at launch. **Internal preference: Google** (default connect option, first in UI, primary integration path). Apple for users who live in the native iOS calendar.
+- **Calendar providers (v0.1):** **Google Calendar only** — subs/customers receive **Google event attendee invites** on accept when email is on file. **Apple Calendar connect → v0.1.1.** Portal schedule view works without calendar link.
 - **Contractor calendar** (Ryan's company Google) is separate — syncs on sub/customer accept per existing workflow.
 
 Subs may also **counter-propose** or **request a different date** — those are negotiation states, not simple accept/reject. Customers do **not** negotiate; accept or reject only.

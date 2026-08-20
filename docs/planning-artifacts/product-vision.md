@@ -116,10 +116,12 @@ Core pieces:
 
 ## Monetization (draft)
 
-- Flat monthly tiers + **free tier** (limited projects/features)
-- **Chargebee or Stripe Billing** for ContractorPro subscriptions
-- SMS volume caps per tier
+- **Stripe Billing** for ContractorPro subscriptions (self-serve Checkout + Customer Portal)
+- **Free tier:** company setup, projects, tasks, internal schedule layout — **no outbound comms** until subscribed
+- **Paid tiers:** ~**$100/mo per 5 concurrent active projects**, **$200/mo per 10**, etc. (linear buckets)
+- Telco COGS (~$10/active project/mo) scales with paid usage, not free sandbox
 - GC company billed; subs and homeowners never pay
+- SMS soft caps per tier TBD if abuse appears — not primary meter at launch
 
 ## AI direction
 

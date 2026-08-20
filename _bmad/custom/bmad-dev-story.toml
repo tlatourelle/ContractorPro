@@ -1,0 +1,9 @@
+# Team overrides for bmad-dev-story — merged on top of skill defaults.
+
+[workflow]
+
+persistent_facts = [
+  "file:{project-root}/docs/implementation-artifacts/story-standard.md",
+  "Before marking a story done, verify ALL sections in story-standard.md: security review addressed, tests implemented per story (unit/integration/e2e or documented N/A), manual QA checklist present and completed, Dev Agent Record filled.",
+  "Do not mark done if only acceptance criteria are met but security or test sections were skipped.",
+]

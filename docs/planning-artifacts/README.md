@@ -1,18 +1,18 @@
 # ContractorPro — Planning Hub
 
-Living documentation for discovery, exploration, and product planning. **No application code yet** — we're in the thinking phase.
+Living documentation for discovery, exploration, and product planning. **No application code yet** — planning complete; **M1 build is next**.
 
 ---
 
 ## ⏭️ When you return — do this first
 
-> **Next step: Database schema design for v0.1**
+> **Next step: Start M1 build — Google OAuth signup (E1-S1)**
 >
-> Design the relational schema for projects (**handle # per project**), tasks, **task assignments (propose/accept)**, cascade dependencies, magic-link invitees, **mms_threads + messages**, and calendar sync metadata. This is the critical path before sprint planning or PRD finalization.
+> Implement Entra External ID Google sign-in, BFF session cookie, and auto-provision Contractor company on first login.
 >
-> **Prompt to use:** *"John, let's design the v0.1 database schema — projects, tasks, cascade, magic links, messaging."*
+> **Prompt to use:** *"Implement M1 — auth + auto-provision Contractor on first Google OAuth."*
 >
-> **Read first:** `product-vision.md` (MVP boundary), `discovery-log.md` (decisions), `stack-web-api-db.md` (architecture lean), `messaging-and-media.md` (attachments), `google-calendar-integration.md` (calendar entities), `schedule-confirmation-workflow.md` (propose → accept → sync), `job-planning-workflow.md` (plan → finalize).
+> **Read first:** [architecture-v0.1.md](./architecture-v0.1.md) (TRD) · [epics-and-stories.md](./prds/prd-ContractorPro-2026-08-15/epics-and-stories.md) (M1–M21) · [discovery-log.md](./discovery-log.md) · [planning-decision-checklist.md](./planning-decision-checklist.md) (Sections A–E ✅ 2026-08-20)
 
 ---
 
@@ -22,28 +22,16 @@ Living documentation for discovery, exploration, and product planning. **No appl
 |----------|---------|
 | [product-vision.md](./product-vision.md) | North star: who we serve, wedge, client UI strategy, MVP boundary |
 | [discovery-log.md](./discovery-log.md) | **Main working doc** — ideas, open questions, decisions, session notes |
+| [architecture-v0.1.md](./architecture-v0.1.md) | **TRD / architecture v0.1** — stack, schema, integrations, billing hooks |
+| [planning-decision-checklist.md](./planning-decision-checklist.md) | Formal decision walkthrough (Sections A–E) — complete 2026-08-20 |
 | [competitor-research.md](./competitor-research.md) | BuilderTrend deep dive, small-operator segment, CF, BuildPass |
 | [customer-discovery.md](./customer-discovery.md) | Interview questions for GCs, subs, homeowners |
-| [technical-exploration/stack-web-api-db.md](./technical-exploration/stack-web-api-db.md) | .NET API + responsive web frontend architecture |
-| [technical-exploration/external-mvp-roadmap-review.md](./technical-exploration/external-mvp-roadmap-review.md) | Gemini roadmap review — what to adopt vs reject |
-| [technical-exploration/google-calendar-integration.md](./technical-exploration/google-calendar-integration.md) | Dual-view calendar, BYO vs Pro-provided |
-| [technical-exploration/schedule-confirmation-workflow.md](./technical-exploration/schedule-confirmation-workflow.md) | Propose → accept → sync; SMS/email notify; GC pending dashboard; poke engine |
-| [technical-exploration/job-planning-workflow.md](./technical-exploration/job-planning-workflow.md) | Plan phases/buffers → portfolio balance → finalize → schedule |
-| [prds/prd-ContractorPro-2026-08-15/prd.md](./prds/prd-ContractorPro-2026-08-15/prd.md) | **v0.1 MVP PRD** (draft) — product requirements; tech in addendum |
-| [prds/prd-ContractorPro-2026-08-15/epics-and-stories.md](./prds/prd-ContractorPro-2026-08-15/epics-and-stories.md) | v0.1 dev stories (31) — implementation breakdown |
-| [prds/prd-ContractorPro-2026-08-15/user-journeys/](./prds/prd-ContractorPro-2026-08-15/user-journeys/) | **v0.1 user journeys (SME review)** — contractor, sub, customer bulleted lists |
-| [prds/prd-ContractorPro-2026-08-15/user-journeys.md](./prds/prd-ContractorPro-2026-08-15/user-journeys.md) | **v0.1 user journeys (full detail)** — step tables, system behavior, epic mapping |
-| [technical-exploration/messaging-and-media.md](./technical-exploration/messaging-and-media.md) | Image messaging, Azure Blob, SMS relay |
-| [technical-exploration/project-handle-numbers.md](./technical-exploration/project-handle-numbers.md) | Project handle # vendor (Twilio), number pool, unit economics |
+| [prds/prd-ContractorPro-2026-08-15/prd.md](./prds/prd-ContractorPro-2026-08-15/prd.md) | **v0.1 MVP PRD** (draft) — product requirements |
+| [prds/prd-ContractorPro-2026-08-15/epics-and-stories.md](./prds/prd-ContractorPro-2026-08-15/epics-and-stories.md) | v0.1 dev stories (**44**) — implementation breakdown |
+| [prds/prd-ContractorPro-2026-08-15/user-journeys/](./prds/prd-ContractorPro-2026-08-15/user-journeys/) | **v0.1 user journeys (SME review)** — contractor, sub, customer, admin |
+| [prds/prd-ContractorPro-2026-08-15/user-journeys.md](./prds/prd-ContractorPro-2026-08-15/user-journeys.md) | **v0.1 user journeys (full detail)** — step tables, system behavior |
+| [technical-exploration/](./technical-exploration/) | Pre-architecture exploration (some superseded by architecture-v0.1) |
 | [../finances/monthly-run-rate.md](../finances/monthly-run-rate.md) | **Operating budget** — Azure, domain, telco COGS, design, ads |
-| [technical-exploration/invite-join-flow.md](./technical-exploration/invite-join-flow.md) | Easy join for subs/homeowners — name + phone, passwordless |
-| [technical-exploration/auth-and-data.md](./technical-exploration/auth-and-data.md) | OAuth BYOA, magic links, Postgres hosting |
-| [technical-exploration/azure-alignment.md](./technical-exploration/azure-alignment.md) | Azure-first hosting path |
-| [technical-exploration/database-options.md](./technical-exploration/database-options.md) | Postgres hosts: Neon, Supabase, Azure |
-| [technical-exploration/nosql-vs-relational.md](./technical-exploration/nosql-vs-relational.md) | Why relational primary DB |
-| [technical-exploration/sql-server-vs-postgres.md](./technical-exploration/sql-server-vs-postgres.md) | Postgres vs SQL Server for .NET |
-| [technical-exploration/google-cloud-vs-azure.md](./technical-exploration/google-cloud-vs-azure.md) | Azure hosting + Google Cloud for APIs only |
-| [technical-exploration/auth-comparison-managed-vs-authjs.md](./technical-exploration/auth-comparison-managed-vs-authjs.md) | Clerk/Supabase vs Auth.js (deprioritized for .NET) |
 
 When you return, start here. Ask the agent to read this README and `discovery-log.md` for full context.
 
@@ -51,27 +39,33 @@ When you return, start here. Ask the agent to read this README and `discovery-lo
 
 ## Current phase
 
-**PRD drafted (v0.1 fast path)** — review and lock scope; then **database schema** and **architecture/TRD**; then epics & stories.
+**Planning complete — ready for M1 build (2026-08-20)**
+
+- ✅ PRD drafted and synced with architecture
+- ✅ Architecture / TRD: [architecture-v0.1.md](./architecture-v0.1.md)
+- ✅ Epics & stories: 12 epics, 44 stories (M1–M21 checklist)
+- ✅ Sections A–E of [planning-decision-checklist.md](./planning-decision-checklist.md) locked
+- ⏭️ **Next:** implementation in `docs/implementation-artifacts/` (empty) + application code
 
 PRD: [prds/prd-ContractorPro-2026-08-15/prd.md](./prds/prd-ContractorPro-2026-08-15/prd.md)
 
 ---
 
-## Session handoff (last updated: 2026-08-14)
+## Session handoff (last updated: 2026-08-20)
 
-### Positioning (refined)
+### Positioning
 
-**We are NOT a cheaper Buildertrend.** We are a **schedule coordination layer**:
+**Schedule coordination layer** — not a cheaper Buildertrend:
 
 - When the schedule moves, everyone who needs to know finds out — in **Google Calendar** and via **text/link**
-- **Integrate, don't replace** — Google Calendar is first-class (two-way); BT only has one-way iCal feed
+- **Integrate, don't replace** — Google Calendar two-way for GC; subs/customers via **event attendee invites**
 - **Magic-link subs/homeowners** — no app install; GC stays hub
-- **Optional cascade** — table stakes (BT has it too); our bundle is calendar + frictionless comms + price
-- **Event-triggered AI** — draft "what changed" on schedule shift (not BT's weekly digest requiring daily logs)
+- **Cascade in MVP** — optional per-project; preview + re-confirm
+- **Event-triggered AI** — deferred v0.2+
 
 **One-liner:** *ContractorPro helps small residential GCs keep subs and homeowners aligned when the schedule moves — without replacing Google Calendar or paying enterprise prices.*
 
-### Target users (refined)
+### Target users
 
 | Segment | Status |
 |---------|--------|
@@ -85,114 +79,77 @@ PRD: [prds/prd-ContractorPro-2026-08-15/prd.md](./prds/prd-ContractorPro-2026-08
 
 | Surface | Device | Experience |
 |---------|--------|------------|
-| GC dashboard | Laptop/desktop first | Full scheduling, cascade, messaging, settings |
+| GC dashboard | Laptop/desktop first | Full scheduling, cascade, messaging, portfolio calendar |
 | GC field | Mobile browser | Core actions; not full desktop parity |
 | Sub/homeowner portals | Mobile browser first | Magic links — confirm dates, photos, messages |
 
-Optional PWA later. Online-first v0.1 (no offline SQLite sync).
+Single React SPA: `/app/*` (team member) + `/p/*` (portal). No `/admin` UI in M1.
 
-### Competitor intelligence (2026-08-14)
+### Stack (locked 2026-08-20)
 
-**BuilderTrend:**
-
-- Volume-based custom quotes in 2026 ($299–$900+/mo typical); 12-week onboarding
-- Has Gantt cascade + sub notifications — **not unique to us**
-- One-way iCal to Google Calendar only
-- AI Client Updates (Jun 2025) = weekly digest; AI Bill Pay (Feb 2026)
-- Sub resistance is structural weakness
-- Moat = Selections + Client Portal (we defer)
-
-**Small-operator anti-BT segment:**
-
-- Transparent pricing ($39–49/mo), 10-min onboarding, magic-link subs validated by market
-- **Reject for MVP:** AI estimating, supplier clipping, T&M invoicing, embedded financing
-
-**Gemini technical roadmap:**
-
-- **Adopt:** async cascade, event notification bus, signed magic URLs, Confirm Date UX, passkeys
-- **Reject:** Flutter/RN, full serverless, offline-first DB, Phase 2–3 financial/estimating scope
-
-Full detail: [competitor-research.md](./competitor-research.md), [external-mvp-roadmap-review.md](./technical-exploration/external-mvp-roadmap-review.md)
-
-### Decisions locked (see discovery-log.md)
-
-| Area | Decision |
-|------|----------|
-| Primary user | Small residential GC (2–5 core, up to 15) |
-| Positioning | Schedule coordination layer, not BT clone |
-| Invitee access | Magic web link + SMS; no accounts for subs/homeowners |
-| Cascade | Optional per-project; bundled with calendar + comms |
-| Images | All three roles upload in v0.1 |
-| Client UI | **Responsive web only** — no native apps |
-| GC UI | Desktop-first |
-| Invitee UI | Mobile-first magic-link pages |
-| Hosting | Azure over AWS |
-| DB type | Relational primary (Postgres lean) |
-| API | ASP.NET Core (.NET) |
-| Frontend | React + TypeScript (lean; Blazor swap possible) |
-| Monetization | Flat tiers + free tier |
-| Calendar | Google primary; sync on sub accept; BYO or Pro-provided — see [schedule-confirmation-workflow.md](./technical-exploration/schedule-confirmation-workflow.md) |
-| Auth (GC) | OAuth BYOA or native; TOTP/passkeys |
-| Auth (invitees) | Magic links |
-| Job planning | Phases, buffers, portfolio balance, finalize → schedule (v0.2) — see [job-planning-workflow.md](./technical-exploration/job-planning-workflow.md) |
+| Layer | Choice |
+|-------|--------|
+| API | ASP.NET Core .NET 9 (modular monolith) |
+| DB | PostgreSQL 16 + EF Core |
+| Frontend | React 19 + TypeScript + Vite + shadcn/ui |
+| Team member auth | Entra External ID (CIAM) — **Google only M1** |
+| Session | BFF HTTP-only cookie |
+| SMS/MMS | Twilio (Telnyx spike SP-2 before prod scale) |
+| Email | Resend |
+| Billing (Phase 2) | Stripe Billing |
+| Hosting | Azure |
 
 ### MVP v0.1 scope (in)
 
-- Projects + task timeline + optional cascade
-- Google Calendar two-way sync
-- Magic-link sub/homeowner portals + SMS notifications
-- Messaging with image uploads (GC, sub, homeowner)
-- GC auth + SaaS subscription billing
-- AI comms drafts (stretch)
+- Self-serve Google OAuth signup + guided onboarding
+- Projects + tasks + dependencies + **cascade** (preview + apply)
+- **Pro-provided Google calendar** per project + **portfolio calendar UI**
+- Sub/customer calendar via **Google event attendee invites** (not Apple in MVP)
+- Magic-link invite + propose → accept/decline → poke
+- MMS group threads (project handle #) + photos
+- Platform-global **STOP/opt-out** API (no admin UI — Twilio/DB ops)
+- **No Stripe, no billing gates** — full coordination for beta
 
 ### MVP v0.1 scope (out)
 
-- Native mobile apps, Flutter, React Native
-- Estimating, selections, T&M, client payments
-- Embedded financing, QBO deep sync
-- Offline-first local DB
-- Microsoft Calendar
-- Full job planning module (v0.2)
+- Native apps, Microsoft Calendar, Apple Calendar connect (v0.1.1)
+- Stripe Billing, sandbox gates (Phase 2 immediately post-MVP)
+- AI drafts, job planning module (v0.2)
+- Admin `/admin` UI (Phase 2; M1 = API + manual ops)
+- E1-S2 native auth (v0.1.1)
 
-### MVP v0.2 scope (in)
+### Phase 2 (post-MVP)
 
-- Job planning: phases, durations, buffers, in-app preview, portfolio balance, sub conflicts
-- Finalize → schedule confirmation handoff
-- See [job-planning-workflow.md](./technical-exploration/job-planning-workflow.md)
+- Stripe Checkout + Customer Portal + webhooks
+- Free sandbox tier (plan-only); ~$100/mo per 5 concurrent active projects
+- Dunning → messaging_suspended
+- Admin UI for tenant ops (A-1, A-5, etc.)
 
 ### Recommended next steps (ordered)
 
-1. **Database schema for v0.1** ← **START HERE**
-2. v0.1 sprint plan / epic breakdown
-3. Customer discovery (3–5 GCs who evaluated/churned BT)
-4. PRD draft (`bmad-prd`)
-5. Stack spikes (Entra vs Identity, React UI spike)
+1. **M1 — Auth + auto-provision Contractor** ← **START HERE**
+2. M2–M7 — company profile, project create, onboarding, calendar connect, invites
+3. M8–M11 — propose/accept/decline, poke, dashboard
+4. M12–M15 — calendar write, MMS, customer feed
+5. M16–M17 — cascade
+6. M20–M21 — portfolio calendar, STOP/opt-out (before prod SMS)
+7. Pre-launch checklist PL-1–PL-8 (10DLC, domain, OAuth verification)
 
-### Open forks (not decided)
+### Still open (non-blocking for M1)
 
-- Postgres vs SQL Server (Postgres lean)
-- React vs Blazor
-- Entra External ID vs ASP.NET Core Identity vs Clerk
-- Calendar MVP: BYO only, Pro-provided only, or both
-- Magic link TTL and Confirm Date required vs optional
-- SMS relay: MVP default vs opt-in per thread
-- Free tier limits and price points ($29–79 range to validate)
+- Multi-team-member permissions (simplify v0.1)
+- Customer discovery interviews (3–5 GCs)
+- Google OAuth app verification timeline for public launch
+- Cascade edge cases (business days, partial cascade) — v0.2
 
-### Parking lot (deferred / maybe never)
+### Parking lot (deferred)
 
-- AI photo estimating, supplier web-clipping
-- T&M receipt OCR, Stripe Connect client payments
-- Embedded consumer financing (Hearth/Wisetack)
-- Native iOS/Android apps
-- Offline-first sync
-- WhatsApp integration
-
-### Not yet
-
-- PRD, architecture doc, UI mockups, application code, infra provisioning
+- AI photo estimating, supplier web-clipping, T&M, embedded financing
+- Native iOS/Android, offline-first, WhatsApp
+- Per-tenant 10DLC brands, same-company number pool reuse (v0.1.1)
 
 ---
 
 ## BMAD
 
-BMAD Method v6.11 installed (`_bmad/`, `.agents/skills/`). Invoke `bmad-agent-pm` (John) for PRD work after schema + discovery.
+BMAD Method v6.11 installed (`_bmad/`, `.agents/skills/`). Use `bmad-dev-story` or `bmad-build` for M1 implementation.

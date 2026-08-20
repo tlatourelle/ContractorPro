@@ -1,5 +1,7 @@
 # Stack Exploration — Web + API + DB
 
+> **Superseded for implementation:** [architecture-v0.1.md](../architecture-v0.1.md) (2026-08-20). This doc retains pre-TRD exploration context.
+
 Status: **Exploratory** (2026-08-13)  
 Context: [azure-alignment.md](./azure-alignment.md), [auth-and-data.md](./auth-and-data.md), [database-options.md](./database-options.md)
 

@@ -1,6 +1,7 @@
 ---
 title: ContractorPro v0.1 — Epics & User Stories
 created: 2026-08-15
+updated: 2026-08-20
 status: draft
 source_prd: prd.md
 ---
@@ -13,26 +14,52 @@ Derived from [prd.md](./prd.md). Product-facing stories only — implementation 
 
 **Story ID format:** `E{epic}-S{story}` · maps to `FR-N` where noted.
 
+## Build phasing
+
+| Phase | Goal | Billing |
+|-------|------|---------|
+| **MVP (Phase 1)** | Self-enrolling Contractors run real jobs end-to-end | **None** — all features open for beta |
+| **Post-MVP (Phase 2)** | Monetize + telco-aligned gates | **Stripe Billing** — sandbox vs paid tiers (FR-18) |
+
+**MVP success:** Ryan self-serves signup → first project → first sub confirmed — without Thomas provisioning anything.
+
 ---
 
-## Epic E1 — Contractor Onboarding & Auth
+## Epic E1 — Contractor Onboarding, Auth & Billing
 
-*Team members can access the product under a paying Contractor subscription.*
+*Team members self-serve into a Contractor workspace; billing gates ship Phase 2.*
 
-### E1-S1: Sign in with OAuth
+### E1-S1: Self-serve sign in with OAuth — **MVP**
 
-**As a** team member, **I can** sign in with Google, Apple, or Microsoft **so that** I access my Contractor's workspace without a new password.
+**As a** new contractor owner, **I can** sign in with **Google OAuth** **so that** I get a Contractor workspace without manual provisioning.
 
 **Acceptance:**
-- [ ] OAuth sign-in creates or links a team member to exactly one Contractor subscription
+- [ ] Google OAuth sign-in on empty account → creates **Contractor company** + first team member as owner
+- [ ] Google OAuth on existing account → links to existing Contractor subscription
 - [ ] Unauthenticated users cannot reach project management routes
-- [ ] Session persists across browser restarts (secure cookie)
+- [ ] Session persists across browser restarts (secure cookie via BFF)
+- [ ] No payment or invite code required in MVP
+- [ ] Apple/Microsoft OAuth **not** in MVP (v0.1.1)
 
-**FR:** FR-1
+**FR:** FR-1 · **Journey:** C-1 step 1
 
 ---
 
-### E1-S2: Sign in with native account (fallback)
+### E1-S4: Guided onboarding checklist — **MVP**
+
+**As a** new team member, **I can** follow an in-app checklist **so that** I reach first value in one session (~20–30 min).
+
+**Acceptance:**
+- [ ] Checklist steps: connect calendar (optional skip) → create first project → add tasks → invite first sub OR add customer → propose first date
+- [ ] Progress persisted; dismissible after complete
+- [ ] Empty dashboard shows checklist, not blank state
+- [ ] Completing checklist satisfies SM-1 onboarding metric
+
+**FR:** FR-2, FR-3, FR-4, FR-7 · **Journey:** C-1
+
+---
+
+### E1-S2: Sign in with native account (fallback) — **Should / v0.1.1**
 
 **As a** team member without a preferred OAuth provider, **I can** use a native account with passkey or TOTP **so that** I can still access ContractorPro.
 
@@ -40,20 +67,54 @@ Derived from [prd.md](./prd.md). Product-facing stories only — implementation 
 - [ ] Passkey/TOTP offered; password-only is fallback
 - [ ] Same Contractor subscription binding as OAuth
 
-**FR:** FR-1 · **Priority:** Should (v0.1 if auth vendor supports; else v0.1.1)
+**FR:** FR-1 · **Priority:** Should (defer if OAuth-only acceptable for MVP)
 
 ---
 
-### E1-S3: Subscribe to ContractorPro
+### E1-S3: Subscribe via Stripe Billing — **Post-MVP (Phase 2)**
 
-**As a** Contractor subscription owner, **I can** choose a plan and pay **so that** my team can run projects beyond trial limits.
+**As a** Contractor subscription owner, **I can** choose a paid plan and pay **so that** I unlock outbound coordination and concurrent active project slots.
 
 **Acceptance:**
-- [ ] Paid tier unlocks configured limits; free tier enforced when applicable
+- [ ] Stripe Checkout from in-app upgrade prompt (C-27)
+- [ ] **Products/prices:** Pro 5 $100/mo · Pro 10 $200/mo · linear +5 slots per +$100
+- [ ] Webhooks sync `stripe_customer_id`, `subscription_status`, `tier`, `active_project_cap`
+- [ ] Stripe Customer Portal link in Settings (update card, cancel, invoices)
 - [ ] Subcontractor and Customer project memberships are never billed
-- [ ] Inactive subscription blocks or limits create/notify actions per tier rules
+- [ ] Downgrade/cancel at period end; data retained read-only per policy
 
-**FR:** FR-18
+**FR:** FR-18 · **Journey:** C-27, A-5
+
+---
+
+### E1-S5: Sandbox vs paid entitlements — **Post-MVP (Phase 2)**
+
+**As the** system, **I must** enforce tier rules **so that** free users plan without telco cost and paid users get comms within their cap.
+
+**Acceptance:**
+- [ ] Default new signup → **sandbox** tier (MVP override: `billing_enforcement=off` env flag grants full access)
+- [ ] **Sandbox blocks** (server-side): sub invite, customer outbound notify, propose-notify, poke send, cascade publish, MMS/SMS send
+- [ ] Customer contact saved on project does **not** trigger H-1 email/MMS until subscribed
+- [ ] **Paid tier:** `comms_enabled` per project up to concurrent **active** cap; 6th project → plan-only or upgrade prompt
+- [ ] Cascade preview allowed on sandbox; publish blocked
+- [ ] Central entitlement service checked by API — not UI-only
+- [ ] Upgrade modal copy: *"Subscribe to invite subs and notify customers"*
+
+**FR:** FR-18 · **Journey:** C-27
+
+---
+
+### E1-S6: Dunning and messaging suspend — **Post-MVP (Phase 2)**
+
+**As the** system, **when** Stripe reports failed payment, **I must** degrade gracefully **so that** telco isn't burned on delinquent accounts.
+
+**Acceptance:**
+- [ ] `invoice.payment_failed` → in-app banner + email to owner
+- [ ] Grace period (default 14 days) then `messaging_suspended` on tenant (A-6)
+- [ ] Suspended tenant: outbound SMS/MMS blocked; in-app read-only scheduling OK
+- [ ] Payment restored → auto-lift suspend via webhook
+
+**FR:** FR-18 · **Journey:** A-6, A-17, C-27
 
 ---
 
@@ -68,7 +129,7 @@ Derived from [prd.md](./prd.md). Product-facing stories only — implementation 
 **Acceptance:**
 - [ ] Project belongs to my Contractor subscription only
 - [ ] Subcontractor/Customer memberships cannot create projects
-- [ ] System provisions **project handle #** (dedicated MMS phone number) on create
+- [ ] Project create triggers handle assignment via **E8-S4** (JIT from company pool)
 
 **FR:** FR-2, FR-14, FR-20
 
@@ -126,15 +187,30 @@ Derived from [prd.md](./prd.md). Product-facing stories only — implementation 
 
 ---
 
-### E3-S2: Link or create project calendar
+### E3-S2: Pro-provided project calendar — **MVP**
 
-**As a** team member, **I can** link an existing Google calendar or have ContractorPro create one per project **so that** subs see agreed dates in Google.
+**As a** team member, **when** I create a project, **ContractorPro creates a Google calendar** under our connected account **so that** agreed dates sync in one place per job.
 
 **Acceptance:**
-- [ ] One shared calendar per project (v0.1 lean)
+- [ ] On project create: `calendars.insert` under GC Google OAuth (pro-provided)
+- [ ] One shared calendar per project
 - [ ] No calendar write until Task Assignment is **confirmed**
+- [ ] On confirm: event on project calendar + **attendee invite** to sub/customer email when on file
 
-**FR:** FR-3, FR-8
+**FR:** FR-3, FR-8 · **Decision:** 2026-08-20 §A-2, C-4
+
+---
+
+### E3-S3: Portfolio calendar view — **MVP**
+
+**As a** team member, **I can** view all active projects on one calendar in the app **so that** I see cross-job conflicts without switching Google calendars.
+
+**Acceptance:**
+- [ ] Unified calendar UI aggregating confirmed/proposed dates across projects
+- [ ] Filter by project; default shows all active projects
+- [ ] Read-only overlay of Google events per project calendar (no duplicate write path)
+
+**FR:** FR-3 · **Decision:** C-4 · **Ref:** architecture-v0.1.md §1.6
 
 ---
 
@@ -230,12 +306,12 @@ Derived from [prd.md](./prd.md). Product-facing stories only — implementation 
 **As a** Subcontractor, **I can** tap Decline **so that** the Contractor knows I cannot make that date.
 
 **Acceptance:**
-- [ ] Status → `declined` (or last confirmed preserved per product rule on reschedule decline)
-- [ ] Calendar not updated to proposed date
+- [ ] Status → `declined` (**hard decline** — does not revert to last confirmed)
+- [ ] Calendar not updated to proposed date; last confirmed event unchanged if any
 - [ ] Team member notified in-app (decline alert on by default)
 - [ ] Team member can reassign per E5-S3b
 
-**FR:** FR-8 · **UJ:** UJ-2b
+**FR:** FR-8 · **UJ:** UJ-2b · **Decision:** C-1
 
 ---
 
@@ -333,7 +409,22 @@ Derived from [prd.md](./prd.md). Product-facing stories only — implementation 
 
 ---
 
-## Epic E7 — Schedule Cascade
+### E6-S5: Platform-global STOP / opt-out enforcement — **MVP (pre-prod SMS)**
+
+**As the** system, **when** a person texts STOP (or is opted out), **I must** block all ContractorPro automated SMS/MMS to that phone **so that** we comply with TCPA and BL-21.
+
+**Acceptance:**
+- [ ] Inbound STOP/START via Twilio webhook → `persons.sms_opted_out` (platform-global)
+- [ ] All outbound paths check opt-out before send: poke, propose, invite, customer notify, system MMS
+- [ ] Auto-reply on STOP per A-11; START or magic-link re-consent restores
+- [ ] Admin restore API (no UI M1) with audit log
+- [ ] Twilio opt-out list kept in sync
+
+**FR:** FR-14 · **Journey:** A-11 · **Decision:** A-5, BL-21 · **Depends:** E12-S1
+
+---
+
+## Epic E7 — Schedule Cascade — **MVP**
 
 *Optional ripple when a task slips.*
 
@@ -407,6 +498,40 @@ Derived from [prd.md](./prd.md). Product-facing stories only — implementation 
 
 ---
 
+### E8-S4: Project handle number pool lifecycle — **MVP**
+
+**As the** system, **I must** JIT-provision, hold, cool, and release project handle numbers **so that** MMS routing stays correct, tenant-isolated, and telco cost matches usage.
+
+**Acceptance:**
+- [ ] **JIT assign** on project create: **always buy** new number from CPaaS in MVP (do not pull from `available` pool until E8-S5)
+- [ ] **Tenant isolation:** number never moves from Company A to Company B while on platform
+- [ ] **States (MVP):** `assigned` → `cooling` → `released`; `retired` on abuse; `available` unused until v0.1.1 (E8-S5)
+- [ ] **Project archive (C-25):** number → `cooling` for **90 days** (default; per-contractor or platform override); inbound MMS/SMS still ingests to **archived** project; notify team member in-app
+- [ ] **Cooling end (MVP):** deprovision at Twilio → `released`; E.164 on project is display-only; **not** returned to `available` pool
+- [ ] **Churn / account closure:** release **all** company numbers to CPaaS immediately (assigned + cooling + available); message/media history **retained** in DB/blob
+- [ ] **Return after churn:** reactivated company gets **new** JIT numbers; old E.164 on projects is historical display only
+- [ ] `phone_number_pool` + `phone_number_assignments` history tables; inbound webhook resolves `To` → **current** assigned or cooling project only (history routing → **E8-S5 / SP-1**)
+- [ ] Audit log on assign, enter cooling, release to vendor
+
+**FR:** FR-14, FR-20 · **Journey:** C-25 · **Ref:** [project-handle-numbers.md](../../technical-exploration/project-handle-numbers.md) · **Reuse later:** [backlog.md](./user-journeys/backlog.md) BL-23, SP-1
+
+---
+
+### E8-S5: Same-company number reuse — **Post-MVP (v0.1.1)**
+
+**As the** system, **when** a cooled number returns to the company pool, **I must** reassign it safely **so that** telco cost drops without misrouting Marcus's old group texts to the wrong project.
+
+**Acceptance:**
+- [ ] After `cooling_until`: transition `cooling` → `available` (same `contractor_id` only) instead of `released` — configurable per platform flag
+- [ ] Project create may pull from `available` before buying new
+- [ ] Inbound webhook: **history routing** — `(to_e164, from_phone)` matches prior `phone_number_assignments` → route to correct project (archived/cooling/current)
+- [ ] Spike **SP-1** completed with test matrix before ship
+- [ ] Admin metric: pool size and reuse rate per contractor
+
+**Depends:** E8-S4 · **Backlog:** BL-23 · **Spike:** SP-1
+
+---
+
 ## Epic E9 — Customer Schedule Visibility
 
 *Customers see what changed — not sub internals.*
@@ -451,12 +576,14 @@ Derived from [prd.md](./prd.md). Product-facing stories only — implementation 
 
 ---
 
-### E10-S2: Team member as Sub on another Contractor's project (v0.1 lean)
+### E10-S2: Contractor subscriber or team member as Sub/Customer on another project (v0.1 lean)
 
-**As a** team member invited by phone to another Contractor's project as Subcontractor, **I can** act as Sub on that project via magic link **without** merging accounts.
+**As a** contractor who pays for ContractorPro (or any team member), **when** I am invited by phone to another Contractor's project as Subcontractor or Customer, **I can** act in that role via magic link **without** merging accounts or losing my subscription access.
 
 **Acceptance:**
-- [ ] Phone invite creates separate membership under other Contractor's project
+- [ ] Phone invite creates or reuses `persons` + `project_memberships` under the other Contractor's project
+- [ ] Subscription / team-member session does not auto-grant invitee routes on other tenants' projects
+- [ ] Invitee magic-link session does not grant team-member routes on own or other subscriptions
 - [ ] No cross-tenant data leakage
 
 **FR:** FR-20 · **ASSUMPTION:** v0.1 magic-link only; unified person portal v0.2
@@ -477,44 +604,162 @@ Derived from [prd.md](./prd.md). Product-facing stories only — implementation 
 
 ---
 
+## Epic E12 — Platform Admin (minimal API) — **MVP API / Phase 2 UI**
+
+*Compliance and ops hooks without `/admin` UI in M1 (A-4). Thomas operates via Twilio console, DB, and internal API until Phase 2.*
+
+### E12-S1: STOP / START webhook ingestion — **MVP (pre-prod SMS)**
+
+**As the** platform, **I must** ingest Twilio STOP/START and inbound opt-out keywords **so that** E6-S5 can enforce platform-global blocks.
+
+**Acceptance:**
+- [ ] Dedicated Twilio webhook route for inbound SMS on platform/long codes
+- [ ] Parses STOP, STOPALL, UNSUBSCRIBE, CANCEL, END, QUIT, START
+- [ ] Updates `persons.sms_opted_out` + `opt_out_audit` row
+- [ ] Sends auto-reply copy per A-11
+
+**Journey:** A-11 · **Decision:** A-5, BL-21
+
+---
+
+### E12-S2: Outbound delivery trace — **MVP (pre-prod SMS)**
+
+**As** platform ops, **I need** message_sid and delivery status on every outbound SMS/MMS **so that** I can trace delivery failures (A-2).
+
+**Acceptance:**
+- [ ] Store Twilio `MessageSid` on send
+- [ ] Status callback webhook updates `delivered` / `failed` / `undelivered`
+- [ ] Queryable by phone + project for support (API or DB; no admin UI M1)
+
+**Journey:** A-2
+
+---
+
+### E12-S3: Admin opt-out restore API — **MVP (pre-prod SMS)**
+
+**As** platform ops, **I can** restore SMS consent for a phone via authenticated internal API **so that** wrongful STOP disputes are resolved (A-11).
+
+**Acceptance:**
+- [ ] Workforce Entra–protected endpoint (not CIAM)
+- [ ] Requires reason + audit log entry
+- [ ] Clears `sms_opted_out`; does not auto-resubscribe to threads without re-consent flow
+
+**Journey:** A-11 · **Decision:** BL-21
+
+---
+
+### E12-S4: Pre-launch compliance checklist — **Pre-beta gate**
+
+**As** the founder, **I can** track PL-1–PL-8 completion **so that** we do not send prod SMS/MMS until compliant.
+
+**Acceptance:**
+- [ ] Checklist doc or issue template tracks: 10DLC brand (PL-1), campaign (PL-2), number linkage (PL-3), opt-in copy (PL-4), Resend domain (PL-5), Google OAuth verification (PL-6), Entra prod tenant (PL-7), Telnyx spike (PL-8)
+- [ ] `platform_settings.prod_sms_enabled` defaults `false` until all green
+- [ ] E6-S5 and E12-S1 blocked when flag false
+
+**Ref:** architecture-v0.1.md §10
+
+---
+
 ## Suggested build order (solo founder)
 
-| Phase | Epics | Outcome |
-|-------|-------|---------|
-| **1 — Skeleton** | E1 (OAuth lean), E2-S1/S2, E10-S1 | Login, create project + tasks |
-| **2 — People** | E4 | Invite sub + customer, join |
-| **3 — Core loop** | E5, E6 | Propose, accept, poke |
-| **4 — Calendar** | E3 | Google sync on confirm |
-| **5 — Comms** | E8, E9 | Messages, photos, customer feed |
-| **6 — Power** | E7, E2-S3/S4 | Cascade |
-| **7 — Ship** | E1-S3, E11 | Billing, AI stretch |
+### Phase 1 — MVP (self-serve coordination, no billing)
+
+| Step | Stories | Outcome |
+|------|---------|---------|
+| **1 — Skeleton** | E1-S1, E2-S1/S2, E10-S1 | OAuth signup creates company; first project + tasks |
+| **2 — Onboarding UX** | E1-S4, E3-S1, E3-S3 | Checklist; calendar connect; portfolio view |
+| **3 — People** | E4 | Invite sub + customer, join, role portals |
+| **4 — Core loop** | E5, E6 | Propose, accept/decline, poke, dashboard |
+| **5 — Calendar** | E3-S2 | Pro-provided calendar + attendee invites on confirm |
+| **6 — Comms** | E8 (incl. S4 pool), E9 | MMS threads, handle lifecycle, customer feed |
+| **7 — Power** | E7, E2-S3/S4 | Cascade preview + apply |
+| **8 — Compliance** | E12-S1–S3, E6-S5 | STOP/opt-out + delivery trace (before prod SMS) |
+| **9 — MVP ship** | E10-S2, E12-S4, polish | Cross-tenant edge case; pre-launch gate; beta ready |
+
+**MVP exit criteria:** 3–5 design-partner Contractors complete C-1 → first sub confirmed without admin help.
+
+### Phase 2 — Billing (immediately post-MVP)
+
+| Step | Stories | Outcome |
+|------|---------|---------|
+| **9 — Entitlements** | E1-S5 | Sandbox gates; project cap; MVP flag off |
+| **10 — Stripe** | E1-S3 | Checkout, webhooks, Customer Portal |
+| **11 — Dunning** | E1-S6 | Failed payment → suspend messaging |
+| **12 — GA prep** | E1-S2 (if deferred) | Native auth fallback |
+
+---
+
+## MVP task checklist (implementation-facing)
+
+Use as sprint backbone for Phase 1. Each row ≈ one deliverable slice.
+
+| # | Task | Stories | Depends |
+|---|------|---------|---------|
+| M1 | Auth + auto-provision Contractor on first OAuth | E1-S1 | — |
+| M2 | Company profile + team member session | E1-S1, E10-S1 | M1 |
+| M3 | Create project + JIT handle # from company pool | E2-S1, E8-S4 | M2 |
+| M3a | Number pool: assign, archive→cooling, inbound to archived project | E8-S4 | M3, M13 |
+| M4 | Task CRUD + timeline view | E2-S2 | M3 |
+| M5 | Onboarding checklist widget | E1-S4 | M3 |
+| M6 | Google Calendar OAuth connect | E3-S1 | M2 |
+| M7 | Sub/customer invite + magic link join | E4-S1, S2, S3 | M3 |
+| M8 | Propose date + accept/decline + status | E5-S1–S3, S5 | M7 |
+| M9 | Counter-propose + reschedule + reassign | E5-S2b, S3b, S4 | M8 |
+| M10 | Poke scheduler + manual reminder/snooze | E6-S1–S3 | M8 |
+| M11 | Confirmation dashboard / action queue | E5-S5, E6-S4 | M8 |
+| M12 | Calendar write on confirm + attendee invites | E3-S2 | M6, M8 |
+| M12a | Portfolio calendar UI | E3-S3 | M6, M8 |
+| M13 | MMS ingest + thread mirror (sub) | E8-S1, S3 | M3, M7 |
+| M14 | MMS thread (customer) + photos | E8-S2, S3 | M13 |
+| M15 | Customer schedule notify + timeline | E9-S1, S2 | M7, M8 |
+| M16 | Task dependencies + cascade toggle | E2-S3, S4 | M4 |
+| M17 | Cascade preview + apply | E7-S1, S2 | M16, M8 |
+| M18 | Schema placeholders: `tier`, `stripe_*`, `comms_enabled` (defaults open) | E1-S5 prep | M2 |
+| M19 | STOP/opt-out + delivery trace | E12-S1–S3, E6-S5 | M13 |
+| M20 | Pre-launch compliance gate | E12-S4 | M19 |
+| M21 | Beta polish: error states, empty states, mobile confirm pages | all | M1–M20 |
+
+**Phase 2 tasks (billing):**
+
+| # | Task | Stories |
+|---|------|---------|
+| P1 | Entitlement middleware + sandbox blocks | E1-S5 |
+| P2 | Stripe products/prices + Checkout + webhooks | E1-S3 |
+| P3 | Customer Portal link + Settings billing UI | E1-S3 |
+| P4 | Upgrade prompts at gated actions (C-27) | E1-S5 |
+| P5 | Dunning webhooks + messaging_suspended | E1-S6 |
+| P6 | Admin tenant snapshot billing fields (A-1, A-5) | admin journeys |
+| P7 | Churn: release all CPaaS numbers + retain DB history | E8-S4, A-12 |
 
 ---
 
 ## Story count summary
 
-| Epic | Stories | Must for MVP |
-|------|---------|--------------|
-| E1 Auth & billing | 3 | 2 (S1, S3; S2 if OAuth-only acceptable defer native) |
-| E2 Projects & tasks | 4 | 3 (S1–S3; S4 with E7) |
-| E3 Calendar | 2 | 2 |
-| E4 Invite & join | 3 | 3 |
-| E5 Propose/confirm | 5 | 5 |
-| E6 Poke | 4 | 3 (S1–S3; S4 should) |
-| E7 Cascade | 2 | 1 (S1–S2 optional toggle — S2 if cascade in MVP) |
-| E8 Messaging | 3 | 3 |
-| E9 Customer feed | 2 | 2 |
-| E10 Identity | 2 | 1 (S1 must; S2 lean) |
-| E11 AI stretch | 1 | 0 |
-| **Total** | **31** | **~24 must-have** |
+| Epic | Stories | MVP (Phase 1) | Post-MVP (Phase 2) |
+|------|---------|---------------|---------------------|
+| E1 Onboarding, auth & billing | 6 | 2 (S1, S4) + S2 should | 3 (S3, S5, S6) |
+| E2 Projects & tasks | 4 | 3–4 | — |
+| E3 Calendar | 3 | 3 | — |
+| E4 Invite & join | 3 | 3 | — |
+| E5 Propose/confirm | 7 | 7 | — |
+| E6 Poke + opt-out | 5 | 5 (incl. S5 pre-prod) | — |
+| E7 Cascade | 2 | **2 (MVP)** | — |
+| E8 Messaging | 5 | 5 (incl. S4 pool) | P7 churn release |
+| E9 Customer feed | 2 | 2 | — |
+| E10 Identity | 2 | 1–2 | — |
+| E11 AI stretch | 1 | 0 | — |
+| E12 Platform admin | 4 | 4 (API only; pre-prod SMS) | UI Phase 2 |
+| **Total** | **44** | **~32–35** | **3 billing + P7 pool release** |
 
 ---
 
-## Open story-level questions
+## Resolved story-level questions (2026-08-20)
 
-1. **E3-S2:** BYO calendar only for v0.1 build, or pro-provided create?
-2. **E5-S3:** On decline, hard `declined` vs revert to last confirmed?
-3. **E1-S2:** Native auth in v0.1 or OAuth-only first ship?
-4. **E7:** Is cascade required for MVP or fast-follow?
+1. ~~**E3-S2:** BYO vs pro-provided~~ → **Pro-provided** + attendee invites
+2. ~~**E5-S3:** Hard decline vs revert~~ → **Hard decline** + E5-S3b reassign (C-1)
+3. ~~**E1-S2:** Native auth in MVP~~ → **OAuth-only (Google) MVP**; E1-S2 v0.1.1
+4. ~~**E7:** Cascade in MVP~~ → **Yes — MVP** (A-1)
+5. ~~**E1-S5:** 6th active project on Pro 5~~ → **Plan-only** (A-8)
 
 Log changes in [discovery-log.md](../../discovery-log.md).

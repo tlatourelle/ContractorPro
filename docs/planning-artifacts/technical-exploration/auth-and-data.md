@@ -1,5 +1,7 @@
 # Technical Exploration — Auth & Database
 
+> **Superseded for implementation:** [architecture-v0.1.md](../architecture-v0.1.md) §4 (2026-08-20). MVP = Entra External ID (Google only) + BFF cookie + magic links.
+
 Status: **Exploratory** (2026-08-13)  
 Related: [product-vision.md](../product-vision.md), [discovery-log.md](../discovery-log.md)
 

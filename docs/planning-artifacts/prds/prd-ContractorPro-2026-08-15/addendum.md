@@ -6,18 +6,11 @@ The PRD (`prd.md`) states **capabilities and user outcomes**. This document poin
 
 ---
 
-## Architecture / TRD (to be created)
+## Architecture / TRD
 
-A consolidated **Architecture Document** or **TRD v0.1** should be authored separately (BMAD: `bmad-create-architecture`) and cover:
+**Draft:** [architecture-v0.1.md](../../architecture-v0.1.md) — MVP Phase 1 data model, service boundaries, billing schema hooks.
 
-- System context (web app, API, DB, background workers)
-- Tenancy model (**Contractor** subscription-scoped data)
-- Auth boundaries (Team member OAuth vs project membership magic links)
-- Integration contracts (Google Calendar API, SMS provider, blob storage, billing)
-- Cross-cutting: security, observability, idempotency for notifications
-- Data model (entities referenced in discovery-log)
-
-**Placeholder path:** `docs/planning-artifacts/architecture-v0.1.md` (not yet written)
+Covers: system context, modular monolith modules, tenancy model, auth boundaries, integration contracts, cross-cutting concerns, full entity schema.
 
 ---
 
@@ -48,14 +41,14 @@ These were decided in exploration and should land in architecture/TRD, not PRD:
 
 | Decision | Lean for v0.1 |
 |----------|----------------|
-| Calendar provider (invitee link) | **Google Calendar + Apple iCal/iCloud** at v0.1; **Google preferred** (default UI, primary adapter) |
-| Calendar provider (GC company) | Google Calendar API first |
-| Sub calendar access | Email ACL on shared project calendar; no sub OAuth required |
+| Calendar provider (invitee) | **Google event attendee invites** on accept (email on file); **Apple CalDAV v0.1.1** |
+| Calendar provider (GC company) | Google OAuth; **pro-provided calendar per project** (`calendars.insert`) |
+| Sub/customer calendar access | Attendee on shared project calendar — no sub OAuth in MVP |
 | Calendar write timing | On sub **accept** only |
 | Accept mechanism | Magic link (SMS/email); no SMS reply parsing |
 | Poke ownership | ContractorPro background worker; not Google |
 | Participant identity | Phone-keyed **project membership** per project; role = `subcontractor` \| `customer`; no global user type |
-| Team member vs membership | `users` belong to **Contractor** subscription; `project_memberships` are separate |
+| Team member vs membership | `users` belong to **Contractor** subscription; `project_memberships` are separate — **subscribers may still be subs/customers elsewhere** |
 | Primary DB | Relational (Postgres lean) |
 | Hosting | Azure app/DB; Google Cloud project for Calendar API |
 | Images | Blob storage + SQL metadata |
@@ -76,4 +69,6 @@ These were decided in exploration and should land in architecture/TRD, not PRD:
 
 ## Open technical forks (for architecture doc)
 
-See `../discovery-log.md` — auth vendor, calendar BYO vs pro-provided, webhook hosting, Google OAuth verification timeline for sensitive scopes.
+**Resolved 2026-08-20** — see [architecture-v0.1.md](../../architecture-v0.1.md) §1.2 and [planning-decision-checklist.md](../../planning-decision-checklist.md).
+
+Remaining: Google OAuth app verification timeline for public launch; batch confirm page UX (E6-S2).

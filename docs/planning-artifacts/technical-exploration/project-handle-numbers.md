@@ -5,7 +5,13 @@ Related: [messaging-and-media.md](./messaging-and-media.md), [stack-web-api-db.m
 
 ## Summary
 
-ContractorPro v0.1 uses **one phone number per active project** — the **project handle** — as a virtual participant in native group MMS threads (Dana + sub/customer + handle #). Numbers are **not** owned by the GC's personal phone; they are provisioned from a **per-company pool** via a CPaaS vendor and recycled when projects complete.
+ContractorPro v0.1 uses **one phone number per active project** — the **project handle** — as a virtual participant in native group MMS threads (Dana + sub/customer + handle #). Numbers are **not** owned by the GC's personal phone; they are **JIT-provisioned** from a **per-company pool** via a CPaaS vendor.
+
+**Tenant isolation (locked 2026-08-19):** A number **never** moves from one Contractor company to another. Cross-tenant reuse is forbidden — old customers texting a handle must never land on another GC's project.
+
+**Reuse (locked 2026-08-19, updated 2026-08-20):** After archive, hold the number in **`cooling`** still routing inbound to the closed project; default **90 days** (platform setting, per-contractor override). MVP: then **release** to Twilio (no reuse). v0.1.1: may return to same company's available pool.
+
+**Churn (locked 2026-08-19):** On unsubscribe / leave → **release all numbers to CPaaS immediately**. DB retains threads and media; returning contractor gets **new** numbers.
 
 **Google Voice is not viable** (no programmatic API, no webhook ingestion, no A2P 10DLC). **Azure Communication Services does not support group MMS** in v0.1 — keep ACS for voice/email later if needed.
 
@@ -31,48 +37,131 @@ See [messaging-and-media.md](./messaging-and-media.md) § MMS group threads for 
 
 ## Number pool & reuse
 
-GCs run multiple projects over time but only need numbers for **concurrent active projects**, not every job ever completed.
+GCs run multiple projects over time but only need numbers for **concurrent active projects** plus numbers in **cooling** after close. While a Contractor **remains subscribed**, numbers stay in that company's pool — **never reassigned to another Contractor**.
+
+**Churn exception (locked 2026-08-19):** On unsubscribe / account closure, **release all numbers to the CPaaS vendor immediately** (skip cooling). Message threads, photos, and project data **remain in our DB** (and blob storage per retention policy). If the Contractor returns, they get **new numbers** — no reattachment of old E.164s.
 
 ### Lifecycle
 
+**Normal (subscribed contractor):**
 ```
-available → assigned (project active) → cooling (project archived) → available
+JIT buy → assigned (project active) → cooling (archived, default 90d) → released (MVP) or available (v0.1.1+ reuse)
+```
+
+**Churn (unsubscribe / leave):**
+```
+any state → released (Twilio deprovision immediately) — DB history retained; company inactive
+```
+
+**Abuse / carrier:**
+```
+→ retired (never reuse internally; document reason)
 ```
 
 | State | Meaning |
 |-------|---------|
-| `available` | In pool; ready for next project |
-| `assigned` | Bound to `projects.handle_phone_e164` |
-| `cooling` | Released after archive; not reassigned yet (default 30–90 days) |
-| `retired` | Permanently removed (compliance, abuse, carrier issue) |
+| `available` | In **this company's** pool; never used or cooling complete; ready for next project |
+| `assigned` | Bound to `projects.handle_phone_e164`; active job |
+| `cooling` | Project archived; number still provisioned; **inbound routes to archived project**; not assigned to new project; duration from `cooling_until` (default **90 days** — see below) |
+| `released` | Deprovisioned at CPaaS; `e164` no longer ours; historical record only in `phone_number_assignments` |
+| `retired` | Internal flag — do not re-buy this E.164 if ever seen again; compliance/abuse |
 
-### Why cooling matters
+**While subscribed:** numbers never move from Company A to Company B.
 
-If Maple St's `(555) 100-0001` is immediately reassigned to a new job while Marcus still has the old group on his phone, his texts land on the wrong project. Cooling reduces collision risk.
+**On churn:** numbers leave our platform entirely — not held in a global pool for reassignment to other Contractors.
+
+### JIT provisioning
+
+- **When:** On project create (MVP — E2-S1) — reserve/buy from CPaaS if company pool has no `available` number
+- **Not:** Pre-buy numbers at company signup (avoids telco cost on sandbox/free tier companies)
+- **Phase 2 option:** Defer buy until first outbound comms / sub invite — saves numbers on plan-only sandbox projects
+
+### Cooling period (configurable)
+
+| Level | Storage | Default |
+|-------|---------|---------|
+| **Platform** | `platform_settings.phone_cooling_days_default` | **90 days** |
+| **Contractor** | `contractors.phone_cooling_days` | `NULL` → inherit platform default |
+
+On archive: `cooling_until = archived_at + effective_days` (snapshot — later platform/contractor changes do not alter in-flight cooling).
+
+Admin (Thomas) can raise default globally or per tenant for warranty-heavy GCs; lowering below 30d not recommended without product review.
+
+### Why 90-day default (MVP)
+
+Homeowners and subs may text after punch list ("warranty question"). **90 days** balances post-close support vs telco rent. Original exploration used 180d; **MVP default is 90d** — configurable per contractor and globally.
+
+**Cost tradeoff:** Riverside with 5 active jobs and ~10 completions/year may hold **~5 active + ~5 cooling** ≈ 10 numbers (~$11.50/mo rent) for the cooling window; 90d vs 180d halves average cooling hold time.
+
+### Why tenant-scoped pool only
+
+If Maple St's `(555) 100-0001` is ever assigned to **another Contractor's** job, Lauren's old group text hits the wrong company — trust and TCPA nightmare. **Numbers never cross `company_id`.**
+
+### Same-company reuse — collision to manage
+
+Even within one GC, after cooling ends, reassigning `(555) 100-0001` from Maple St → Oak Ave means **Marcus's old group MMS** (Ryan + Marcus + handle) may send to a number now tied to Oak Ave.
+
+**Mitigations (pick for TRD):**
+
+1. **Assignment history routing (recommended):** Keep `phone_number_assignments` history. Inbound: route by `(to_e164, from_phone)` — if sender was a member of a **cooling or recent archived** project on this number, deliver to that project (even if number is now assigned elsewhere); else route to current assigned project.
+2. **Reuse gate:** Only move `available` → new project if **zero inbound** during entire cooling window.
+3. **Conservative v0.1:** No reuse in MVP — number stays on archived project indefinitely; company always buys fresh. Simplest; higher rent. Revisit when pool cost hurts.
 
 ### Pool sizing
 
 ```
-pool_size ≈ peak_concurrent_active_projects × 1.2
+pool_numbers ≈ peak_concurrent_active + ceil(completions_per_cooling_window)
 ```
 
-Example: 5 active jobs, ~15 completions/year → **5–7 numbers** in rotation, not 15.
+Example: 5 active, 10 jobs closed per year, 90d cooling → ~5 + ~3 = **~8 numbers** in rotation at steady state (MVP: released after cooling, not reused).
 
 ### Data sketch
 
 ```text
 phone_number_pool
-  id, company_id, e164, status, assigned_project_id?,
+  id, company_id, e164, status, current_project_id?,
   released_at, cooling_until, provider_sid, created_at
+  -- company_id NEVER changes; number never moves to another company
+
+phone_number_assignments   -- history for inbound routing
+  id, phone_number_id, project_id, assigned_at, released_at, release_reason
 
 projects
-  id, company_id, handle_phone_e164, ...
+  id, company_id, handle_phone_e164, status, archived_at, ...
 ```
+
+### Churn — immediate number release
+
+**Trigger:** Subscription canceled / account closed (Stripe `customer.subscription.deleted`, admin offboard, or messaging_suspended → full closure).
+
+| Action | Rule |
+|--------|------|
+| CPaaS numbers | **Release all** for `company_id` immediately — assigned, cooling, and available |
+| Inbound after release | No longer ours; Lauren's text to old handle goes to void / future unrelated Twilio buyer — **expected** |
+| App data | Projects, messages, attachments metadata **retained** per retention policy; blob media retained |
+| Contractor return | Reactivate company or new signup → **JIT new numbers**; show historical threads read-only from DB |
+| Old E.164 on projects | Keep on `projects.handle_phone_e164` as **historical display only** (`released_at` set); not routable |
+
+**Why immediate release:** No ongoing ~$1.15/mo/number rent for churned tenants. Product value after leave is in **stored comms**, not live SMS routing.
+
+**Customer expectation:** On voluntary cancel, optional email: *"Project texts to old project numbers will no longer reach [Company]. Contact them directly."* — Phase 2 copy.
+
+**Contrast with archive cooling:** Closed **project** while still subscribed → cooling (default 90d, configurable), inbound works. Closed **account** → instant telco release.
+
+### Inbound during cooling (archived project — still subscribed)
+
+| Inbound | Behavior |
+|---------|----------|
+| MMS/SMS to handle | Ingest to **archived** project thread; notify Ryan in-app ("Message on closed Maple St") |
+| System auto-reply (optional) | *"Maple St is complete. Riverside will see your message."* |
+| New outbound system SMS | Blocked unless Ryan reopens project or forwards manually |
 
 ### Open product questions
 
-- [ ] Default cooling period: 30, 60, or 90 days?
-- [ ] Allow GC to **retain** a number on archived projects (read-only) vs always recycle?
+- [x] Default cooling period → **90 days** (platform default); per-contractor override + global `platform_settings` — 2026-08-20 (was 180d exploration default)
+- [x] Cross-contractor reuse → **Never while number is on platform**
+- [x] Churn → **Immediate CPaaS release**; DB history kept; return = new numbers — 2026-08-19
+- [x] Same-company reuse in MVP → **No reuse v0.1** — cooling then release; history routing v0.1.1 — 2026-08-20
 - [ ] Contact card label: **"Maple St · ContractorPro"** vs **"Maple St project line"** — affects sub trust (green bubble)
 
 ---
@@ -195,7 +284,7 @@ Numbers are cheap; **message volume drives cost**.
 |-----------|----------|
 | Number pool (5 numbers) | ~$5.75/mo |
 | Messaging (5 projects × above) | ~$15–30/mo |
-| 10DLC campaign (shared per company) | ~$1.50–10/mo |
+| 10DLC campaign (platform, shared) | ~$1.50–10/mo |
 | **Rough telco COGS** | **~$22–46/mo** |
 
 Plus Azure Blob egress for MMS photos (separate; see messaging-and-media.md).
@@ -214,17 +303,20 @@ Plus Azure Blob egress for MMS photos (separate; see messaging-and-media.md).
 ## Compliance notes
 
 - **A2P 10DLC** required for application-generated US SMS/MMS on long codes
+- **Model (locked 2026-08-20):** **Platform brand + campaign** — ContractorPro registers once in Twilio Trust Hub; all tenant handle #s use platform campaign (not per-GC brands in MVP)
 - **Opt-in** when participant added to group (copy in onboarding + C-13 modal)
 - **TCPA** — business messaging consent; document in terms
 - Handle # appears as **green bubble** on iPhone (not iMessage blue) — set expectations in SME review
+
+Pre-launch checklist: [architecture-v0.1.md](../architecture-v0.1.md) §10 (PL-1–PL-3).
 
 ---
 
 ## MVP engineering checklist
 
-- [ ] 10DLC brand + campaign registration (per company or platform — TBD)
+- [ ] **10DLC brand + campaign** — **platform-level** (ContractorPro) in Twilio Trust Hub — see [architecture-v0.1.md](../architecture-v0.1.md) §1.8, §10 PL-1–PL-3
 - [ ] Number search/buy/release API integration
-- [ ] Pool service: assign on project create, release on archive
+- [ ] Pool service: assign on project create, release on archive, **release all on churn** — **E8-S4**
 - [ ] Inbound webhook: parse MMS, map To/From, dedupe
 - [ ] Media pipeline: webhook → blob → `message_attachments`
 - [ ] Outbound: system messages into group thread

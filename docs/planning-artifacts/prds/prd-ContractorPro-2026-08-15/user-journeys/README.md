@@ -8,6 +8,7 @@
 | [contractor-journeys.md](./contractor-journeys.md) | Ryan, Maci (same access v0.1) | C-1 … C-27, M-1 … M-5 |
 | [subcontractor-journeys.md](./subcontractor-journeys.md) | Jesse, Marcus | S-1 … S-22 |
 | [customer-journeys.md](./customer-journeys.md) | Lauren, Erin | H-1 … H-24 |
+| [admin-journeys.md](./admin-journeys.md) | Thomas, Alex (future ops) | A-1 … A-20 |
 | [backlog.md](./backlog.md) | — | Discovery + BL-* items |
 | [future-journeys-v02.md](./future-journeys-v02.md) | — | FJ-1 … FJ-6 (v0.2+) |
 
@@ -22,6 +23,10 @@
 | **Nate** | Sub — replacement painter |
 | **Lauren** | Primary customer — Maple St Kitchen |
 | **Erin** | Additional customer — Lauren's spouse |
+| **Thomas** | Founder / platform super-admin |
+| **Alex** | Future support ops (lookup, trace, data fixes — not billing) |
+
+**Contractor-admin vs platform admin:** Ryan manages *his company* (FJ-6). Thomas manages *the platform* — see [admin-journeys.md](./admin-journeys.md).
 
 **Full detail** (step tables, system behavior, cross-references to epics): [../user-journeys.md](../user-journeys.md)
 
@@ -29,7 +34,7 @@
 
 **Shared rule (subs + customers):** Accept/Reject always recorded in ContractorPro; linked personal calendar updated when calendar is linked.
 
-**Calendar providers (v0.1):** Google Calendar + Apple Calendar (iCal/iCloud). **Google preferred** internally.
+**Calendar providers (v0.1):** **Google Calendar only** — subs/customers receive **Google event attendee invites** on accept (email on file). Apple CalDAV → v0.1.1.
 
 **Customer onboarding:** Primary customer at **project creation** — **email + MMS** sent; **both channels must confirm**; poke until both ✅. Family invite is secondary (H-7).
 
@@ -43,6 +48,7 @@
 | 2 | GC / office manager | `contractor-journeys.md` | C-3 → C-6 → C-19 → C-20 → **UJ-9** |
 | 3 | Homeowners | `customer-journeys.md` | H-1 → H-4 → H-21 → H-14 |
 | 4 | Maci workflow | `contractor-journeys.md` § Maci | M-1 → M-2 → M-5 |
+| 5 | Platform ops (internal) | `admin-journeys.md` | A-1 → A-2 → A-11 → A-3 → A-4 |
 
 **Critical path:** Start with **sub invite + confirm** (S-1, C-3) — nothing else works if subs won't engage.
 

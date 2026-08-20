@@ -1,5 +1,7 @@
 # Google Calendar Integration — Exploration
 
+> **Superseded for implementation:** [architecture-v0.1.md](../architecture-v0.1.md) §1.6 (2026-08-20). MVP = pro-provided Google calendar per project + attendee invites; Apple → v0.1.1.
+
 Status: **Exploratory** (2026-08-13)  
 Related: [product-vision.md](../product-vision.md), [stack-web-api-db.md](./stack-web-api-db.md), [schedule-confirmation-workflow.md](./schedule-confirmation-workflow.md), [job-planning-workflow.md](./job-planning-workflow.md)
 

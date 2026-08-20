@@ -14,7 +14,7 @@
 
 **Accept/Reject + calendar** (same rule as subcontractors): always recorded in ContractorPro; linked personal calendar updated when calendar is linked. See [full detail](../user-journeys.md#design-principle-acceptreject--calendar-subs-and-customers).
 
-**Calendar providers:** Google Calendar + Apple iCal/iCloud at v0.1 — **Google preferred** (default connect option).
+**Calendar providers:** **Google only in MVP** — attendee invite on accept when email on file. Apple connect → v0.1.1.
 
 Use this list in SME workshops. Ask: *"What do you actually want to know during a remodel? What's TMI?"*
 
@@ -104,12 +104,12 @@ Use this list in SME workshops. Ask: *"What do you actually want to know during 
 
 ## Calendar
 
-### H-11: Link calendar to project
-- **Trigger:** During first connect (H-6) or later from portal settings
-- Chooses **Google Calendar** (preferred / shown first) or **Apple Calendar (iCal / iCloud)**
-- Calendar linked to **this project** (not a global account setting)
-- **Success:** Ready to receive project events on personal calendar when accepting
-- **SME check:** iPhone users on Apple Calendar only — will they link? Google-first users?
+### H-11: Receive calendar events via Google invite
+- **Trigger:** Lauren accepts a schedule update; email confirmed (H-2)
+- System adds Lauren as **attendee** on the shared project Google Calendar event
+- Lauren accepts invite in Google Calendar — no separate OAuth connect in MVP
+- **Success:** Project dates on personal calendar when she accepts updates
+- **SME check:** iPhone users — Google invite vs Apple-only → v0.1.1
 
 ### H-12: View schedule in the app
 - **Trigger:** Any time after joining

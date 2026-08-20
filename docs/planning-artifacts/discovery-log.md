@@ -6,13 +6,13 @@ Chronological and thematic capture of ideas, questions, and decisions. **Add to 
 
 ## ⏭️ Resume here
 
-**Next step when you return:** **Database schema design for v0.1**
+**Next step when you return:** **Start M1 build** — auth + auto-provision Contractor on first Google OAuth (E1-S1).
 
-Entities to model: companies, users, projects (`planning` \| `active`), **work_phases** (duration, buffer — v0.2), tasks, **task_assignments** (propose/accept status), task dependencies (cascade), **project_participants** (subs/homeowners — name + phone join, `notify_via`), **participant_sessions** (magic links), message threads, attachments metadata, calendar sync mappings, **confirmation_tokens**, **reminder_schedules**, notification log, subscription tier.
+**Read first:** [architecture-v0.1.md](./architecture-v0.1.md) (TRD) · [epics-and-stories.md](./prds/prd-ContractorPro-2026-08-15/epics-and-stories.md) (M1–M21 checklist) · [planning-decision-checklist.md](./planning-decision-checklist.md) (Sections A–E complete 2026-08-20).
 
-See [invite-join-flow.md](./technical-exploration/invite-join-flow.md), [schedule-confirmation-workflow.md](./technical-exploration/schedule-confirmation-workflow.md), [job-planning-workflow.md](./technical-exploration/job-planning-workflow.md).
+**Prompt to use:** *"Devin, implement M1 — Entra External ID Google OAuth, BFF session cookie, auto-create Contractor company on first sign-in."*
 
-See [README.md](./README.md) for full session handoff (2026-08-14).
+Planning hygiene complete: PRD synced, journeys aligned, E12 + E3-S3 + E6-S5 added. No `/admin` UI in M1 — STOP/opt-out via API + Twilio webhooks before prod SMS.
 
 ---
 
@@ -52,7 +52,7 @@ See [README.md](./README.md) for full session handoff (2026-08-14).
 | 2026-08-14 | **Automated poke / reminders** | Daily SMS/email reminders until sub accepts/declines — **not** Google Calendar’s job; match BT persistence; batch + quiet hours + GC escalation — see schedule-confirmation-workflow.md |
 | 2026-08-18 | **Journey expansion + backlog** | Added C-19–C-27, M-1–M-5 (Maci same access as Ryan), S-16–S-22, H-21–H-24, UJ-9 cross-persona slip; [backlog.md](./prds/prd-ContractorPro-2026-08-15/user-journeys/backlog.md) for discovery items; [future-journeys-v02.md](./prds/prd-ContractorPro-2026-08-15/user-journeys/future-journeys-v02.md) for v0.2+ |
 | 2026-08-15 | **Identity vs roles** | **Contractor** = only fixed SaaS subscription; **Subcontractor** / **Customer** = per-project roles; same Person may differ by project; Team member may also be Sub on another Contractor's project — PRD §3, FR-20 |
-| 2026-08-15 | **v0.1 epics & stories** | 11 epics, 31 user stories, suggested solo build order — [epics-and-stories.md](./prds/prd-ContractorPro-2026-08-15/epics-and-stories.md) |
+| 2026-08-15 | **v0.1 epics & stories** | 12 epics, 44 user stories, suggested solo build order — [epics-and-stories.md](./prds/prd-ContractorPro-2026-08-15/epics-and-stories.md) |
 | 2026-08-15 | **Counter-propose + reassignment** | Pending party can Accept / Counter-propose / Decline; negotiation thread; on decline Dana reassigns task to different sub (UJ-2d, UJ-2e; FR-8, FR-9a) — [user-journeys.md](./prds/prd-ContractorPro-2026-08-15/user-journeys.md) |
 | 2026-08-17 | **MMS group threads (v0.1)** | Primary comms = native group MMS: Dana + sub + **project handle #** per relationship; app ingests/logs; Dana acts on schedule in web app; system sends confirmation MMS/SMS — **not** app-orchestrated chat — [messaging-and-media.md](./technical-exploration/messaging-and-media.md), UJ-8 |
 | 2026-08-17 | **AI out of MVP** | No SMS intent parsing, no AI drafts, no auto-schedule from chat in v0.1 — defer to v0.2+ |
@@ -60,6 +60,27 @@ See [README.md](./README.md) for full session handoff (2026-08-14).
 | 2026-08-17 | **MMS routing: per-project handle #** | One phone number per **project** (Maple # in all Dana↔sub/customer groups on that job); inbound `To` → project, `From` → membership; store platform `conversation_sid` / internal thread id at provision — [messaging-and-media.md](./technical-exploration/messaging-and-media.md) |
 | 2026-08-18 | **Handle # vendor & pooling** | CPaaS (Twilio default; Telnyx spike); per-company **number pool** with cooling on archive; Google Voice ❌; ACS group MMS ❌ — [project-handle-numbers.md](./technical-exploration/project-handle-numbers.md) |
 | 2026-08-18 | **Operating budget doc** | Monthly run rate + COGS tracking — [finances/monthly-run-rate.md](../finances/monthly-run-rate.md); **~$10/mo** telco planning default per active project |
+| 2026-08-19 | **Admin impersonation (BL-20)** | **v0.1: no impersonation** — A-1 tenant snapshot + read-only project drill-down only; read-only view-as-Ryan (A-9) deferred to v0.1.1 — [admin-journeys.md](./prds/prd-ContractorPro-2026-08-15/user-journeys/admin-journeys.md) |
+| 2026-08-19 | **SMS opt-out scope (BL-21)** | **Platform-global STOP** on shared sender — STOP blocks all ContractorPro automated texts to that phone until re-opt-in (magic link + explicit consent or admin restore with audit); per-tenant opt-out deferred unless per-company 10DLC numbers ship |
+| 2026-08-19 | **Kill switch granularity (BL-22)** | **v0.1: platform-wide kill switch (A-10) + per-tenant messaging suspend (A-6)**; per-project kill deferred v0.2; platform kill Thomas-only; tenant suspend also for billing dunning |
+| 2026-08-19 | **SaaS billing vendor** | **Stripe Billing** (Checkout + Customer Portal + webhooks) for self-serve Contractor subscriptions; Chargebee deferred |
+| 2026-08-19 | **Pricing model (draft)** | **~$100/mo per 5 concurrent active projects**, $200/mo per 10, linear; meter = concurrent **active** projects with outbound comms enabled — finalize caps in BL-16 |
+| 2026-08-19 | **Free tier paywall (draft)** | **Free = plan & schedule in-app only** — no outbound comms (no sub/customer invite, SMS/MMS, poke, cascade publish, customer dual-channel confirm); subscribe to unlock coordination — aligns telco COGS with revenue |
+| 2026-08-19 | **MVP vs billing phasing** | **MVP (Phase 1):** self-serve signup + full coordination, no Stripe, no gates (`billing_enforcement=off`). **Post-MVP (Phase 2):** E1-S3/S5/S6 — Stripe + sandbox gates + dunning — [epics-and-stories.md](./prds/prd-ContractorPro-2026-08-15/epics-and-stories.md) |
+| 2026-08-19 | **Project handle # lifecycle** | JIT provision on project create; **tenant-scoped pool** (never cross-contractor); **90d cooling default** (configurable) after archive with inbound → archived project — [project-handle-numbers.md](./technical-exploration/project-handle-numbers.md) |
+| 2026-08-19 | **Handle # on churn** | Unsubscribe/leave → **release all numbers to CPaaS immediately**; conversations/work retained in DB; returning contractor gets **new** numbers — [project-handle-numbers.md](./technical-exploration/project-handle-numbers.md) |
+| 2026-08-20 | **Team member auth** | **Entra External ID (CIAM)** — Google OAuth first; `auth_identities` link-only (no password storage); magic links custom for invitees; platform admin via workforce Entra (separate app reg) — [architecture-v0.1.md](./architecture-v0.1.md) §4 |
+| 2026-08-20 | **Frontend** | **React 19 + TypeScript + Vite + shadcn/ui** — single SPA (`/app/*`, `/p/*`); Blazor deprioritized for AI-assisted build — [architecture-v0.1.md](./architecture-v0.1.md) §1.4 |
+| 2026-08-20 | **Calendar mode** | **Pro-provided per project** (Google `calendars.insert` on project create); subs/customers via event attendee invites; **portfolio calendar UI** in app across all projects — BYO per-project deferred v0.1.1 — [architecture-v0.1.md](./architecture-v0.1.md) §1.6 |
+| 2026-08-20 | **Handle # reuse** | **No same-company reuse in MVP** — always JIT fresh on project create; archive → **90d cooling** (configurable per contractor + platform default) → release to Twilio — [architecture-v0.1.md](./architecture-v0.1.md) §1.7 |
+| 2026-08-20 | **Team member session** | **BFF cookie** — Entra OAuth callback on API, HTTP-only session cookie; React `credentials: 'include'` (not MSAL bearer in browser) — [architecture-v0.1.md](./architecture-v0.1.md) §1.4 |
+| 2026-08-20 | **10DLC / A2P** | **Platform brand + campaign** (ContractorPro) in Twilio Trust Hub; all tenant numbers on one campaign; per-GC brands deferred — [architecture-v0.1.md](./architecture-v0.1.md) §1.8, §10 |
+| 2026-08-20 | **Invitee identity** | **Global `persons` by phone** — one person per `phone_e164`; `project_memberships` for project + role (sub/customer across any contractor); `display_name` on membership; **contractor subscribers not blocked from sub/customer roles elsewhere** — [architecture-v0.1.md](./architecture-v0.1.md) §4.3–4.4 |
+| 2026-08-20 | **Dashboard refresh** | **Polling** default **60s**; interval in `platform_settings` (admin-only, not per-contractor); refetch on tab focus; SignalR deferred — [architecture-v0.1.md](./architecture-v0.1.md) §1.4 |
+| 2026-08-20 | **Planning checklist §A** | Formal walkthrough — Thomas accepted all recommendations: **cascade MVP**; **Google calendar attendee invites only** (Apple v0.1.1); **Google-only GC auth M1**; **no admin UI M1**; **STOP API pre-prod**; **90d cooling**; **fresh JIT numbers**; **plan-only 6th project Phase 2**; **defer E1-S2 native auth** — [planning-decision-checklist.md](./planning-decision-checklist.md) |
+| 2026-08-20 | **Planning checklist §B** | BL backlog buckets: **MVP** BL-1,3,5,6,7,8,13,14,18 · **v0.1.1** BL-2,4,9,11,12,15,23 · **v0.2+** BL-10,17 · **when hired** BL-19 — [backlog.md](./prds/prd-ContractorPro-2026-08-15/user-journeys/backlog.md) |
+| 2026-08-20 | **Planning checklist §C** | Thomas accepted all defaults: **hard decline** + reassign; **7d** magic link TTL; handle label `{Project} · {Company}`; **portfolio calendar MVP**; **IHostedService** jobs; **hand-typed fetch**; **Twilio**; **defer Apple Sign-In**; **~2 months free** annual (Phase 2) — [planning-decision-checklist.md](./planning-decision-checklist.md) |
+| 2026-08-20 | **Doc sync + epics** | Sections D–E complete: PRD/journeys/arch aligned; **E12** platform admin API; **E3-S3** portfolio calendar; **E6-S5** STOP/opt-out; **E7 MVP** — ready for M1 build |
 
 ---
 
@@ -83,14 +104,14 @@ See [README.md](./README.md) for full session handoff (2026-08-14).
 
 ### Calendar (invitees + GC)
 
-- [x] **v0.1 providers:** Google Calendar + Apple Calendar (iCal/iCloud) — **Google preferred** internally
-- [ ] Apple iCal: CalDAV/iCloud OAuth vs webcal subscribe — two-way write path for TRD
-- [ ] MVP: BYO only, Pro-provided only, or both at launch?
-- [ ] Pro-provided: calendar under GC's Google vs ContractorPro service account?
-- [ ] Hybrid mode (company BYO + per-project Pro-provided) — when?
-- [ ] Sub calendar access: OAuth connect vs email ACL invite only? → **Lean:** email ACL for MVP; confirm via magic link
+- [x] **v0.1 providers:** **Google Calendar only** for invitees — event **attendee invites** on confirm; Apple CalDAV → **v0.1.1** (2026-08-20 §A)
+- [x] ~~Apple iCal: CalDAV/iCloud OAuth vs webcal subscribe~~ — **Deferred v0.1.1**
+- [x] ~~MVP: BYO only, Pro-provided only, or both at launch?~~ — **Pro-provided per project** under GC Google OAuth (2026-08-20)
+- [x] ~~Pro-provided: calendar under GC's Google vs ContractorPro service account?~~ — **GC's Google** via OAuth; app creates calendar per project
+- [ ] Hybrid mode (company BYO + per-project Pro-provided) — **v0.1.1**
+- [x] Sub calendar access: OAuth connect vs email ACL invite only? → **Event attendee invite** on shared project calendar (no sub OAuth in MVP)
 - [ ] Two-way sync: what happens if sub drags event in Google? → Defer; app is source of truth until accept
-- [ ] Homeowner: Google invite vs app-only?
+- [x] Homeowner: Google invite vs app-only? → **Google attendee invite** when email on file; portal-only otherwise
 - [ ] Google OAuth verification timeline for sensitive calendar scopes?
 
 ### Cascade scheduling
@@ -133,9 +154,9 @@ See [README.md](./README.md) for full session handoff (2026-08-14).
 
 ### Monetization
 
-- [ ] Free tier limits: 1 project? No cascade? No SMS?
+- [x] ~~Free tier limits~~ — **Sandbox plan-only; paid ~$100/5 concurrent active projects** (2026-08-19)
 - [ ] Price points — validate against CF ($49) and “would pay $X for cascade + messaging”
-- [ ] Annual discount?
+- [x] ~~Annual discount?~~ — **~2 months free on annual** at Phase 2 (2026-08-20 §C)
 
 ---
 
@@ -143,15 +164,15 @@ See [README.md](./README.md) for full session handoff (2026-08-14).
 
 See also: [technical-exploration/auth-and-data.md](./technical-exploration/auth-and-data.md)
 
-- [ ] **App stack** (.NET vs Next.js vs other) — blocks auth library choice
-- [ ] **Clerk vs Supabase Auth vs Auth.js** — managed vs roll-your-own
+- [ ] **App stack** (.NET vs Next.js vs other) — **Resolved:** ASP.NET Core .NET 9 + React 19 — [architecture-v0.1.md](./architecture-v0.1.md)
+- [ ] **Clerk vs Supabase Auth vs Auth.js** — **Resolved:** Entra External ID (CIAM) + BFF cookie — not Clerk/Auth.js
 - [ ] Google Calendar: one-way export vs two-way sync — conflict resolution?
-- [ ] Magic link token security, rotation, revocation (subs/homeowners)
+- [ ] Magic link token security, rotation, revocation (subs/homeowners) → **7d TTL default** (2026-08-20 §C)
 - [ ] Account linking: same email from Google + Microsoft — auto-merge?
-- [ ] Apple Sign-In: required for v0.1? ($99/yr Apple Developer)
+- [x] ~~Apple Sign-In: required for v0.1?~~ — **Deferred v0.1.1** (2026-08-20 §C)
 - [ ] Enterprise SSO (SAML) — which tier / how late?
 - [x] SMS/MMS provider — **Twilio default** (Telnyx spike); number pool model — see [project-handle-numbers.md](./technical-exploration/project-handle-numbers.md)
-- [ ] Chargebee vs Stripe Billing — feature/cost comparison
+- [x] ~~Chargebee vs Stripe Billing~~ — **Stripe Billing** (2026-08-19)
 - [ ] QBO OAuth + minimal sync scope (customer create only?)
 - [ ] Hosting: Azure vs other — pairs with Entra + Azure PG path
 - [ ] Multi-tenant data model — company → projects → tasks → messages
@@ -168,7 +189,7 @@ See also: [technical-exploration/auth-and-data.md](./technical-exploration/auth-
 | Jobber, Houzz Pro, CoConstruct | Adjacent / residential | CoConstruct → see BT section (sunset); Jobber/Houzz not started |
 | Google Cloud vs Azure for hosting | Calendar API does not require GCP | ✅ google-cloud-vs-azure.md |
 | Twilio SMS/MMS pricing at scale | Tier economics | ✅ Draft → [project-handle-numbers.md](./technical-exploration/project-handle-numbers.md) |
-| Chargebee vs Stripe Billing | Our subscription stack | Not started |
+| Chargebee vs Stripe Billing | Our subscription stack | ✅ Stripe Billing — Phase 2 |
 | QBO integration patterns for construction SaaS | Post-MVP path | Not started |
 | Magic link auth best practices | Sub/homeowner access | In progress → auth-and-data.md |
 | Auth BYO vs native + MFA/passkeys free options | GC login model | ✅ auth-byoa-vs-native-mfa.md |

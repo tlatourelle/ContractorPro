@@ -2,7 +2,7 @@
 title: ContractorPro
 status: draft
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-08-20
 version: v0.1-mvp
 ---
 
@@ -120,8 +120,10 @@ A Person may be **Subcontractor** on Project A and **Customer** on Project B —
 |----------|-----------|
 | Same phone: Sub on one project, Customer on another | Yes |
 | Same phone: Customer on projects from two different Contractors | Yes |
-| Team member at Contractor X invited as Subcontractor on Contractor Y's project | Yes `[ASSUMPTION: v0.1 via phone invite; same login identity optional v0.2]` |
-| Contractor subscription holder also participates on someone else's project | Yes — via project membership, not subscription role |
+| Team member at Contractor X invited as Subcontractor on Contractor Y's project | Yes — v0.1 via phone invite + magic link; OAuth session not merged (v0.2 optional) |
+| **Contractor subscription holder** (self-registered owner) invited as Subcontractor on another Contractor's project | Yes — subscription role does not block project membership |
+| **Contractor subscription holder** invited as Customer on another Contractor's project | Yes — same rule |
+| Contractor subscription holder also participates on someone else's project | Yes — via `persons` + project membership, not subscription role |
 
 **Permissions derive from context:** subscription (Team member), project role (Subcontractor / Customer), or both — never a single global role label.
 
@@ -164,7 +166,7 @@ A Person may be **Subcontractor** on Project A and **Customer** on Project B —
 
 #### FR-1: Team member authentication
 
-Team members can sign in to ContractorPro using OAuth (Google, Apple, or Microsoft) or a native account with passkey/TOTP preferred over passwords. Each authenticated user belongs to exactly one **Contractor** subscription in v0.1.
+Team members can sign in to ContractorPro using **Google OAuth** (Entra External ID) in MVP. Apple, Microsoft, and native passkey/TOTP accounts are **v0.1.1**. Each authenticated user belongs to exactly one **Contractor** subscription in v0.1.
 
 **Consequences (testable):**
 - Unauthenticated users cannot access Contractor project management screens.
@@ -182,13 +184,14 @@ Team members can create a **Project** under their Contractor, add **Tasks** with
 
 #### FR-3: Google Calendar connection
 
-Team members can connect a Google account on behalf of the Contractor and link or create a **shared project calendar** so agreed dates sync after Subcontractor confirmation.
+Team members connect a Google account on behalf of the Contractor. ContractorPro **creates one shared Google calendar per project** (pro-provided). On Subcontractor or Customer **accept**, agreed dates are written as events on that calendar; subs/customers with email on file receive **Google event attendee invites**. A **portfolio calendar view** in the app shows all projects in one schedule.
 
 **Consequences (testable):**
 - Until a Task Assignment is **confirmed**, no agreed-date event is written to the shared project calendar for that assignment.
 - Team member can see connection status (connected / disconnected / error).
+- Subcontractor/Customer **Apple Calendar connect** is **out of MVP** — v0.1.1.
 
-`[ASSUMPTION: v0.1 ships one calendar mode — either BYO link or Pro-provided per project; not both required at launch.]`
+`[DECISION 2026-08-20: Pro-provided per project; attendee invites for invitees; portfolio UI in app — architecture-v0.1.md §1.6]`
 
 ---
 
@@ -386,19 +389,44 @@ Customer project membership can view a simplified timeline of schedule changes f
 
 ### 5.8 Subscription Billing
 
-**Description:** Contractor subscription pays flat monthly tier; project memberships never pay.
+**Description:** Contractor subscription pays flat monthly tier by **concurrent active projects with outbound comms**; project memberships never pay. **Billing vendor:** Stripe Billing (Checkout + Customer Portal + webhooks). Decision: 2026-08-19 — [discovery-log.md](../../discovery-log.md).
+
+**Phasing:**
+- **MVP (Phase 1):** Self-serve signup and full coordination — **no payment, no tier enforcement** (beta / design partners).
+- **Post-MVP (Phase 2):** Stripe self-serve subscribe + entitlement gates (free sandbox vs paid).
 
 **Functional Requirements:**
 
-#### FR-18: Contractor subscription
+#### FR-18: Contractor subscription & entitlements
 
-Contractor can subscribe to a paid tier (with free tier limits) to use ContractorPro beyond trial/limits.
+Contractor can self-serve sign up, use the product on a **free sandbox** tier (plan-only), and **subscribe via Stripe** to unlock outbound coordination and concurrent active project slots.
+
+**Tier model (locked — Phase 2):**
+
+| Tier | Price | Concurrent active projects (comms enabled) | Outbound comms |
+|------|-------|------------------------------------------|----------------|
+| **Sandbox** | $0 | Unlimited plan-only projects | Blocked |
+| **Pro 5** | $100/mo | 5 | Enabled |
+| **Pro 10** | $200/mo | 10 | Enabled |
+| **Pro 15+** | +$100/mo per +5 slots | Linear | Enabled |
+
+**Sandbox — allowed without payment:**
+- OAuth sign-up, company profile, create/edit projects and tasks
+- Internal schedule layout, dependencies, cascade **preview** (no publish)
+
+**Sandbox — blocked until subscribed (Phase 2):**
+- Sub invite (any path), customer outbound confirm (email/MMS), propose/notify dates, poke, cascade **publish**, MMS threads, any SMS/MMS send
+- Entering customer contact on project **does not** auto-send until subscribed (defer H-1 notify)
+
+**Paid tier — over limit:** 6th concurrent active project on Pro 5 → **plan-only mode** or prompt upgrade before enabling comms (locked 2026-08-20 §A).
+
+**MVP exception (Phase 1):** All outbound coordination enabled for every signed-up Contractor — no Stripe, no gates — to validate core loop with design partners.
 
 **Consequences (testable):**
-- Billing blocks or limits apply when subscription inactive (exact limits TBD).
 - Subcontractor and Customer project memberships are never charged.
-
-`[ASSUMPTION: Stripe Billing or Chargebee; free tier includes at least 1 active project with SMS caps.]`
+- Phase 2: `invoice.payment_failed` → grace banner → **messaging_suspended** on tenant per admin journeys A-6/A-17.
+- Phase 2: Stripe Customer Portal linked from Settings for card update, cancel, invoices.
+- Entitlement checks centralized (middleware/service) — not scattered in UI only.
 
 ---
 
@@ -448,21 +476,36 @@ The system must evaluate permissions from **subscription context** (Team member 
 
 ## 7. MVP Scope
 
-### 7.1 In Scope (v0.1)
+### 7.1 In Scope (MVP — Phase 1)
 
-- Contractor subscription + Team member auth (OAuth + native fallback)
-- Projects + tasks + optional dependencies + optional cascade with preview
-- Google Calendar connect; sync **on Subcontractor accept**
+**Goal:** Self-enrolling Contractors run real jobs end-to-end — **no payment or tier gates.**
+
+- **Self-serve signup:** Google OAuth → create Contractor company → guided onboarding (C-1)
+- Contractor + Team member auth (**Google OAuth only** in MVP; native fallback v0.1.1)
+- Projects + tasks + optional dependencies + **cascade with preview** (MVP)
+- Google Calendar connect; **pro-provided calendar per project**; sync **on accept** via event attendee invites
+- **Portfolio calendar view** across all active projects (in-app)
 - Invite project memberships: Subcontractor and Customer (name + phone join)
-- Propose → accept/decline → poke until response
+- Propose → accept/**hard decline** → poke until response; reassign after decline (E5-S3b)
 - Team member pending/confirmed/declined dashboard
 - Contractor↔sub and Contractor↔customer **MMS group threads** (handle #) with ingest + web mirror
 - MMS/SMS confirmation and poke messages after Team member schedule actions
 - Image capture from MMS + web upload
 - Customer simplified schedule / what-changed view
-- Contractor subscription billing
+- **Platform-global STOP/opt-out** handling (API + Twilio; no admin UI in M1)
 - Responsive web: Team member desktop-first; magic-link pages mobile-first for confirm/join
 - Identity: separate subscription role from per-project Subcontractor/Customer roles
+- **Data model hooks** for `subscription_tier`, `comms_enabled`, Stripe IDs — defaults to full access in MVP
+
+### 7.1b Post-MVP (Phase 2 — Billing & entitlements)
+
+Ship immediately after MVP validates coordination loop:
+
+- **Stripe Billing:** Checkout, webhooks, Customer Portal (FR-18)
+- **Free sandbox tier:** plan-only; paywall on first outbound comms (C-27)
+- **Paid tiers:** ~$100/mo per 5 concurrent active projects (comms enabled), linear
+- Dunning → tenant **messaging_suspended** (A-6, A-17)
+- Upgrade prompts at invite sub, notify customer, plan cap
 
 ### 7.2 Out of Scope for MVP
 
@@ -470,13 +513,17 @@ The system must evaluate permissions from **subscription context** (Team member 
 
 | Item | Reason / Target |
 |------|-----------------|
+- **Stripe Billing & paid tiers** | Phase 2 — immediately post-MVP; design locked in FR-18 |
+| **Apple Calendar (invitee connect)** | v0.1.1 — MVP uses Google attendee invites only |
+| **Admin `/admin` UI** | Phase 2 — M1 uses API + Twilio/DB manual ops |
+| **Free-tier outbound comms gate** | Phase 2 — MVP runs full access for beta |
 | Job planning (phases, buffers, portfolio) | v0.2 — see job-planning-workflow.md |
 | Microsoft Calendar | Post-MVP; Google covers most subs |
 | Native apps | Web-only strategy |
 | AI (drafts, SMS intent) | v0.2+ |
 | PWA / offline | v0.2+ if validated |
 | Multi-team-member permissions | Simplify v0.1; owner + basic staff later |
-| Unified Person profile across all projects | v0.2; v0.1 uses per-project memberships keyed by phone |
+| Unified Person profile across all projects | v0.2 portal UI; v0.1 uses global `persons` by phone + per-project `project_memberships` (magic link per membership) |
 
 ---
 
@@ -502,14 +549,18 @@ The system must evaluate permissions from **subscription context** (Team member 
 
 ## 9. Open Questions
 
-1. v0.1 calendar mode: BYO only, Pro-provided only, or both?
-2. Free tier limits: projects count, SMS/month, cascade on/off?
-3. ~~Can Subcontractors **decline** without Team member phone call~~ — **Resolved:** Decline in-app; Dana can counter-propose (UJ-2d) or reassign (UJ-2e). `[OPEN: courtesy SMS to removed sub?]`
-4. Customer calendar invite (Google ACL) in v0.1 or portal-only?
+1. ~~v0.1 calendar mode~~ — **Resolved 2026-08-20:** Pro-provided Google calendar per project; portfolio UI in app; subs/customers via event attendee invites — [architecture-v0.1.md](../../architecture-v0.1.md) §1.6
+2. ~~Free tier limits~~ — **Resolved 2026-08-19:** Sandbox = plan-only; paid = ~$100/5 concurrent active projects with comms; MVP bypasses gates — FR-18
+3. ~~Can Subcontractors **decline** without Team member phone call~~ — **Resolved:** Hard decline in-app; reassign (E5-S3b). `[OPEN: courtesy SMS to removed sub?]`
+4. ~~Customer calendar invite~~ — **Resolved 2026-08-20:** Google event attendee invite when email on file; portal-only otherwise
 5. Multiple Team members per Contractor in v0.1 or single owner account?
 6. ~~AI draft~~ — **Deferred v0.2+** (2026-08-17)
 7. Customer discovery: validate ICP (2–5 person contractor crews) before public launch.
-8. v0.2: link **Person** identity across project memberships (one portal listing all projects for a phone)?
+8. ~~v0.2: link **Person** identity across project memberships~~ — **Resolved 2026-08-20:** Global `persons` row per `phone_e164` in v0.1; unified multi-project portal UI remains **v0.2** (FJ-4) — [architecture-v0.1.md](../../architecture-v0.1.md) §4.3
+9. ~~GC auth providers~~ — **Resolved 2026-08-20:** Google only M1; Apple/Microsoft/native v0.1.1
+10. ~~Cascade in MVP~~ — **Resolved 2026-08-20:** Yes — E7 in MVP build order
+11. ~~6th project on Pro 5~~ — **Resolved 2026-08-20:** Plan-only mode (Phase 2)
+12. ~~Annual pricing~~ — **Resolved 2026-08-20:** ~2 months free on annual at Phase 2 (tune later)
 
 ---
 
@@ -517,14 +568,17 @@ The system must evaluate permissions from **subscription context** (Team member 
 
 - `[ASSUMPTION: On another Contractor's project I may be a Customer instead — role is per project]` — JTBD
 - `[ASSUMPTION: I may be a Customer on one project and a Subcontractor on another]` — JTBD
-- `[ASSUMPTION: Team member at Contractor X invited as Subcontractor on Contractor Y's project — v0.1 via phone]` — §3.3
-- `[ASSUMPTION: v0.1 ships one calendar mode — either BYO link or Pro-provided per project]` — FR-3
+- `[ASSUMPTION: Contractor subscriber may be Sub or Customer on another Contractor's project — separate identity planes in v0.1]` — §3.3
+- `[DECISION 2026-08-20: Pro-provided Google calendar per project; attendee invites for invitees]` — FR-3
+- `[DECISION 2026-08-20: Google OAuth only for team members in MVP]` — FR-1
+- `[DECISION 2026-08-20: Hard decline on E5-S3; reassign via E5-S3b]` — FR-8
 - `[ASSUMPTION: v0.1 cascade shifts proposed/confirmed assignments; confirmed become proposed_change]` — FR-13
 - `[ASSUMPTION: SMS = notification + link; conversation primary in web portal]` — FR-15
-- `[ASSUMPTION: Stripe Billing or Chargebee; free tier with SMS caps]` — FR-18
+- `[DECISION: Stripe Billing; sandbox free plan-only; ~$100/5 concurrent active projects — Phase 2 enforcement]` — FR-18
+- `[DECISION 2026-08-20: ~2 months free on annual at Phase 2]` — FR-18
 - `[ASSUMPTION: Primary ICP is 2–5 person residential contractor crews; solo trades adjacent]` — Vision
 - `[ASSUMPTION: US only, English, USD for v0.1]` — Scope
-- `[ASSUMPTION: Google Calendar sufficient for MVP; Samsung/Apple via Google sync on device]` — Integrations
+- `[DECISION 2026-08-20: Google Calendar for MVP; Apple device users may sync via Google invite to iOS Calendar app]` — Integrations
 
 ---
 
@@ -532,14 +586,8 @@ The system must evaluate permissions from **subscription context** (Team member 
 
 | Document | Purpose |
 |----------|---------|
-| [addendum.md](./addendum.md) | Index to technical exploration + architecture placeholder |
-| `../product-vision.md` | North star (source) |
-| `../technical-exploration/schedule-confirmation-workflow.md` | Propose/accept/poke detail |
-| `../technical-exploration/invite-join-flow.md` | Join flow detail |
-| `../technical-exploration/google-calendar-integration.md` | Calendar integration detail |
-| `../technical-exploration/job-planning-workflow.md` | v0.2 planning module |
-| `../technical-exploration/messaging-and-media.md` | Messaging & images |
-| **Architecture / TRD (TBD)** | Consolidated system design — to be created separately |
+| [addendum.md](./addendum.md) | Index to technical exploration + architecture |
+| [../../architecture-v0.1.md](../../architecture-v0.1.md) | **Architecture / TRD v0.1** — consolidated system design |
 
 ---
 

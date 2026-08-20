@@ -34,13 +34,13 @@ Costs you pay regardless of how many messages or customers (within a tier).
 | **Azure Key Vault** | ~$0–1 | — | TBD | Secrets (Google OAuth, Twilio) |
 | **Application Insights / monitoring** | ~$0–10 | — | TBD | Free tier often enough pre-launch |
 | **Google Cloud project** | $0 | — | Planned | Calendar API + OAuth only — no GCP hosting |
-| **Transactional email** | $0–20 | — | TBD | Resend / SendGrid / Azure Comm — magic links, invites |
-| **Auth** | $0 | — | Lean | ASP.NET Identity + passkeys = $0; Clerk Pro = $25/mo if chosen — [auth-byoa-vs-native-mfa.md](../planning-artifacts/technical-exploration/auth-byoa-vs-native-mfa.md) |
-| **Billing platform** | $0 + % | — | TBD | Stripe Billing or Chargebee — platform fee + % of revenue |
+| **Transactional email** | **$0** (Resend free tier) | — | **Resend** | Magic links, invites, pokes; ~3k/mo free — [architecture-v0.1.md](../planning-artifacts/architecture-v0.1.md) §1.5 |
+| **Auth — Entra External ID (CIAM)** | **$0** | — | **Locked** | GC team-member Google sign-in via External tenant — see [Entra External ID (CIAM)](#entra-external-id-ciam--team-member-auth) below |
+| **Billing platform** | $0 + % | — | **Stripe Billing** | Checkout + Customer Portal; ~0.7% billing + 2.9% + $0.30 card |
 | **Source control / CI** | $0–4 | — | TBD | GitHub free or Team |
 | **Error tracking** (optional) | $0 | — | TBD | Sentry free tier |
 | **Apple Developer** (if Sign in with Apple) | ~$8 | $99/yr | Open | Required only if shipping Apple Sign-In |
-| **10DLC campaign** (Twilio) | ~$2–10 | — | TBD | Per **company** brand/campaign; amortize across customers — see communications |
+| **10DLC campaign** (Twilio) | ~$2–10 | — | Platform | One brand/campaign for all tenants — amortize across customers — see [architecture-v0.1.md](../planning-artifacts/architecture-v0.1.md) §1.8 |
 
 ### Fixed subtotal (planning)
 
@@ -48,7 +48,65 @@ Costs you pay regardless of how many messages or customers (within a tier).
 |----------|---------|
 | **Lean pre-launch** | **~$35–50** |
 | **Prod-ready MVP** | **~$50–80** |
-| **With Clerk + paid email** | **~$80–120** |
+| **With paid email tier** | **~$80–120** |
+
+---
+
+## Entra External ID (CIAM) — team member auth
+
+**Decision (2026-08-20):** GC team members sign in with **Google OAuth via Microsoft Entra External ID** (CIAM External tenant). Subs/customers use **magic links** in our app — they do **not** count toward Entra MAU. Platform admin (Thomas) uses **workforce Entra** in a separate tenant/plane — not CIAM pricing below.
+
+Reference: [architecture-v0.1.md](../planning-artifacts/architecture-v0.1.md) §4 · [Microsoft Entra External ID pricing](https://www.microsoft.com/en-us/security/pricing/microsoft-entra-external-id)
+
+### Trial vs post-trial
+
+| Phase | Azure subscription required? | Entra cost | Notes |
+|-------|------------------------------|------------|-------|
+| **30-day External ID free trial** | **No** | **$0** | Create via [Entra admin center](https://entra.microsoft.com) → Manage tenants → Create → **External** → free trial. Eval/dev only; one trial per user account. |
+| **After trial (production path)** | **Yes** — link any Azure subscription | **$0** at MVP scale | Upgrade trial tenant or create External tenant with subscription. Subscription alone costs **$0/mo** if no Azure resources deployed. |
+| **Local dev** | Same as above for real OAuth QA | **$0** | `localhost` redirect URIs work — **no Azure hosting required** to develop auth. Optional **DevAuth** bypass in Development (story 1.1). |
+
+Post-trial is **not** a step-change in auth pricing — it is **attaching a subscription** to keep the CIAM tenant. Real spend after launch is **Azure hosting + Twilio**, not Entra MAU, at our scale.
+
+Docs: [Create external tenant](https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-create-external-tenant-portal) · [Free trial setup](https://learn.microsoft.com/en-us/entra/external-id/customers/quickstart-trial-setup)
+
+### MAU billing model
+
+**MAU** = unique users who **authenticate to the External CIAM tenant** in a calendar month (each user counted once per month).
+
+| User type | Counts toward Entra MAU? |
+|-----------|--------------------------|
+| GC **team members** (Ryan, Maci) — Google via Entra | **Yes** |
+| Subs / customers — magic links only | **No** |
+| Platform admin — workforce Entra | **No** (separate tenant) |
+
+| Tier | Price | Notes |
+|------|-------|-------|
+| **Entra External ID Basic — first 50,000 MAU / month** | **$0** | Core CIAM (social sign-in, user flows). Sufficient for years at our scale. |
+| **Above 50,000 MAU** | **~$0.03 / MAU** | Confirm in [Azure pricing calculator](https://azure.microsoft.com/pricing/calculator/) for your offer. Example: 60,000 MAU → ~$300/mo Entra only. |
+
+**Add-ons we are not using in MVP:** SMS phone auth via Entra (metered per country); Entra ID Governance for External Identities (~$0.75/MAU). Google OAuth federation itself is **$0** at MVP scale.
+
+### Planning scenarios (Entra line item only)
+
+| Scenario | Team-member MAU / mo | Entra / mo |
+|----------|----------------------|------------|
+| Solo build (Thomas) | 1–2 | **$0** |
+| 3 design-partner GCs × 2 people | ~6 | **$0** |
+| 10 GCs × 2 team members | ~20 | **$0** |
+| 100 GCs × 2 | ~200 | **$0** |
+| 1,000 GCs × 2 | ~2,000 | **$0** |
+| 25,000 GCs × 2 | ~50,000 | **$0** (free tier ceiling) |
+
+**Takeaway:** Budget **$0/mo for Entra** until tens of thousands of active GC logins per month. Pre-launch checklist **PL-7**: Entra External ID production tenant + prod redirect URIs.
+
+### Post-trial monthly picture (full stack)
+
+| Phase | Azure sub | Entra MAU | Azure hosting | Telco | Typical total |
+|-------|-----------|-----------|---------------|-------|---------------|
+| **Build locally** (Docker Postgres, no App Service) | $0 (optional free account) | $0 | $0 | $5–20 test | **~$7–22** + domain |
+| **Prod-ready MVP, 0 customers** | $0 min charge | $0 | ~$50–80 | ~$0 | **~$50–80** |
+| **Design partners** (3 GCs, 6 projects) | — | $0 | ~$60–80 | ~$75 | **~$135–155** |
 
 ---
 
@@ -131,7 +189,7 @@ Track separately; amortize mentally or in a spreadsheet if useful.
 | Azure dev + minimal prod | $35–60 |
 | Domain + DNS | ~$2 |
 | Email (free tier) | $0 |
-| Auth (Identity) | $0 |
+| Entra External ID (CIAM) | $0 |
 | Telco (testing only) | $5–20 |
 | **Total** | **~$40–80** |
 
@@ -169,9 +227,10 @@ Replace planning estimates with invoice amounts as vendors are chosen.
 ## Open decisions
 
 - [ ] Domain name + registrar
-- [ ] Auth: Identity ($0) vs Clerk ($25/mo)
-- [ ] Billing: Stripe Billing vs Chargebee
-- [ ] Email provider
+- [x] Auth: **Entra External ID (CIAM)** — Google via External tenant; $0 under 50k MAU (2026-08-20)
+- [ ] Entra: upgrade trial to subscription-backed tenant before day 30 (or when moving past eval)
+- [x] Billing: **Stripe Billing** (Phase 2) — Chargebee deferred (2026-08-19)
+- [x] Email: **Resend** (2026-08-20)
 - [ ] Twilio vs Telnyx (spike) — affects per-project COGS
 - [ ] Free tier: max active projects + MMS cap
 - [ ] Paid tier price point ($29–79 range to validate)
@@ -184,3 +243,4 @@ Replace planning estimates with invoice amounts as vendors are chosen.
 | Date | Change |
 |------|--------|
 | 2026-08-18 | Initial budget; **$10/mo per active project** telco planning default |
+| 2026-08-20 | **Entra External ID (CIAM)** section — trial vs post-trial, MAU model, 50k free tier, local dev without Azure hosting; locked auth/billing/email open decisions |

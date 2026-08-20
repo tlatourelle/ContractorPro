@@ -17,10 +17,62 @@ Related: [README.md](./README.md) · [discovery-log.md](../../../discovery-log.m
 
 ---
 
-## Needs discovery / SME before v0.1 build
+## Backlog by build bucket (2026-08-20)
 
-| ID | Topic | Journey ref | Open question |
-|----|-------|-------------|---------------|
+Decided in [planning-decision-checklist.md](../../../planning-decision-checklist.md) §B.
+
+### MVP Phase 1 — build rules locked
+
+| ID | Topic | MVP behavior |
+|----|-------|--------------|
+| **BL-1** | Customer channel gating | Gate schedule MMS until `phone_confirmed`; gate email until `email_confirmed` |
+| **BL-3** | Family dual-channel confirm | **MMS-only** for family invite (Erin) — not full dual-channel |
+| **BL-5** | Batch cascade confirm (subs) | **One batched SMS** per sub per project when cascade moves multiple tasks |
+| **BL-6** | Batch cascade confirm (customer) | **One digest** per cascade event |
+| **BL-7** | Quiet hours | **Company default** 8pm–8am local; queue SMS |
+| **BL-8** | `notify_via` per sub | **GC sets at invite**; editable by GC |
+| **BL-13** | MMS before handle ready | **Queue + warn Ryan** — do not drop |
+| **BL-14** | Unified inbox | **Mirror-only** — no merged single-thread UI |
+| **BL-18** | Courtesy SMS on reassignment | **Auto-send** when sub replaced on task |
+
+### v0.1.1
+
+| ID | Topic | Notes |
+|----|-------|-------|
+| **BL-2** | Customer milestone filter | Which tasks customer-visible |
+| **BL-4** | Returning customer fast path | Skip dual confirm if verified before |
+| **BL-9** | Poke Ryan on sub-request | Auto-poke GC at 48h pending |
+| **BL-11** | Partial cascade | Full cascade only until then |
+| **BL-12** | Business days / holidays | Calendar days in MVP |
+| **BL-15** | Project photo timeline | Cross-thread photo feed |
+| **BL-23** | Handle # reuse | E8-S5 + SP-1 |
+
+### v0.2+
+
+| ID | Topic | Notes |
+|----|-------|-------|
+| **BL-10** | Draft schedule mode | FJ-1 plan mode |
+| **BL-17** | Sub "my jobs" portal | FJ-4 |
+
+### When hired (ops policy)
+
+| ID | Topic |
+|----|-------|
+| **BL-19** | Platform admin role split (Alex vs Thomas) |
+
+### Previously decided
+
+| ID | Decision |
+|----|----------|
+| ~~**BL-16**~~ | Stripe Phase 2; MVP no gates |
+| ~~**BL-20–22**~~ | Admin impersonation, STOP scope, kill switch |
+
+---
+
+## Legacy reference (original open questions)
+
+| ID | Topic | Journey ref | Original question |
+|----|-------|-------------|-------------------|
 | **BL-1** | Customer channel gating | H-23, UJ-3b | Block schedule MMS until `phone_confirmed`? Block email digests until `email_confirmed`? |
 | **BL-2** | Customer milestone filter | H-22 | Which tasks are customer-visible vs internal-only? Who marks them? |
 | **BL-3** | Family dual-channel confirm | H-7, H-8 | Same email+MMS+poke as primary, or MMS-only for Erin? |
@@ -36,9 +88,25 @@ Related: [README.md](./README.md) · [discovery-log.md](../../../discovery-log.m
 | **BL-13** | MMS ingest before handle ready | C-13 | Queue messages, warn Ryan, or drop? |
 | **BL-14** | Unified inbox (MMS + app) | C-14, H-17 | Single thread view or mirror-only? |
 | **BL-15** | Project photo timeline | C-26 | Chronological all-project photos across threads — MVP or v0.1.1? |
-| **BL-16** | Billing / trial limits | C-27 | Free tier caps; upgrade flow when limit hit |
+| ~~**BL-16**~~ | ~~Billing / trial limits~~ | C-27 | **Decided 2026-08-19:** Stripe Billing; sandbox = plan-only (Phase 2); paid ~$100/5 concurrent active projects; **MVP = no billing/gates** |
 | **BL-17** | Sub "my jobs" landing | S-17 | v0.1 per-link only; when does unified portal ship? |
 | **BL-18** | Courtesy SMS on reassignment | S-20, UJ-2e | Auto-send when Nate replaces Jesse? |
+| **BL-19** | Platform admin role split | A-* | Super-admin vs support ops — what can Alex do without Thomas? |
+| ~~**BL-20**~~ | ~~Admin impersonation~~ | A-9, A-1 | **Decided 2026-08-19:** v0.1 drill-down only; A-9 deferred v0.1.1 |
+| ~~**BL-21**~~ | ~~SMS opt-out scope~~ | A-11 | **Decided 2026-08-19:** platform-global STOP + re-opt-in via link/START/admin audit |
+| ~~**BL-22**~~ | ~~Kill switch granularity~~ | A-10, A-6 | **Decided 2026-08-19:** platform kill + per-tenant suspend; per-project v0.2 |
+| **BL-23** | Handle # same-company reuse | E8-S5, C-25 | **Decided 2026-08-20:** deferred **v0.1.1** — MVP always JIT fresh; cooling → release. Spike: history routing |
+
+---
+
+## Engineering spikes (post-MVP)
+
+| ID | Spike | Delivers | Prereq in MVP | Ref |
+|----|-------|----------|---------------|-----|
+| **SP-1** | **Number reuse + history routing** | E8-S5: `cooling` → `available` → reassign; inbound resolves sender against `phone_number_assignments` when number served multiple projects | E8-S4: `phone_number_assignments` logged on every assign/archive; MVP inbound = current project only | [project-handle-numbers.md](../../../technical-exploration/project-handle-numbers.md) § Same-company reuse |
+| **SP-2** | Twilio vs Telnyx group MMS E2E | Vendor lock for E8 | Webhook + group MMS receive | [project-handle-numbers.md](../../../technical-exploration/project-handle-numbers.md) |
+
+**SP-1 acceptance (spike output):** sequence diagram for Marcus texting old Maple # after number reassigned to Oak; test cases; decision on reuse gate vs pure history routing.
 
 ---
 
@@ -64,6 +132,6 @@ These are **intentionally in scope** for differentiation — see contractor C-19
 - Portfolio triage home screen (vs BT dashboard sprawl)
 - Event-triggered customer updates (vs BT weekly AI digest)
 - Persistence / poke layer (vs passive iCal)
-- Google + Apple calendar on accept (vs BT one-way iCal)
+- Google attendee invites on accept (vs BT one-way iCal); Apple CalDAV v0.1.1
 
 Log decisions in [discovery-log.md](../../../discovery-log.md).

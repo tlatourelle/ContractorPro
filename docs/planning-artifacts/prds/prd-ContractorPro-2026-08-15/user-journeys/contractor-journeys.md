@@ -10,22 +10,24 @@ Use this list in SME workshops. Ask: *"Is this how you actually work today? What
 
 ## Onboarding & project setup
 
-### C-1: Get started on ContractorPro
-- **Trigger:** Signed up after churning from Buildertrend; has a new kitchen job starting
-- Signs in on laptop (Google OAuth)
-- Connects company Google Calendar
+### C-1: Get started on ContractorPro — **MVP self-serve**
+- **Trigger:** Ryan finds ContractorPro; signs up without sales call or invite code
+- Signs in on laptop (Google OAuth) → **system creates Riverside Remodeling company automatically** (E1-S1)
+- Onboarding checklist (E1-S4) guides: connect calendar → create first project → add tasks → invite sub → propose date
 - Creates first project (e.g. Maple St Kitchen) — enters **primary customer** name, email, phone on project form
 - Adds tasks (Demo, Rough electric, Drywall, Paint — dates optional at first)
 - Invites first sub; customer gets connect link automatically (not a separate invite step)
 - Assigns a sub to a task and proposes a date
+- **MVP:** Full coordination enabled — no payment step
+- **Phase 2:** First **Invite sub** or customer notify on sandbox tier triggers upgrade (C-27)
 - **Success:** Live project, calendar connected, primary customer on project + one sub invited, one date proposed — ~20–30 min
 - **SME check:** Is 20–30 min realistic? What do they skip on day one?
 
 ### C-2: Connect company calendar
 - **Trigger:** During onboarding or later from settings
-- Connects company calendar — **Google Calendar** preferred at v0.1 (primary contractor/project sync path)
+- Connects company calendar — **Google OAuth**; ContractorPro **creates one calendar per project** (pro-provided)
 - Sees confirmation that dates sync after subs/customers confirm
-- **Success:** Contractor calendar linked; subs/customers may link Google or Apple on their side
+- **Success:** Contractor calendar linked; subs/customers receive **Google attendee invites** on accept (MVP)
 - **SME check:** One calendar per company, or per user? Shared office calendar?
 
 ---
@@ -250,11 +252,17 @@ Use this list in SME workshops. Ask: *"Is this how you actually work today? What
 - **Status:** `[BL-15]` — MVP or v0.1.1?
 - **Success:** Dispute resolution, progress review without scrolling threads
 
-### C-27: Billing / trial limits (needs discovery)
-- **Trigger:** Riverside on free tier hits project or sub limit
-- Ryan sees upgrade prompt; Maci may see same (v0.1) or blocked (post-POC)
-- **Status:** `[BL-16]` — tie to monetization discovery
-- **Success:** Clear path to paid tier without data loss
+### C-27: Billing / upgrade to unlock coordination — **Post-MVP (Phase 2)**
+- **Trigger:** Ryan finished laying out Maple St in free tier; taps **Invite sub** or saves customer contact that would notify Lauren
+- **MVP (Phase 1):** All coordination features open — no upgrade prompt; validate core loop with design partners
+- **Phase 2 — free tier allows:** sign-up, company setup, create projects, add tasks/dates, internal schedule editing, cascade **preview** (no publish)
+- **Phase 2 — free tier blocks:** sub invite, customer outbound confirm (email/MMS), propose dates that notify, poke, cascade publish, MMS threads, any SMS/MMS send
+- Upgrade prompt: *"Subscribe to invite subs and notify customers"* → Stripe Checkout
+- **Paid tiers (draft):** ~$100/mo · up to 5 concurrent **active** projects with comms · $200/mo · up to 10 · linear
+- At plan cap (e.g. 6th active project on $100 tier): plan-only mode or prompt upgrade — prefer plan-only
+- **Success:** Ryan experiences product before paying; conversion at first real coordination moment; telco COGS only on paying tenants
+- **Vendor:** Stripe Billing + Customer Portal for self-serve manage/cancel
+- **Stories:** E1-S3, E1-S5, E1-S6 · **Decision:** [discovery-log.md](../../../discovery-log.md)
 
 ---
 

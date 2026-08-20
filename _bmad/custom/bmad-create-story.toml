@@ -1,0 +1,9 @@
+# Team overrides for bmad-create-story — merged on top of skill defaults.
+
+[workflow]
+
+persistent_facts = [
+  "file:{project-root}/docs/implementation-artifacts/story-standard.md",
+  "Every implementation story MUST satisfy story-standard.md: reasoning (whys), implementation details, security/vulnerability review, unit tests (if applicable), integration/e2e tests (if applicable), manual QA checklist, and definition of done. Never omit a section — use N/A with reason if not applicable.",
+  "Use docs/implementation-artifacts/story-template.md as the structural template, not the minimal BMAD default template alone.",
+]
