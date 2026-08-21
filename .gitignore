@@ -26,8 +26,12 @@ node_modules/
 dist/
 build/
 out/
+*.tsbuildinfo
 *.dll
 *.exe
+
+# Backup artifacts
+*.bak
 
 # Environment and secrets
 .env
