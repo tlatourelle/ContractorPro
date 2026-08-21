@@ -12,14 +12,14 @@
   "dependencies": {
     "react": "^19.0.0-rc-66a3167f-20241119",
     "react-dom": "^19.0.0-rc-66a3167f-20241119",
-    "react-router-dom": "^6.20.0"
+    "react-router-dom": "^7.18.2"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
     "@types/react": "^19.0.0-rc-66a3167f-20241119",
     "@types/react-dom": "^19.0.0-rc-66a3167f-20241119",
-    "@typescript-eslint/eslint-plugin": "^6.13.2",
-    "@typescript-eslint/parser": "^6.13.2",
+    "@typescript-eslint/eslint-plugin": "^8.67.0",
+    "@typescript-eslint/parser": "^8.67.0",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.55.0",
@@ -28,6 +28,6 @@
     "postcss": "^8.4.32",
     "tailwindcss": "^3.3.6",
     "typescript": "^5.3.3",
-    "vite": "^5.0.8"
+    "vite": "^5.4.21"
   }
 }
