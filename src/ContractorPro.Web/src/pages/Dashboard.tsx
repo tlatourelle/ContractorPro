@@ -1,6 +1,25 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getTeamMe, logout, updateCompanyProfile, type TeamMeResponse } from '../api'
+import { useOnboardingChecklist, type OnboardingChecklistStep } from '../onboardingChecklist'
+
+const ONBOARDING_STEPS: OnboardingChecklistStep[] = [
+  {
+    id: 'confirm-company-profile',
+    title: 'Confirm company profile',
+    description: 'Review your company name and timezone to ensure team context is accurate.',
+  },
+  {
+    id: 'invite-first-team-member',
+    title: 'Invite your first team member',
+    description: 'Team invites will be wired in a later story. This step is a guided placeholder.',
+  },
+  {
+    id: 'create-first-project',
+    title: 'Create your first project',
+    description: 'Project setup arrives in Epic 2. Keep this checked once you are ready to start.',
+  },
+]
 
 export default function Dashboard() {
   const navigate = useNavigate()
@@ -10,6 +29,17 @@ export default function Dashboard() {
   const [companyTimezone, setCompanyTimezone] = useState('')
   const [isSaving, setIsSaving] = useState(false)
   const [saveMessage, setSaveMessage] = useState('')
+  const checklistContext = useMemo(
+    () => ({
+      contractorId: teamMe?.contractor.id ?? 'pending-contractor',
+      teamMemberId: teamMe?.teamMember.id ?? 'pending-member',
+    }),
+    [teamMe?.contractor.id, teamMe?.teamMember.id]
+  )
+  const checklist = useOnboardingChecklist(
+    checklistContext,
+    ONBOARDING_STEPS
+  )
 
   useEffect(() => {
     let mounted = true
@@ -103,6 +133,49 @@ export default function Dashboard() {
         >
           Logout
         </button>
+      </div>
+
+      <div className="mt-6 border-t border-gray-200 pt-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">Getting Started</h3>
+        <p className="text-sm text-gray-600 mb-4">
+          No projects yet. Use this checklist shell to track onboarding progress while full workflows are rolled out.
+        </p>
+
+        <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-sm font-medium text-gray-800">Onboarding checklist</p>
+            <span className="text-xs font-medium text-gray-600">
+              {checklist.completedCount} of {checklist.totalCount} complete
+            </span>
+          </div>
+
+          {!checklist.isLoaded ? (
+            <p className="mt-3 text-sm text-gray-600">Loading checklist progress...</p>
+          ) : (
+            <ul className="mt-3 space-y-3">
+              {checklist.steps.map((step) => (
+                <li key={step.id} className="rounded-md border border-gray-200 bg-white p-3">
+                  <div className="flex items-start gap-3">
+                    <button
+                      type="button"
+                      onClick={() => checklist.toggleStep(step.id)}
+                      aria-pressed={step.completed}
+                      className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded border border-gray-300 text-xs text-gray-700"
+                    >
+                      {step.completed ? '✓' : ''}
+                    </button>
+                    <div>
+                      <p className={`text-sm font-medium ${step.completed ? 'text-gray-500 line-through' : 'text-gray-900'}`}>
+                        {step.title}
+                      </p>
+                      <p className="mt-1 text-xs text-gray-600">{step.description}</p>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
 
       <div className="mt-6 border-t border-gray-200 pt-6">

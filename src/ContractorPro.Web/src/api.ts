@@ -47,6 +47,21 @@ export interface TeamMeResponse {
   }
 }
 
+export interface OnboardingChecklistProgress {
+  completedStepIds: string[]
+  updatedAtUtc: string
+}
+
+export interface OnboardingChecklistProgressContext {
+  contractorId: string
+  teamMemberId: string
+}
+
+export interface OnboardingChecklistProgressStore {
+  load(context: OnboardingChecklistProgressContext): Promise<OnboardingChecklistProgress | null>
+  save(context: OnboardingChecklistProgressContext, progress: OnboardingChecklistProgress): Promise<void>
+}
+
 export function getTeamMe(): Promise<TeamMeResponse> {
   return apiCall<TeamMeResponse>('/team/me')
 }
