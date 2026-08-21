@@ -88,13 +88,15 @@ function Wait-ForContainerStopped {
 
     $deadline = (Get-Date).AddSeconds($TimeoutSeconds)
     while ((Get-Date) -lt $deadline) {
-        $exists = docker inspect $ContainerName 2>$null
+        # Suppress stderr and check exit code
+        $null = & docker inspect $ContainerName 2>$null
         if ($LASTEXITCODE -ne 0) {
+            # Container doesn't exist or error occurred (expected after compose down)
             return
         }
 
-        $running = docker inspect -f "{{.State.Running}}" $ContainerName 2>$null
-        if ($running -ne "true") {
+        $running = & docker inspect -f "{{.State.Running}}" $ContainerName 2>$null
+        if ($LASTEXITCODE -ne 0 -or $running -ne "true") {
             return
         }
 

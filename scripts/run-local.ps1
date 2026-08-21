@@ -150,9 +150,6 @@ $runtimeDir = Join-Path $PSScriptRoot ".runtime"
 Write-Host "==> ContractorPro local run"
 Write-Host "Repo root: $repoRoot"
 
-# Set environment for development (needed for user-secrets to load in API)
-$env:ASPNETCORE_ENVIRONMENT = 'Development'
-
 Require-Command dotnet
 Require-Command npm
 
@@ -213,7 +210,7 @@ try {
 
     Write-Host "==> Launching API and frontend in new PowerShell windows"
 
-    $apiCommand = "Set-Location '$repoRoot'; dotnet run --project src/ContractorPro.Api"
+    $apiCommand = "`$env:ASPNETCORE_ENVIRONMENT = 'Development'; Set-Location '$repoRoot'; dotnet run --project src/ContractorPro.Api"
     $webCommand = "Set-Location '$webRoot'; npm run dev"
 
     $apiShell = Start-Process powershell -ArgumentList @('-NoExit', '-Command', $apiCommand) -PassThru
