@@ -128,6 +128,27 @@ function Ensure-DotnetEf {
     }
 }
 
+function Ensure-UserSecrets {
+    param([Parameter(Mandatory = $true)][string]$RepoRoot)
+
+    $apiProjectDir = Join-Path $RepoRoot "src/ContractorPro.Api"
+    
+    Push-Location $apiProjectDir
+    try {
+        $secretsId = dotnet user-secrets list --json 2>$null | Select-String . -Quiet
+        if (-not $secretsId) {
+            Write-Host "==> Initializing user secrets store"
+            dotnet user-secrets init --force
+        }
+        
+        Write-Host "==> Setting database connection string in user secrets"
+        dotnet user-secrets set "ConnectionStrings:Default" "Host=localhost;Port=5432;Database=contractorpro;Username=postgres;Password=postgres"
+    }
+    finally {
+        Pop-Location
+    }
+}
+
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $webRoot = Join-Path $repoRoot "src/ContractorPro.Web"
 $runtimeDir = Join-Path $PSScriptRoot ".runtime"
@@ -152,6 +173,7 @@ try {
 
     if (-not $SkipMigrations) {
         Ensure-DotnetEf -RepoRoot $repoRoot
+        Ensure-UserSecrets -RepoRoot $repoRoot
         Write-Host "==> Applying EF migrations"
         dotnet ef database update -s src/ContractorPro.Api -p src/ContractorPro.Infrastructure
         if ($LASTEXITCODE -ne 0) {
