@@ -135,12 +135,6 @@ function Ensure-UserSecrets {
     
     Push-Location $apiProjectDir
     try {
-        $secretsId = dotnet user-secrets list --json 2>$null | Select-String . -Quiet
-        if (-not $secretsId) {
-            Write-Host "==> Initializing user secrets store"
-            dotnet user-secrets init --force
-        }
-        
         Write-Host "==> Setting database connection string in user secrets"
         dotnet user-secrets set "ConnectionStrings:Default" "Host=localhost;Port=5432;Database=contractorpro;Username=postgres;Password=postgres"
     }
@@ -175,9 +169,17 @@ try {
         Ensure-DotnetEf -RepoRoot $repoRoot
         Ensure-UserSecrets -RepoRoot $repoRoot
         Write-Host "==> Applying EF migrations"
-        dotnet ef database update -s src/ContractorPro.Api -p src/ContractorPro.Infrastructure
-        if ($LASTEXITCODE -ne 0) {
-            throw "EF migrations failed. Ensure PostgreSQL is running (Docker Desktop or local Postgres), then retry."
+        Push-Location (Join-Path $repoRoot "src/ContractorPro.Api")
+        try {
+            $env:ASPNETCORE_ENVIRONMENT = "Development"
+            dotnet ef database update -p ../ContractorPro.Infrastructure
+            if ($LASTEXITCODE -ne 0) {
+                throw "EF migrations failed. Ensure PostgreSQL is running (Docker Desktop or local Postgres), then retry."
+            }
+        }
+        finally {
+            $env:ASPNETCORE_ENVIRONMENT = ""
+            Pop-Location
         }
     }
     else {
