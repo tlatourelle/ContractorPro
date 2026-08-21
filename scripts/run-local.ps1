@@ -150,6 +150,9 @@ $runtimeDir = Join-Path $PSScriptRoot ".runtime"
 Write-Host "==> ContractorPro local run"
 Write-Host "Repo root: $repoRoot"
 
+# Set environment for development (needed for user-secrets to load in API)
+$env:ASPNETCORE_ENVIRONMENT = 'Development'
+
 Require-Command dotnet
 Require-Command npm
 
