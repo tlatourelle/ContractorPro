@@ -36,6 +36,30 @@ Empty-state checklist widget (steps stubbed); progress persistence hook — full
 
 **Depends:** 1.2 · **Product:** E1-S4 · **Milestone:** M5
 
+### Story 1.4: Playwright E2E foundation (CI-safe)
+
+Initialize Playwright test harness, browser projects, reporter/artifacts, and deterministic app boot for local and CI runs.
+
+**Depends:** 1.0 · **Product:** E1-S7 · **Milestone:** M1
+
+### Story 1.5: Test-auth bridge for deterministic session E2E
+
+Add a test-only auth bridge in `Test` environment so E2E can establish valid session cookies without automating third-party Google UI.
+
+**Depends:** 1.1, 1.4 · **Product:** E1-S8 · **Milestone:** M1
+
+### Story 1.6: Auth/session E2E suite and CI integration
+
+Implement Playwright tests for login guard, `/team/me` session behavior, dashboard rendering, logout, and session persistence; wire into setup and CI test stages with failure artifacts.
+
+**Depends:** 1.5 · **Product:** E1-S7, E1-S8 · **Milestone:** M1
+
+### Story 1.7: Manual Google OAuth smoke runbook
+
+Define a strict manual smoke checklist for real Google sign-in and provisioning behavior, with evidence capture and release gate criteria.
+
+**Depends:** 1.1 · **Product:** E1-S9 · **Milestone:** M1
+
 ---
 
 ## Epic 2: Projects & tasks

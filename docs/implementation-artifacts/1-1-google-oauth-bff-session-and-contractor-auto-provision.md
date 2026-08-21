@@ -266,11 +266,16 @@ Use hand-typed `fetch` with `credentials: 'include'`.
 
 | Test | AC | Description |
 |------|-----|-------------|
-| `GoogleLogin_CreatesDashboard` | AC-1, AC-2 | Playwright + real Google test account |
+| `AnonymousDashboard_RedirectsToLogin` | AC-1 | Playwright, CI-safe |
+| `AuthenticatedTeamMe_ShowsDashboard` | AC-2, AC-7 | Playwright with test-auth bridge |
+| `Logout_ClearsSession` | AC-6, AC-9 | Playwright + cookie/session verification |
+| `GoogleLogin_CreatesDashboard` | AC-1, AC-2 | Manual smoke with real Google account |
 
-**Run:** Deferred
+**Run:**
+- CI-safe Playwright suite: planned in implementation stories 1.4-1.6
+- Manual real Google smoke: planned in implementation story 1.7
 
-*Deferred reason:* Requires Entra test tenant + Playwright auth state. **Compensated by** integration tests with TestAuthHandler + **Manual QA** MQ-1–MQ-6. Add Playwright in story 1.2 or dedicated test-harness story.
+*Execution note:* Real Google UI automation remains out of CI scope; coverage is split between deterministic Playwright session tests and manual provider smoke.
 
 ---
 

@@ -120,6 +120,49 @@ Derived from [prd.md](./prd.md). Product-facing stories only — implementation 
 
 ---
 
+### E1-S7: Auth/session E2E coverage (CI-safe) — **MVP**
+
+**As a** product team, **we can** run deterministic end-to-end auth/session tests in CI **so that** onboarding regressions are caught before release.
+
+**Acceptance:**
+- [ ] Playwright suite runs in CI without requiring real Google interaction
+- [ ] Coverage includes: anonymous guard to login, authenticated dashboard load, `/api/v1/team/me` success and unauthorized states, logout behavior
+- [ ] Failed runs publish screenshots/traces/videos for triage
+- [ ] Suite is stable enough for release gating (no flaky retries required for pass)
+
+**FR:** FR-1 · **Journey:** C-1 step 1 · **Type:** quality enablement
+
+---
+
+### E1-S8: Deterministic test login bridge for E2E — **MVP**
+
+**As a** product team, **we can** establish authenticated sessions in test environments without third-party IdP automation **so that** auth flows are testable and repeatable.
+
+**Acceptance:**
+- [ ] Test-only login mechanism is enabled only in `Test` environment
+- [ ] Mechanism can mint a valid app session cookie for seeded user/contractor/team-member test identities
+- [ ] Mechanism is blocked in Development/Production unless explicitly enabled for local test runs
+- [ ] Security review confirms no production auth bypass risk
+
+**FR:** FR-1 · **Journey:** C-1 step 1 · **Type:** quality enablement
+
+---
+
+### E1-S9: Manual Google OAuth release smoke — **MVP**
+
+**As a** release owner, **I can** run a short manual Google OAuth smoke checklist **so that** external IdP and first-login provisioning remain verified before launch.
+
+**Acceptance:**
+- [ ] First-time Google sign-in creates expected user/contractor/team-member/auth-identity rows
+- [ ] Repeat sign-in with same Google account does not duplicate provisioning
+- [ ] Sign-in with second Google account creates separate contractor tenant
+- [ ] Logout clears session and protected route returns unauthorized until next login
+- [ ] Checklist can be completed in under 10 minutes with explicit pass/fail evidence
+
+**FR:** FR-1 · **Journey:** C-1 step 1 · **Type:** release quality gate
+
+---
+
 ## Epic E2 — Projects & Tasks
 
 *Team members organize work on jobs.*

@@ -40,6 +40,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.Configure<ExternalIdAuthenticationOptions>(
     builder.Configuration.GetSection(ExternalIdAuthenticationOptions.SectionName));
+builder.Services.AddSingleton<ExternalAuthRuntimeState>();
 
 var externalIdOptions = builder.Configuration
     .GetSection(ExternalIdAuthenticationOptions.SectionName)
@@ -94,60 +95,61 @@ var authBuilder = builder.Services
         };
     });
 
-if (externalIdOptions.Enabled)
+authBuilder.AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
 {
-    authBuilder.AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+    options.Authority = Uri.IsWellFormedUriString(externalIdOptions.Authority, UriKind.Absolute)
+        ? externalIdOptions.Authority
+        : "https://example.invalid/common/v2.0";
+    options.ClientId = string.IsNullOrWhiteSpace(externalIdOptions.ClientId)
+        ? "contractorpro-dev"
+        : externalIdOptions.ClientId;
+    options.ClientSecret = externalIdOptions.ClientSecret;
+    options.CallbackPath = externalIdOptions.CallbackPath;
+    options.ResponseType = "code";
+    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.SaveTokens = false;
+    options.GetClaimsFromUserInfoEndpoint = true;
+
+    options.Scope.Clear();
+    options.Scope.Add("openid");
+    options.Scope.Add("profile");
+    options.Scope.Add("email");
+
+    options.Events = new OpenIdConnectEvents
     {
-        options.Authority = externalIdOptions.Authority;
-        options.ClientId = externalIdOptions.ClientId;
-        options.ClientSecret = externalIdOptions.ClientSecret;
-        options.CallbackPath = externalIdOptions.CallbackPath;
-        options.ResponseType = "code";
-        options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.SaveTokens = false;
-        options.GetClaimsFromUserInfoEndpoint = true;
-
-        options.Scope.Clear();
-        options.Scope.Add("openid");
-        options.Scope.Add("profile");
-        options.Scope.Add("email");
-
-        options.Events = new OpenIdConnectEvents
+        OnTokenValidated = async context =>
         {
-            OnTokenValidated = async context =>
+            var providerSubject = ExternalIdentityClaims.GetProviderSubject(context.Principal);
+            var email = context.Principal?.FindFirstValue(ClaimTypes.Email)
+                ?? context.Principal?.FindFirstValue("email")
+                ?? string.Empty;
+            var displayName = context.Principal?.FindFirstValue(ClaimTypes.Name)
+                ?? context.Principal?.Identity?.Name
+                ?? email;
+
+            var provisioningService = context.HttpContext.RequestServices.GetRequiredService<IProvisioningService>();
+            var result = await provisioningService.ProvisionOrLoadAsync(
+                new ProvisioningRequest("google", providerSubject, email, displayName),
+                context.HttpContext.RequestAborted);
+
+            var claims = new List<Claim>
             {
-                var providerSubject = ExternalIdentityClaims.GetProviderSubject(context.Principal);
-                var email = context.Principal?.FindFirstValue(ClaimTypes.Email)
-                    ?? context.Principal?.FindFirstValue("email")
-                    ?? string.Empty;
-                var displayName = context.Principal?.FindFirstValue(ClaimTypes.Name)
-                    ?? context.Principal?.Identity?.Name
-                    ?? email;
+                new(ContractorProClaimTypes.UserId, result.UserId.ToString()),
+                new(ContractorProClaimTypes.TeamMemberId, result.TeamMemberId.ToString()),
+                new(ContractorProClaimTypes.ContractorId, result.ContractorId.ToString()),
+                new(ClaimTypes.Name, displayName)
+            };
 
-                var provisioningService = context.HttpContext.RequestServices.GetRequiredService<IProvisioningService>();
-                var result = await provisioningService.ProvisionOrLoadAsync(
-                    new ProvisioningRequest("google", providerSubject, email, displayName),
-                    context.HttpContext.RequestAborted);
-
-                var claims = new List<Claim>
-                {
-                    new(ContractorProClaimTypes.UserId, result.UserId.ToString()),
-                    new(ContractorProClaimTypes.TeamMemberId, result.TeamMemberId.ToString()),
-                    new(ContractorProClaimTypes.ContractorId, result.ContractorId.ToString()),
-                    new(ClaimTypes.Name, displayName)
-                };
-
-                if (!string.IsNullOrWhiteSpace(email))
-                {
-                    claims.Add(new Claim(ClaimTypes.Email, email));
-                }
-
-                context.Principal = new ClaimsPrincipal(
-                    new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));
+            if (!string.IsNullOrWhiteSpace(email))
+            {
+                claims.Add(new Claim(ClaimTypes.Email, email));
             }
-        };
-    });
-}
+
+            context.Principal = new ClaimsPrincipal(
+                new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));
+        }
+    };
+});
 
 builder.Services.AddAuthorization(options =>
 {
