@@ -133,6 +133,7 @@ Story is **done** only when:
 - [ ] Integration tests written and passing (or N/A documented)
 - [ ] E2E tests written and passing (or N/A documented with compensating manual QA)
 - [ ] Manual QA checklist completed by Thomas (or delegate)
+- [ ] **AI code review completed** — `bmad-code-review` run with model different from build agent; findings addressed and verified
 - [ ] Dev Agent Record updated: files changed, commands run, notes
 - [ ] No secrets committed; linter/tests green in CI
 

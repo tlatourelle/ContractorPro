@@ -2,7 +2,7 @@
 title: ContractorPro Architecture v0.1 (MVP Phase 1)
 status: draft
 created: 2026-08-19
-updated: 2026-08-20
+updated: 2026-08-21
 scope: MVP Phase 1 — data model, service boundaries, billing schema hooks
 source_prd: prds/prd-ContractorPro-2026-08-15/prd.md
 ---
@@ -22,7 +22,7 @@ Decisions below ratify existing exploration docs. Open forks are called out expl
 | Layer | Choice | Why |
 |-------|--------|-----|
 | **Paradigm** | Modular monolith | One deployable API for years; clear module boundaries now, extract later if needed |
-| **API** | ASP.NET Core (.NET 9) | Team strength, Azure-native, strong typing for AI-assisted dev |
+| **API** | ASP.NET Core (.NET 10) | Team strength, Azure-native, strong typing for AI-assisted dev; passkeys built-in |
 | **ORM** | EF Core + Npgsql | Migrations, PostgreSQL provider, familiar tooling |
 | **Database** | PostgreSQL 16 | Relational fit; Azure Flexible Server in prod; Neon/Docker in dev |
 | **Frontend** | **React 19 + TypeScript + Vite + shadcn/ui** | AI-assisted (vibe coding) workflow; largest example corpus; single SPA for GC dashboard + magic-link portal. Decided 2026-08-20 (React over Blazor). |

@@ -89,7 +89,7 @@ Single React SPA: `/app/*` (team member) + `/p/*` (portal). No `/admin` UI in M1
 
 | Layer | Choice |
 |-------|--------|
-| API | ASP.NET Core .NET 9 (modular monolith) |
+| API | ASP.NET Core .NET 10 (modular monolith) |
 | DB | PostgreSQL 16 + EF Core |
 | Frontend | React 19 + TypeScript + Vite + shadcn/ui |
 | Team member auth | Entra External ID (CIAM) — **Google only M1** |

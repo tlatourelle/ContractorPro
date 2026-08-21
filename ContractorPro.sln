@@ -1,0 +1,61 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A1C5D1E1-0000-0000-0000-000000000001}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A1C5D1E1-0000-0000-0000-000000000002}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractorPro.Api", "src\ContractorPro.Api\ContractorPro.Api.csproj", "{A1C5D1E1-0000-0000-0000-000000000010}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractorPro.Application", "src\ContractorPro.Application\ContractorPro.Application.csproj", "{A1C5D1E1-0000-0000-0000-000000000020}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractorPro.Domain", "src\ContractorPro.Domain\ContractorPro.Domain.csproj", "{A1C5D1E1-0000-0000-0000-000000000030}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractorPro.Infrastructure", "src\ContractorPro.Infrastructure\ContractorPro.Infrastructure.csproj", "{A1C5D1E1-0000-0000-0000-000000000040}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractorPro.Application.Tests", "tests\ContractorPro.Application.Tests\ContractorPro.Application.Tests.csproj", "{A1C5D1E1-0000-0000-0000-000000000050}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractorPro.Api.Tests", "tests\ContractorPro.Api.Tests\ContractorPro.Api.Tests.csproj", "{A1C5D1E1-0000-0000-0000-000000000060}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A1C5D1E1-0000-0000-0000-000000000010}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000010}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000010}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000010}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000020}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000020}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000020}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000020}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000030}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000030}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000030}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000030}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000040}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000040}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000040}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000040}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000050}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000050}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000050}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000050}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000060}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000060}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000060}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1C5D1E1-0000-0000-0000-000000000060}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A1C5D1E1-0000-0000-0000-000000000010} = {A1C5D1E1-0000-0000-0000-000000000001}
+		{A1C5D1E1-0000-0000-0000-000000000020} = {A1C5D1E1-0000-0000-0000-000000000001}
+		{A1C5D1E1-0000-0000-0000-000000000030} = {A1C5D1E1-0000-0000-0000-000000000001}
+		{A1C5D1E1-0000-0000-0000-000000000040} = {A1C5D1E1-0000-0000-0000-000000000001}
+		{A1C5D1E1-0000-0000-0000-000000000050} = {A1C5D1E1-0000-0000-0000-000000000002}
+		{A1C5D1E1-0000-0000-0000-000000000060} = {A1C5D1E1-0000-0000-0000-000000000002}
+	EndGlobalSection
+EndGlobal

@@ -165,7 +165,7 @@ Planning hygiene complete: PRD synced, journeys aligned, E12 + E3-S3 + E6-S5 add
 
 See also: [technical-exploration/auth-and-data.md](./technical-exploration/auth-and-data.md)
 
-- [ ] **App stack** (.NET vs Next.js vs other) — **Resolved:** ASP.NET Core .NET 9 + React 19 — [architecture-v0.1.md](./architecture-v0.1.md)
+- [ ] **App stack** (.NET vs Next.js vs other) — **Resolved:** ASP.NET Core .NET 10 + React 19 — [architecture-v0.1.md](./architecture-v0.1.md)
 - [ ] **Clerk vs Supabase Auth vs Auth.js** — **Resolved:** Entra External ID (CIAM) + BFF cookie — not Clerk/Auth.js
 - [ ] Google Calendar: one-way export vs two-way sync — conflict resolution?
 - [ ] Magic link token security, rotation, revocation (subs/homeowners) → **7d TTL default** (2026-08-20 §C)

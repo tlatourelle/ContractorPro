@@ -1,6 +1,11 @@
+---
+status: in-review
+baseline_commit: 8c0518ef5d2fa035869a37c7c928a0a2a758daef
+---
+
 # Story 1.1: Google OAuth BFF session and contractor auto-provision
 
-Status: ready-for-dev
+Status: in-review
 
 Epic: 1 · FR: FR-1 · Journey: C-1 step 1 · Depends: 1.0 · Product: E1-S1 · Milestone: M1
 
@@ -307,10 +312,64 @@ Use hand-typed `fetch` with `credentials: 'include'`.
 
 ### Agent model
 
-*(filled on implementation)*
+- GPT-5.3-Codex
 
 ### Completion notes
 
+- Implemented Entra External ID OIDC challenge + cookie session auth in API startup and auth controller.
+- Implemented first-login provisioning flow to create `users`, `contractors`, `team_members` (owner), and `auth_identities` transactionally.
+- Implemented authenticated `/api/v1/team/me` endpoint and protected team routes behavior.
+- Implemented minimal React login and dashboard flow using cookie-based API calls.
+- Verified local-dev fallback behavior when external auth is not configured (`Authentication:ExternalId:Enabled=false`) and test auth stubs for integration tests.
+- Round 2 remediation applied after independent review: fixed provider subject extraction to use `ClaimTypes.NameIdentifier` with `sub` fallback; set persistent auth cookie on login; added duplicate-race recovery path in provisioning; added unit tests for external identity claim extraction.
+
 ### File list
 
+- src/ContractorPro.Api/Program.cs
+- src/ContractorPro.Api/Auth/ExternalIdAuthenticationOptions.cs
+- src/ContractorPro.Api/Auth/ContractorProClaimTypes.cs
+- src/ContractorPro.Api/Controllers/AuthController.cs
+- src/ContractorPro.Api/Controllers/TeamController.cs
+- src/ContractorPro.Api/Middleware/TeamMemberAuthMiddleware.cs
+- src/ContractorPro.Application/Identity/IProvisioningService.cs
+- src/ContractorPro.Application/Identity/ProvisioningRequest.cs
+- src/ContractorPro.Application/Identity/ProvisioningResult.cs
+- src/ContractorPro.Application/Identity/ProvisioningService.cs
+- src/ContractorPro.Infrastructure/ContractorProDbContext.cs
+- src/ContractorPro.Infrastructure/Entities/User.cs
+- src/ContractorPro.Infrastructure/Entities/Contractor.cs
+- src/ContractorPro.Infrastructure/Entities/TeamMember.cs
+- src/ContractorPro.Infrastructure/Entities/AuthIdentity.cs
+- src/ContractorPro.Infrastructure/Migrations/20260821120000_AddGoogleAuthSessionAndTeamContext.cs
+- src/ContractorPro.Web/src/api.ts
+- src/ContractorPro.Web/src/pages/Login.tsx
+- src/ContractorPro.Web/src/pages/Dashboard.tsx
+- src/ContractorPro.Web/src/pages/AppLayout.tsx
+- tests/ContractorPro.Application.Tests/Identity/ProvisioningServiceTests.cs
+- tests/ContractorPro.Api.Tests/Auth/TeamMeEndpointTests.cs
+- src/ContractorPro.Api/Auth/ExternalIdentityClaims.cs
+- tests/ContractorPro.Api.Tests/Auth/ExternalIdentityClaimsTests.cs
+
 ### Test results
+
+- `dotnet build ContractorPro.sln`
+  - PASS
+  - Build succeeded in 2.1s
+  - Warnings: `NU1903` on `SQLitePCLRaw.lib.e_sqlite3` in `ContractorPro.Application.Tests`
+- `dotnet test ContractorPro.sln`
+  - PASS
+  - Total: 12, Failed: 0, Succeeded: 12, Skipped: 0
+  - Build succeeded with warnings: `NU1903` on `SQLitePCLRaw.lib.e_sqlite3`
+- `dotnet test tests/ContractorPro.Application.Tests/ContractorPro.Application.Tests.csproj`
+  - PASS
+  - Total: 4, Failed: 0, Succeeded: 4, Skipped: 0, Duration: 3.8s
+- `dotnet test tests/ContractorPro.Api.Tests/ContractorPro.Api.Tests.csproj`
+  - PASS
+  - Total: 8, Failed: 0, Succeeded: 8, Skipped: 0, Duration: 6.2s
+- `npm run lint` (from `src/ContractorPro.Web`)
+  - PASS
+  - No lint errors reported
+  - Warning: TypeScript 5.9.3 is above `@typescript-eslint` officially supported range
+- `npm run build` (from `src/ContractorPro.Web`)
+  - PASS
+  - Vite build completed successfully in 668ms
