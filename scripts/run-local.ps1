@@ -196,6 +196,9 @@ try {
             else {
                 npm install
             }
+            if ($LASTEXITCODE -ne 0) {
+                throw "npm install failed. Check your npm/node installation."
+            }
         }
         finally {
             Pop-Location
