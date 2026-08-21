@@ -139,6 +139,35 @@ npm run build
 - Defaults to console in development
 - Configure in `appsettings.Development.json`
 
+### Entra External ID + Google Auth Setup (Story 1.1)
+
+Real Google sign-in requires Entra External ID configuration. Without this setup, login endpoints return auth configuration errors.
+
+1. Create or use an Entra External ID tenant.
+2. Configure Google as an identity provider in Entra.
+3. Register the ContractorPro API as a confidential client app.
+4. Add local redirect URI for OIDC callback:
+  - `https://localhost:5000/signin-oidc` (or your local API origin + callback path)
+5. Create a client secret and store it in user-secrets.
+
+Set local secrets:
+
+```bash
+dotnet user-secrets set "Authentication:ExternalId:Enabled" "true" --project src/ContractorPro.Api
+dotnet user-secrets set "Authentication:ExternalId:Authority" "https://<tenant>.ciamlogin.com/<tenant-id>/v2.0" --project src/ContractorPro.Api
+dotnet user-secrets set "Authentication:ExternalId:ClientId" "<client-id>" --project src/ContractorPro.Api
+dotnet user-secrets set "Authentication:ExternalId:ClientSecret" "<client-secret>" --project src/ContractorPro.Api
+dotnet user-secrets set "Authentication:ExternalId:CallbackPath" "/signin-oidc" --project src/ContractorPro.Api
+```
+
+Validation checklist:
+
+- Start API and Web.
+- Open `/app/login`.
+- Click Sign in with Google.
+- Confirm browser redirects to Entra, then Google.
+- Complete login and confirm redirect to `/app/dashboard`.
+
 ### Frontend Configuration
 
 **API Proxy:**

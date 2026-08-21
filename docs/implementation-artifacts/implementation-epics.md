@@ -24,6 +24,12 @@ Entra External ID (Google) sign-in, BFF HTTP-only session cookie, first-login cr
 
 **Depends:** 1.0 · **Product:** E1-S1
 
+### Story 1.1a: Closeout hardening and auth readiness
+
+Post-implementation hardening and DX closeout for 1.1: local scripts automation, dependency/security remediation, lint modernization, runtime auth toggle controls, and auth readiness documentation.
+
+**Depends:** 1.1 · **Product:** E1-S1, E1-S7, E1-S8 · **Milestone:** M1
+
 ### Story 1.2: Company profile and session context
 
 Company name/timezone display and edit; team member profile on `/team/me`; tenancy context on all team queries (E10-S1 prep).

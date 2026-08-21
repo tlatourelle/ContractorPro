@@ -9,6 +9,8 @@ Status: in-review
 
 Epic: 1 · FR: FR-1 · Journey: C-1 step 1 · Depends: 1.0 · Product: E1-S1 · Milestone: M1
 
+Closeout companion: [1-1a-closeout-hardening-and-auth-readiness.md](./1-1a-closeout-hardening-and-auth-readiness.md)
+
 ---
 
 ## Story

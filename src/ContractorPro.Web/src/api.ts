@@ -28,21 +28,48 @@ export interface TeamMeResponse {
     id: string
     displayName: string
     email: string
+    status: string
   }
   teamMember: {
     id: string
+    userId: string
+    contractorId: string
     role: string
     isOwner: boolean
+    createdAtUtc: string
+    updatedAtUtc: string
   }
   contractor: {
     id: string
     name: string
+    timezone: string
     status: string
   }
 }
 
 export function getTeamMe(): Promise<TeamMeResponse> {
   return apiCall<TeamMeResponse>('/team/me')
+}
+
+export interface UpdateCompanyRequest {
+  name: string
+  timezone: string
+}
+
+export interface UpdateCompanyResponse {
+  contractor: {
+    id: string
+    name: string
+    timezone: string
+    status: string
+  }
+}
+
+export function updateCompanyProfile(payload: UpdateCompanyRequest): Promise<UpdateCompanyResponse> {
+  return apiCall<UpdateCompanyResponse>('/team/company', {
+    method: 'PUT',
+    body: JSON.stringify(payload),
+  })
 }
 
 export async function logout(): Promise<void> {
