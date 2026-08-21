@@ -15,19 +15,19 @@
     "react-router-dom": "^7.18.2"
   },
   "devDependencies": {
-    "@types/node": "^20.10.0",
+    "@types/node": "^26.2.0",
     "@types/react": "^19.0.0-rc-66a3167f-20241119",
     "@types/react-dom": "^19.0.0-rc-66a3167f-20241119",
     "@typescript-eslint/eslint-plugin": "^8.67.0",
     "@typescript-eslint/parser": "^8.67.0",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.16",
-    "eslint": "^8.55.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.5",
+    "eslint": "^8.57.1",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.26",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.3.6",
-    "typescript": "^5.3.3",
-    "vite": "^5.4.21"
+    "typescript": "^5.9.3",
+    "vite": "^7.3.6"
   }
 }
