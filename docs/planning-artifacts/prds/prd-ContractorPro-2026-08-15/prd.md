@@ -149,7 +149,7 @@ A Person may be **Subcontractor** on Project A and **Customer** on Project B —
 - **Confirm / Accept** — Subcontractor or Team member agrees to proposed dates via magic link or dashboard; triggers calendar sync.
 - **Counter-propose** — Pending party offers a different date instead of Accept/Decline; pending party flips; negotiation continues.
 - **Poke** — Automated reminder (SMS and/or email) until Subcontractor accepts, declines, or Team member stops reminders.
-- **Project handle #** — Dedicated phone number per **Project** for MMS routing; shared across all Dana↔sub/customer groups on that job; inbound `To` identifies project.
+- **Company number** — One Twilio 10DLC number per **Contractor subscription**. Subs and customers text this number only. Staff coordinate via SMS relay + app inbox. Outbound system messages include project prefix. See [company-number-messaging.md](../../technical-exploration/company-number-messaging.md).
 - **Magic Link** — Signed URL for passwordless access (join, confirm date, view portal).
 - **Cascade** — Optional shift of dependent tasks by the same delta when a predecessor moves.
 - **Portal** — Mobile-first web experience for project memberships (not a native app).
@@ -217,6 +217,8 @@ Invitee can complete join on a single mobile-first screen (confirm/edit name, co
 **Consequences (testable):**
 - Successful join creates a **project membership** record scoped to one Project and one role.
 - Join requires phone verification (invite token match or OTP).
+- **Trusted device:** same phone + browser within **30-day TTL** skips OTP on return; new device or expired trust requires SMS OTP.
+- QR check-in return visits: phone + sub association on project is sufficient when already bound.
 
 #### FR-6: Role-based visibility
 
@@ -332,35 +334,38 @@ Team member can preview which tasks and which Subcontractors will be affected be
 
 ---
 
-### 5.6 Messaging & Photos (MMS-first) + Scheduling (app-first)
+### 5.6 Messaging & Shared Inbox (company #) + Scheduling (app-first)
 
-**Description:** **Two lanes:** (1) General conversation via group MMS per relationship — ingested and mirrored in web. (2) **Scheduling** — Team member manages dates, dependencies, cascade, and reassignment in the **web app** (multi-job portfolio); system sends confirmation MMS/SMS with magic links after commits. Realizes UJ-8, UJ-4.
+**Description:** **Two lanes:** (1) **Conversation** via one **company number** per Contractor — SMS relay to staff phones + shared app inbox; hybrid logging (outbound project-tagged, inbound best-effort). (2) **Scheduling** — Team member manages dates, dependencies, cascade, and reassignment in the **web app**; system sends confirmation SMS/email with **magic links** after commits. Realizes UJ-8, UJ-4.
 
 **Functional Requirements:**
 
-#### FR-14: MMS group thread per relationship
+#### FR-14: Company number messaging & shared inbox
 
-When Team member invites or assigns a Subcontractor or Customer, system provisions a **project handle #** (dedicated phone number per project) and documents a **group MMS thread**: Team member's phone + that membership's phone + project handle. All MMS in the group is ingested and visible in the web app under that project and thread.
-
-**Consequences (testable):**
-- **One handle # per project** — provisioned on project create; shared across all relationship groups on that job.
-- Inbound routing: `To` (handle #) → project; `From` (sender phone) → project membership.
-- Each relationship stores `conversation_sid` or internal `mms_thread_id` at provision time.
-- Separate group per relationship — no shared sub↔sub or sub↔customer thread.
-- Team member is decision maker; coordinates between threads manually.
-- Subcontractors and Customers communicate via native Messages app, not portal-first.
-- Team member can view full thread history in web dashboard; optional reply from web → MMS to group.
-- Outbound system messages use `[Project · Contractor]` prefix plus handle # for delivery.
-
-#### FR-15: MMS and web images
-
-Photos sent as **MMS** in group threads are stored (blob) and displayed in the web thread mirror. Team member, Subcontractor, and Customer may also attach photos via web portal when using magic-link session.
+ContractorPro provisions **one company number** per Contractor subscription (not per project). Subs and customers text that number. Staff (Ryan + Maci) receive inbound forwards on personal phones from the company # and reply **to** the company #; platform routes to the external participant and copies other staff. A shared **app inbox** provides thread history, project assignment, and reply without SMS tokens.
 
 **Consequences (testable):**
-- MMS images ingested from group threads appear in app alongside text.
-- System schedule messages (propose, poke, confirm) sent via MMS/SMS into the relationship thread or from handle #.
+- **One E.164 per contractor** — provision timing TBD (interim: first paid / comms enabled); see [company-number-provisioning.md](../../sme-meetings/sme-follow-ups/company-number-provisioning.md)
+- **Outbound system messages** (approvals, pokes, invites, milestones) send from company # with **project prefix** in body; DB carries explicit `project_id`
+- **Inbound** to company # is logged; project association best-effort in v1 with **orphan queue** + manual assign when ambiguous
+- **Staff SMS relay:** lenient ref token — route by token, else single open thread, else disambiguation prompt (never guess)
+- **Threads** keyed by `(contractor, person, project, audience)` — customer and sub threads remain separate
+- Schedule **accept/decline via magic link only** — not SMS YES/NO parsing
+- **Personal cell traffic** outside company # is **not logged** (out of scope)
+- **Retired:** per-project handle #s, group MMS with GC personal phone + virtual handle
 
-`[DECISION: v0.1 conversation primary in group MMS; web app for capture + Dana schedule actions; confirm via magic link in MMS.]`
+`[DECISION 2026-08-20: company-number-messaging.md; SME Meeting 01 + Winston session]`
+
+#### FR-15: Message media & photos
+
+Inbound MMS to company # is ingested to blob storage and shown in thread. Progress photos may also upload via **app portal** (QR resource page → Drive folder). Staff MMS outbound from inbox is **deferred v1** — photos via portal preferred.
+
+**Consequences (testable):**
+- Inbound MMS images appear in app thread alongside text
+- System schedule messages (propose, poke, confirm) send via SMS/email from company # per participant `notify_via`
+- Job-site photos via QR check-out upload to linked Google Drive folder (FR-23)
+
+`[DECISION 2026-08-20: hybrid logging; Drive backend for job photos — FR-23]`
 
 ---
 
@@ -384,6 +389,51 @@ Customer project membership can view a simplified timeline of schedule changes f
 
 **Consequences (testable):**
 - Customer sees milestone-level changes; not sub-internal detail.
+
+#### FR-21: Job planning & finalize
+
+Team member can build a job plan before external coordination: apply templates (phases, durations, buffers, dependencies), assign subs in planning-only mode, overlay against existing calendar commitments, **publish preliminary schedule to customer**, then **finalize & start sub cascade** as separate actions. Project status transitions `planning` → `active` on finalize. No SMS, email pokes, or Google Calendar writes until finalize and sub acceptance flows begin.
+
+**Consequences (testable):**
+- Two distinct actions: **Publish prelim** (customer read-only prelim view) and **Finalize & start sub cascade**
+- Optional customer gate slot in template model — **disabled by default** until SME 2B decided
+- Sub assignments in planning do not trigger notifications
+- See [job-planning-workflow.md](../../technical-exploration/job-planning-workflow.md)
+
+`[DECISION 2026-08-20: promoted from v0.2 — SME Meeting 01]`
+
+#### FR-22: Configurable approval cascade
+
+After finalize, system invites subs per template-defined waves — supporting **parallel** contacts and **sequential** gates. Team member can override cascade at runtime (skip gate, open parallel wave) without rebuilding entire plan.
+
+**Consequences (testable):**
+- Company-level or project-type templates store default cascade patterns
+- Runtime edits per project without re-applying template
+- Outbound invites send from company # with explicit project tag
+
+`[DECISION 2026-08-20: workbook §2A]`
+
+#### FR-23: Project resources (Google Drive + QR)
+
+Team member connects Google; app creates or links a **Drive folder per project**. Doc list managed in app; files stored in Drive. Subs/customers interact via **app portal only** (never drive.google.com). Printable QR points to app resource page with check-in (phone→sub bind) and check-out (photo/note upload to Drive).
+
+**Consequences (testable):**
+- QR opens app landing page — not raw Drive URL
+- First QR scan binds phone to sub on project roster
+- No door codes in QR (SME aligned)
+
+`[DECISION 2026-08-20: workbook §4, §5]`
+
+#### FR-24: Customer milestone communications
+
+System sends automated SMS/email **N days before** customer-visible milestones with prep instructions (e.g. cover adjacent rooms). **N** is a **Contractor setting** (company default). Distinct from event-driven schedule-**change** notifications (FR-16). Respects participant `notify_via`.
+
+**Consequences (testable):**
+- Milestone prep templates attach to plan phases
+- Scheduled worker sends from company # / email per preferences
+- Copy and lead-time UX details → backlog RC-2
+
+`[DECISION 2026-08-20: workbook §7]`
 
 ---
 
@@ -460,7 +510,6 @@ The system must evaluate permissions from **subscription context** (Team member 
 
 ## 6. Non-Goals (Explicit)
 
-- Full **job planning** module (phases, durations, buffers, portfolio planner, finalize) — **v0.2**
 - Estimating, invoicing, selections, time cards, safety/compliance
 - Native iOS/Android apps (responsive web only)
 - Microsoft 365 Calendar integration
@@ -471,6 +520,10 @@ The system must evaluate permissions from **subscription context** (Team member 
 - Subcontractor↔customer direct messaging
 - Offline-first mobile DB
 - AI estimating, takeoff, or document extraction
+- **Per-project phone numbers** and **group MMS** with GC personal phone + handle # (retired 2026-08-20)
+- **100% automatic inbound → project tagging** without human assist or AI (v1)
+- **Twilio number port-out on churn** — research only (workbook §9)
+- **Customer approval gate rules** before sub cascade — SME pending (workbook §2B)
 
 ---
 
@@ -482,15 +535,18 @@ The system must evaluate permissions from **subscription context** (Team member 
 
 - **Self-serve signup:** Google OAuth → create Contractor company → guided onboarding (C-1)
 - Contractor + Team member auth (**Google OAuth only** in MVP; native fallback v0.1.1)
+- **Job planning:** templates, plan workspace, overlay, **publish prelim**, **finalize → sub cascade** (FR-21, FR-22)
 - Projects + tasks + optional dependencies + **cascade with preview** (MVP)
 - Google Calendar connect; **pro-provided calendar per project**; sync **on accept** via event attendee invites
 - **Portfolio calendar view** across all active projects (in-app)
-- Invite project memberships: Subcontractor and Customer (name + phone join)
+- Invite project memberships: Subcontractor and Customer (name + phone join); `notify_via` per participant
 - Propose → accept/**hard decline** → poke until response; reassign after decline (E5-S3b)
 - Team member pending/confirmed/declined dashboard
-- Contractor↔sub and Contractor↔customer **MMS group threads** (handle #) with ingest + web mirror
-- MMS/SMS confirmation and poke messages after Team member schedule actions
-- Image capture from MMS + web upload
+- **Company number** + SMS relay + **shared app inbox** (FR-14); hybrid comm logging
+- SMS/email confirmation and poke messages from company # after Team member schedule actions
+- **Google Drive project resources** + QR check-in/out (FR-23)
+- **Automated customer milestone comms** (FR-24)
+- Image capture from inbound MMS + portal upload to Drive
 - Customer simplified schedule / what-changed view
 - **Platform-global STOP/opt-out** handling (API + Twilio; no admin UI in M1)
 - Responsive web: Team member desktop-first; magic-link pages mobile-first for confirm/join
@@ -517,11 +573,12 @@ Ship immediately after MVP validates coordination loop:
 | **Apple Calendar (invitee connect)** | v0.1.1 — MVP uses Google attendee invites only |
 | **Admin `/admin` UI** | Phase 2 — M1 uses API + Twilio/DB manual ops |
 | **Free-tier outbound comms gate** | Phase 2 — MVP runs full access for beta |
-| Job planning (phases, buffers, portfolio) | v0.2 — see job-planning-workflow.md |
 | Microsoft Calendar | Post-MVP; Google covers most subs |
 | Native apps | Web-only strategy |
 | AI (drafts, SMS intent) | v0.2+ |
 | PWA / offline | v0.2+ if validated |
+| Multi-job portfolio balance panel | v0.1.1 — RC-6 |
+| Reverse-schedule from anchor trade | v0.1.1 — RC-6 |
 | Multi-team-member permissions | Simplify v0.1; owner + basic staff later |
 | Unified Person profile across all projects | v0.2 portal UI; v0.1 uses global `persons` by phone + per-project `project_memberships` (magic link per membership) |
 

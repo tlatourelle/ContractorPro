@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ContractorPro — Planning Workspace (Desktop)</title>
+<!-- Spine: EXPERIENCE.md WF-0; E13; FR-21 -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F4F6F8; color: #1A2332; display: flex; min-height: 100vh; }
+  .sidebar { width: 220px; background: #1B4B7A; color: white; padding: 24px 0; flex-shrink: 0; }
+  .logo { padding: 0 20px 24px; font-weight: 700; font-size: 18px; }
+  .main { flex: 1; padding: 28px 32px; }
+  .breadcrumb { font-size: 13px; color: #6B7A8D; margin-bottom: 8px; }
+  .header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+  h1 { font-size: 22px; font-weight: 600; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 4px 10px; border-radius: 999px; margin-left: 8px; vertical-align: middle; }
+  .badge-planning { background: #FFF8E6; color: #C45A00; border: 1px dashed #F0D878; }
+  .subtitle { font-size: 14px; color: #6B7A8D; margin-top: 4px; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn { padding: 10px 18px; border-radius: 8px; border: none; font-weight: 600; font-size: 14px; cursor: pointer; }
+  .btn-ghost { background: white; color: #1A2332; border: 1px solid #D8DEE6; }
+  .btn-primary { background: #1B4B7A; color: white; }
+  .btn-accent { background: #E87722; color: white; }
+  .layout { display: grid; grid-template-columns: 1fr 300px; gap: 20px; }
+  .card { background: white; border-radius: 12px; border: 1px solid #D8DEE6; margin-bottom: 16px; }
+  .card-header { padding: 12px 18px; border-bottom: 1px solid #EEF1F5; font-weight: 600; font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
+  .card-body { padding: 16px 18px; }
+  .template-pill { font-size: 12px; background: #E8EEF5; color: #1B4B7A; padding: 4px 10px; border-radius: 999px; font-weight: 600; }
+  .phase { display: grid; grid-template-columns: 24px 1fr auto auto; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px dashed #EEF1F5; font-size: 14px; }
+  .phase:last-child { border-bottom: none; }
+  .phase-dash { border-left: 3px dashed #F0D878; padding-left: 12px; margin-left: 8px; }
+  .dur { font-size: 13px; color: #6B7A8D; white-space: nowrap; }
+  .sub-tag { font-size: 12px; background: #F4F6F8; padding: 3px 8px; border-radius: 4px; color: #6B7A8D; }
+  .overlay { background: #E8EEF5; border-radius: 8px; padding: 12px; font-size: 13px; color: #1B4B7A; line-height: 1.5; margin-bottom: 12px; }
+  .side-note { font-size: 13px; color: #6B7A8D; line-height: 1.5; margin-bottom: 12px; }
+  .gate { font-size: 12px; color: #6B7A8D; background: #F4F6F8; padding: 10px; border-radius: 8px; border: 1px dashed #D8DEE6; }
+  .frame-label { position: fixed; bottom: 12px; right: 16px; font-size: 11px; color: #6B7A8D; background: white; padding: 4px 10px; border-radius: 4px; border: 1px solid #D8DEE6; }
+</style>
+</head>
+<body>
+  <aside class="sidebar"><div class="logo">ContractorPro</div></aside>
+  <main class="main">
+    <div class="breadcrumb">Projects › Maple St Kitchen › Planning</div>
+    <div class="header-row">
+      <div>
+        <h1>Maple St Kitchen <span class="badge badge-planning">Planning</span></h1>
+        <p class="subtitle">Internal what-if — no subs notified, no Google writes until you finalize</p>
+      </div>
+      <div class="actions">
+        <button class="btn btn-ghost">Apply template…</button>
+        <button class="btn btn-ghost">Calendar view</button>
+        <button class="btn btn-primary">Publish prelim to customer</button>
+        <button class="btn btn-accent">Finalize &amp; start sub cascade</button>
+      </div>
+    </div>
+
+    <div class="layout">
+      <div>
+        <div class="card">
+          <div class="card-header">
+            <span>Phase timeline <span class="template-pill">Kitchen remodel standard</span></span>
+            <span style="font-weight:400;font-size:12px;color:#6B7A8D">Start: Sep 5 · 6-week preview</span>
+          </div>
+          <div class="card-body phase-dash">
+            <div class="phase"><div>◇</div><div><strong>Demo</strong></div><div class="dur">3 days</div><div class="sub-tag">Mike's Demo</div></div>
+            <div class="phase"><div>◇</div><div><strong>Rough electric</strong></div><div class="dur">2 days + 1 buffer</div><div class="sub-tag">Nate Torres</div></div>
+            <div class="phase"><div>◇</div><div><strong>Drywall</strong></div><div class="dur">4 days</div><div class="sub-tag">TBD</div></div>
+            <div class="phase"><div>◇</div><div><strong>Paint</strong> → <strong>Flooring</strong> (sequential gate)</div><div class="dur">5 + 3 days</div><div class="sub-tag">Jesse · Marcus</div></div>
+            <div class="phase"><div>◇</div><div><strong>Cabinets</strong> <span style="color:#E87722;font-size:12px">customer milestone</span></div><div class="dur">2 days</div><div class="sub-tag">—</div></div>
+          </div>
+        </div>
+        <div class="overlay">
+          <strong>Overlay:</strong> Jesse (Oak Ave) overlaps paint week Sep 18–22 — adjust start or reassign before finalize.
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-header">Before you finalize</div>
+          <div class="card-body">
+            <p class="side-note"><strong>1.</strong> Publish prelim — Lauren sees skeletal schedule (read-only). Customer gate off until SMEs decide (2B).</p>
+            <p class="side-note"><strong>2.</strong> Finalize — project goes active; first cascade wave sends from <strong>Acme Co (555) 482-0100</strong>.</p>
+            <div class="gate">Subs assigned here are <em>planning only</em> — no SMS until finalize + cascade wave.</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">Contract constraints</div>
+          <div class="card-body">
+            <p class="side-note">Lauren unavailable Oct 12–14 (trip). No work before 8am (HOA).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div class="frame-label">Desktop · Planning Workspace · E13, FR-21</div>
+</body>
+</html>

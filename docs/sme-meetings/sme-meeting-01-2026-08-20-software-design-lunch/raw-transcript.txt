@@ -1,0 +1,3428 @@
+Speaker • 0:06
+Hi
+
+Speaker 0 • 0:06
+Pocket, we need you to record this.
+
+Speaker • 0:08
+Yeah, yeah.
+
+Speaker • 0:09
+Sometimes what I do is I tell Pocket at the front end this is the one with Tom, Macy, and Ryan about contractor software.
+
+Speaker • 0:16
+But now it heard that, good.
+
+Speaker • 0:18
+It will actually header the thing basically whenever you're ready to talk.
+
+Speaker • 0:21
+Right.
+
+Speaker • 0:22
+I'm gonna order a Rachel.
+
+Speaker • 0:25
+Instead of a Reuben.
+
+Speaker • 0:26
+Get it?
+
+Speaker • 0:27
+Reuben, Rachel.
+
+Speaker • 0:29
+Go ahead.
+
+Speaker • 0:30
+No, it's, uh, I'm not
+
+Speaker 0 • 0:32
+thirty.
+
+Speaker • 0:34
+Yeah, well, okay, company care.
+
+Speaker • 0:36
+Yeah,
+
+Speaker 0 • 0:37
+but
+
+Speaker • 0:38
+we, we both have some that actually do, so
+
+Speaker 0 • 0:40
+that's me. I have. I'm good. You
+
+Speaker • 0:42
+got double troops because he got thirty to ask for, so I believe that's not your.
+
+Speaker • 0:50
+If this is, though, you can have this one.
+
+Speaker • 0:52
+She's making gorgeous cats.
+
+Speaker 0 • 0:54
+Yeah, she wants everything she can. Do you
+
+Speaker • 0:55
+remember this guy?
+
+Speaker • 0:57
+You like this guy?
+
+Speaker • 0:58
+Your hair's getting beautiful.
+
+Speaker • 1:00
+Is your hair getting curly?
+
+Speaker 0 • 1:02
+Do you want to eat?
+
+Speaker • 1:03
+You want lettuce?
+
+Speaker • 1:04
+Lettuce?
+
+Speaker • 1:05
+Ew.
+
+Speaker • 1:05
+Okay, I see that being a choker.
+
+Speaker • 1:07
+I wouldn't put that.
+
+Speaker • 1:08
+I wouldn't.
+
+Speaker 0 • 1:09
+She doesn't like
+
+Speaker • 1:09
+it.
+
+Speaker • 1:11
+I wouldn't put the lettuce
+
+Speaker 0 • 1:12
+in. I would just say it to her as a joke. She won't eat it anyway.
+
+Speaker • 1:16
+It's flavorless and foreign.
+
+Speaker • 1:20
+So
+
+Speaker 0 • 1:21
+I did get a chance to look at your stuff as well.
+
+Speaker • 1:24
+did you get the files to
+
+Speaker 0 • 1:25
+unzip? No.
+
+Speaker • 1:27
+Oh, I didn't.
+
+Speaker • 1:28
+So it's what it was was a collection of screenshots.
+
+Speaker • 1:30
+This is what it should look for a customer.
+
+Speaker • 1:31
+This is what it should look like at the end of the sub.
+
+Speaker • 1:33
+This is what it should look like for the contractor.
+
+Speaker • 1:35
+And so there was a little bit of redundancy between some of the screens as I kept going through it.
+
+Speaker • 1:39
+But it's the gist of it was here's here's
+
+Speaker • 1:42
+the
+
+Speaker • 1:43
+Yeah, basically we're doing excited things.
+
+Speaker • 1:44
+This is what it looks like.
+
+Speaker • 1:46
+So I've been going through and doing a lot of planning as far as what what the software would have to do.
+
+Speaker • 1:53
+And then kind of trying to figure out what's the how do we do it.
+
+Speaker • 1:57
+So you know, basically it would end up being like a a website with a database back end that that would run the system.
+
+Speaker • 2:05
+Okay.
+
+Speaker • 2:06
+So it would be the master system behind everything would be what's hosted online.
+
+Speaker • 2:14
+Okay, to that point, I know that a person can take a URL string from Google Calendar, right, and plug that URL with coding, right, into a different piece of software, right, i. e. Airbnb.
+
+Speaker • 2:33
+And you can have you
+
+Speaker 1 • 2:34
+load it in reverse order. I can take an Airbnb calendar and embed their URL
+
+Speaker • 2:40
+into a
+
+Speaker 1 • 2:40
+Google calendar. Correct. And quote unquote link
+
+Speaker • 2:43
+them.
+
+Speaker • 2:43
+So that'd
+
+Speaker 1 • 2:47
+be part of the simplification of this.
+
+Speaker • 2:49
+Yes.
+
+Speaker • 2:49
+So can
+
+Speaker 1 • 2:50
+it can and I don't mean interruption. Can can a software read the Go calendar link and can it then input
+
+Speaker • 2:59
+I don't know.
+
+Speaker • 2:59
+How do you?
+
+Speaker • 3:00
+How
+
+Speaker 1 • 3:00
+is Airbnb
+
+Speaker • 3:01
+doing that?
+
+Speaker • 3:01
+Where they're like,
+
+Speaker 1 • 3:02
+here, put this URL in your Google.
+
+Speaker • 3:04
+It just reads the whole calendar.
+
+Speaker • 3:06
+Once it has access to the calendar, it just reads it all.
+
+Speaker • 3:08
+So we're going to get that
+
+Speaker 1 • 3:09
+calendar.
+
+Speaker • 3:11
+Yeah, except I don't want to start with a calendar.
+
+Speaker • 3:14
+You don't want that as the backbone.
+
+Speaker • 3:15
+I want it.
+
+Speaker • 3:16
+I want that as a facility, but let's say that we're starting out with a new job.
+
+Speaker • 3:20
+I would like Ryan or you or somebody to say, hey, we have this job.
+
+Speaker • 3:24
+What is it?
+
+Speaker • 3:24
+The kitchen.
+
+Speaker • 3:25
+What do you need to have involved?
+
+Speaker • 3:26
+Well, I need a plumber and I need an electrician and a painter's and I do this.
+
+Speaker • 3:30
+And how many days should each take?
+
+Speaker • 3:32
+You put in how many days you make each day?
+
+Speaker • 3:34
+Okay, that depends on the
+
+Speaker 1 • 3:35
+calendar and you build a
+
+Speaker • 3:36
+campaign.
+
+Speaker • 3:36
+Right, and maybe he's already built.
+
+Speaker • 3:38
+Yeah, he's got a template that says when we do a kitchen, this is pretty much what we're going to need.
+
+Speaker • 3:42
+Yep,
+
+Speaker 1 • 3:43
+we have that all laid
+
+Speaker • 3:43
+out.
+
+Speaker • 3:44
+And then you have lead times and how much space you have between contractors, and then you just say.
+
+Speaker • 3:49
+If I start on this date, what does it look like?
+
+Speaker • 3:51
+And it looks like this.
+
+Speaker • 3:52
+And then you could look at it and say, well, what if I start on this date?
+
+Speaker • 3:56
+And then you say, what does it look like against my existing calendar?
+
+Speaker • 3:59
+And it shows you existing calendar.
+
+Speaker • 4:01
+And they say, well, okay, then I want to start on this date.
+
+Speaker • 4:03
+And it says, okay, it would look like this.
+
+Speaker • 4:05
+Then you say go, and it just looks like it in the calendar.
+
+Speaker • 4:08
+So you don't start with the calendar, you start with your plan.
+
+Speaker 0 • 4:10
+Yeah, okay.
+
+Speaker • 4:12
+And then I was even thinking about, you know.
+
+Speaker • 4:14
+Today or yesterday, I was thinking, well, what happens when somebody reschedules?
+
+Speaker • 4:18
+You know, like, either he needs to reschedule, the contractor needs to reschedule, somebody's got to reschedule.
+
+Speaker • 4:23
+You go rather than going to your calendar and sticking around with it, you should go back to the plan and say, hey, I've got to reschedule this.
+
+Speaker • 4:31
+And it's going to go through basically the same
+
+Speaker 1 • 4:33
+process. You start it.
+
+Speaker • 4:35
+Because it would well, not the whole point.
+
+Speaker • 4:37
+Maybe you've already started the project.
+
+Speaker • 4:39
+You say containers are late.
+
+Speaker • 4:40
+And you're like, oh, candidates are backwards.
+
+Speaker • 4:43
+Then you go back to the plan and you say, well, if I push this, then you can look at it and say, well, no, I need to push other shit
+
+Speaker 1 • 4:50
+actually mold,
+
+Speaker • 4:52
+So you go back to the planner, say, here's what has to move.
+
+Speaker • 4:56
+Yes, and then you have to tell it, well, that doesn't affect anything else, or it does affect everything else.
+
+Speaker • 5:02
+And then, well, that's where dependents and predecessors come in.
+
+Speaker • 5:05
+You plan it out, and then you say, okay, go, and it puts back in the calendar.
+
+Speaker • 5:10
+Now, so where you would want to link calendars would be, hey, Macy wants her phone calendar to show all this.
+
+Speaker • 5:20
+Ryan wants his phone calendar to show all this.
+
+Speaker • 5:22
+Your contractors want their phone calendars to show all this.
+
+Speaker • 5:25
+Those should be linked automatically.
+
+Speaker • 5:28
+And kind of had the idea originally that.
+
+Speaker • 5:32
+When there is either a new schedule item or a change of the schedule item, it comes out as a text that you click approve
+
+Speaker 0 • 5:41
+and
+
+Speaker • 5:41
+say, hey, I see that this change from Tuesday to Wednesday.
+
+Speaker • 5:44
+Great, approve.
+
+Speaker • 5:46
+And then it it shows in their calendar, right?
+
+Speaker • 5:49
+And you give a confirmation that they saw that and they approved
+
+Speaker • 5:54
+rather than they clicked it reject.
+
+Speaker • 5:56
+Or if they don't approve it, or nothing happens, it bugs them every day.
+
+Speaker • 6:01
+It sends them another text every day.
+
+Speaker 1 • 6:03
+please confirm.
+
+Speaker • 6:04
+Yeah, you get a text every day.
+
+Speaker • 6:05
+You get a text every single day until you say something.
+
+Speaker 1 • 6:08
+Now, now, probably jumping ahead, but I think I'm jumping parallel.
+
+Speaker • 6:13
+Yeah, from
+
+Speaker 1 • 6:14
+the text, Click
+
+Speaker • 6:17
+Click yes, no.
+
+Speaker 1 • 6:19
+And it's
+
+Speaker • 6:19
+done.
+
+Speaker • 6:19
+It can be just it
+
+Speaker 1 • 6:21
+automatically go to their calendar. In Google with that. Yes. If they've linked if they've
+
+Speaker • 6:25
+linked their calendar.
+
+Speaker • 6:26
+I get the impression
+
+Speaker 1 • 6:28
+because the URL could be the code because that's what they didn't allow on any of their software.
+
+Speaker • 6:31
+I get the impression with iCalendar it works a little different than Google Calendar, but I don't know the defects yet.
+
+Speaker 0 • 6:37
+Well, but yeah, they probably will. Yeah, with Apple.
+
+Speaker • 6:41
+But if, if somebody, if a person like Macy's call, right?
+
+Speaker • 6:45
+White
+
+Speaker 1 • 6:45
+calendar, not Apple Calendar.
+
+Speaker • 6:46
+It's eye calendar.
+
+Speaker • 6:48
+I calendar.
+
+Speaker • 6:52
+Not sure.
+
+Speaker • 6:53
+You already have one.
+
+Speaker • 6:53
+It's right there.
+
+Speaker • 6:54
+You already have one in front of one.
+
+Speaker • 6:57
+Thank you.
+
+Speaker • 6:57
+I'll have one person.
+
+Speaker • 7:02
+Okay, because my biggest complaint again from the very outset was why can't
+
+Speaker 1 • 7:10
+subs have it integrated to their calendar?
+
+Speaker • 7:12
+They can't
+
+Speaker 1 • 7:13
+this embedded URL thing that we both know exists on Google Calendar is is the secret to the subs.
+
+Speaker • 7:20
+That's what was set
+
+Speaker 0 • 7:21
+up for so they don't need to download an app.
+
+Speaker • 7:24
+We don't want them to use it out.
+
+Speaker • 7:25
+They wouldn't have to.
+
+Speaker • 7:26
+We don't want the app.
+
+Speaker • 7:28
+They could log into the website if they want to see whatever they could see on there.
+
+Speaker • 7:33
+Like, let's say they're a sub and they want to see all their jobs and projects and schedules.
+
+Speaker • 7:38
+You know, then they could log into the site and they could see everything all figured out.
+
+Speaker • 7:42
+But they could see in their calendar directly, and then they would have all their taxes.
+
+Speaker 0 • 7:47
+Got it. That's good. And then they um
+
+Speaker • 7:54
+you go first or you go second?
+
+Speaker • 7:55
+Uh I'll be there for me.
+
+Speaker • 7:57
+Okay, good.
+
+Speaker • 7:58
+Uh I was gonna have to be okay with chips
+
+Speaker 2 • 8:02
+you want chips chip fries or green avocados but fries are awesome
+
+Speaker • 8:09
+well how more often than chip fries are
+
+Speaker 0 • 8:11
+a lot more
+
+Speaker • 8:12
+often a lot more often.
+
+Speaker • 8:15
+Okay, I'll try to practice.
+
+Speaker 0 • 8:20
+Well, I didn't. Okay, I didn't see this now. Um,
+
+Speaker • 8:24
+It's just a hot super salad.
+
+Speaker • 8:26
+Yeah, super salad.
+
+Speaker • 8:27
+Super salad.
+
+Speaker 0 • 8:27
+How's hmm? How are the beer tops? Are they super awesome or the fries moral? Okay, well, then I will do, I think, the gosh, I was gonna do just to test your club, but how's the creamy tomato and basil?
+
+Speaker • 8:46
+Do
+
+Speaker 0 • 8:46
+you even have that? That's okay.
+
+Speaker • 8:52
+Do you have the
+
+Speaker 0 • 8:52
+creamy turkey and walrus? Is that pretty good?
+
+Speaker • 8:56
+Should always start your meal.
+
+Speaker • 8:56
+Yeah, I'll
+
+Speaker 0 • 8:57
+do the half and half then. The half club walberry. And oh, but who's gonna make a crime? That's
+
+Speaker • 9:05
+that.
+
+Speaker • 9:07
+You gotta come on my phone.
+
+Speaker • 9:08
+I guess probably.
+
+Speaker • 9:09
+You gotta get fried, bro.
+
+Speaker • 9:10
+I'll get a message.
+
+Speaker 0 • 9:12
+Okay, yeah, I don't
+
+Speaker • 9:13
+want fried because I don't need fries.
+
+Speaker 0 • 9:14
+So one
+
+Speaker • 9:15
+of these wraps
+
+Speaker 0 • 9:16
+is probably the biggest. Oh, I don't know.
+
+Speaker 1 • 9:20
+I'm still debating if Reuben or Rachel or this club. Our
+
+Speaker 2 • 9:24
+Reuben is really good. You think so? We make our Columbia. Let's just do that. Yeah. And then put the
+
+Speaker • 9:30
+price at a separate place for her.
+
+Speaker • 9:32
+I don't have to see.
+
+Speaker • 9:33
+I'm gonna
+
+Speaker 2 • 9:33
+put it on the same place because my chest doesn't
+
+Speaker 0 • 9:35
+understand.
+
+Speaker • 9:38
+Hey, look at it we got through.
+
+Speaker • 9:40
+Yeah, appreciate
+
+Speaker 0 • 9:42
+I don't like to complicate things because then all of a sudden something comes out weird. No, you're
+
+Speaker • 9:49
+good.
+
+Speaker 0 • 9:50
+What did we give you? Give her that smile. There it is.
+
+Speaker • 9:53
+Give her a new
+
+Speaker 0 • 9:53
+smile. But I brought her some roast beef, so we should have it.
+
+Speaker 1 • 10:00
+Did you bring any sales?
+
+Speaker 0 • 10:01
+I did.
+
+Speaker 2 • 10:02
+If it was anybody else, I'd be like, feel spicy.
+
+Speaker 0 • 10:06
+It was like, really, it was like no option. I was like. Really
+
+Speaker 2 • 10:10
+strange. Yeah, well, we bingo and I have all the people that think that there's a bingo hall and that we don't serve in food here. So I have to put those up, otherwise they would come in with like a tube boil. And I'm like,
+
+Speaker 1 • 10:23
+we're intimately aware of what American leads do because we built the bathrooms and the app of out
+
+Speaker 2 • 10:28
+and posted. Excellent. Yeah, I'm
+
+Speaker • 10:29
+crazy on tractors.
+
+Speaker 2 • 10:31
+Ooh, ooh, look over there.
+
+Speaker 0 • 10:34
+She.
+
+Speaker 2 • 10:37
+Uh-huh,
+
+Speaker • 10:39
+why don't you go check it out?
+
+Speaker • 10:41
+Well, some
+
+Speaker 2 • 10:42
+film expressed.
+
+Speaker • 10:43
+I wanted to try it.
+
+Speaker • 10:48
+Did it renovate this place or did they move from somewhere?
+
+Speaker • 10:51
+So here's the deal.
+
+Speaker 1 • 10:53
+both. They used to be down off of Hunter and Glowwood, and
+
+Speaker • 10:57
+the school next door, Brick, has been sitting there for years to sell the property because the parking lot is immediately adjacent to multiple ball fields.
+
+Speaker • 11:08
+Okay, so it literally.
+
+Speaker • 11:37
+Building over there next to Brexit.
+
+Speaker • 11:40
+Yeah, parking lot's a parking lot.
+
+Speaker • 11:42
+The building is a fucking shed full of buildings.
+
+Speaker • 11:46
+I can't do that.
+
+Speaker • 11:48
+That's funny.
+
+Speaker • 11:48
+And the bus is parking.
+
+Speaker 1 • 11:50
+The bus is
+
+Speaker • 11:50
+parked.
+
+Speaker • 11:51
+Whatever.
+
+Speaker • 11:52
+Whatever the parking lot. Yeah.
+
+Speaker • 11:54
+The building
+
+Speaker 1 • 11:54
+is unmarked. The side is gone.
+
+Speaker • 11:58
+Grand News Signo.
+
+Speaker • 11:59
+It's beautiful.
+
+Speaker • 12:00
+This is probably the best American weeds in the entire city.
+
+Speaker • 12:03
+Yeah, seriously.
+
+Speaker • 12:05
+The bathrooms, and I wasn't certain that that was a total redo, though.
+
+Speaker 0 • 12:07
+Each sub is obviously only going to have their scope of work, right? Like they won't see the whole calendar.
+
+Speaker • 12:12
+No, they don't need to.
+
+Speaker • 12:13
+But the sub can see all their stuff.
+
+Speaker • 12:16
+And normally this I've made a lot of decisions that you know you guys may eventually want to change, but the one was this is obviously going to be run through phone numbers.
+
+Speaker • 12:28
+I want the app involved in knowing what's going on.
+
+Speaker • 12:30
+So if if Macy is going to text the side, there is going to be a special project phone number for that project that needs to be included in the text.
+
+Speaker 1 • 12:45
+need that re-explained. Okay, so a Google voice number for every project. Kind of like
+
+Speaker • 12:49
+a Google voice number for every project.
+
+Speaker 0 • 12:51
+And it caught, so the sub will get a text, keep your project, whatever.
+
+Speaker • 12:57
+So this you would say I'm assigning a sub to a project, right?
+
+Speaker • 13:01
+This this is the painter.
+
+Speaker • 13:04
+Painter's gonna get painter gets a number.
+
+Speaker • 13:06
+Painter gets a text from the app and Ryan or Macy or both of you.
+
+Speaker • 13:11
+But the app has got a number on that text saying, Hey, you're scheduled for this date on this project.
+
+Speaker • 13:17
+The painter says approve.
+
+Speaker • 13:19
+Now you've got a group chat known, but the group chat isn't just Macy Ryan and the painter.
+
+Speaker • 13:25
+The group chat is Macy Ryan, the painter, and the app.
+
+Speaker • 13:29
+There's another number in there.
+
+Speaker • 13:33
+Let me say.
+
+Speaker • 13:34
+Yeah, kind of.
+
+Speaker • 13:34
+I just I'm I'm a little bit confused as to why each project is its own number.
+
+Speaker • 13:42
+Why wouldn't it be the- Because I have no way of knowing if if the painter and Ryan and Macy are talking.
+
+Speaker • 13:53
+I don't know what project it is.
+
+Speaker • 13:55
+So if I want to know these texts go with this project, these texts go with that project, then each project gets its own phone message.
+
+Speaker 0 • 14:02
+I don't mind that because, and I'll tell you why. When I'm texting with the DUI, I every single time I, you know, say, hey, in regards to five three one seven, did that permit get full? In regards to, you know,
+
+Speaker 1 • 14:18
+you are on the. Aspen Lane content right because it's you me them. And this
+
+Speaker 0 • 14:26
+number
+
+Speaker • 14:27
+in a custom group, per project.
+
+Speaker • 14:30
+So when you're talking to printers, painter, you're going to want to be on the chat for that project.
+
+Speaker 1 • 14:36
+never would have thought about that as a cat fit of
+
+Speaker • 14:38
+now.
+
+Speaker • 14:39
+It doesn't help you guys as much as it helps the app because what I want is the app to be monitoring every communication, everything that's going back into the app.
+
+Speaker • 14:49
+Yes, right?
+
+Speaker • 14:50
+So if the painter says something, the app has it recorded.
+
+Speaker • 14:53
+The mason said something he had to have to record.
+
+Speaker 1 • 14:56
+How does the software automate I need
+
+Speaker 3 • 14:59
+a good voice number?
+
+Speaker • 15:01
+That's all done pretty.
+
+Speaker • 15:03
+There's a couple companies that do it.
+
+Speaker • 15:04
+The company I'm recommending is Twilio.
+
+Speaker • 15:07
+Do we
+
+Speaker 1 • 15:07
+care what area codes?
+
+Speaker • 15:09
+We want I don't know we I don't know if we care.
+
+Speaker • 15:12
+Okay, you know,
+
+Speaker 1 • 15:13
+because there's going
+
+Speaker • 15:14
+to
+
+Speaker 1 • 15:14
+be area codes somewhere in this country that have a lot of available numbers compared to Suponia.
+
+Speaker • 15:18
+So what'll happen is the contractor, when the contractor starts a project, they'll get assigned a number.
+
+Speaker • 15:26
+When that project is over, that number will stay hanging out for another X number
+
+Speaker 1 • 15:32
+of days. I've got no when the
+
+Speaker • 15:38
+project is done. Okay.
+
+Speaker • 15:40
+That phone number will be still reserved for like ninety days, uh, six months, however long we decide to stay.
+
+Speaker • 15:46
+There's a lag time where people might be texting back and forth about that project.
+
+Speaker 1 • 15:50
+There's also a Google voice automatically inactive for X days or years. It's going to be
+
+Speaker • 15:56
+however long.
+
+Speaker • 15:57
+No, because at some point
+
+Speaker 1 • 15:59
+we literally literally dump it.
+
+Speaker • 16:01
+You'll kill that.
+
+Speaker • 16:02
+You can either dump that number and just told to go with new numbers all the time, or we could keep that number and just use it on another project going forward.
+
+Speaker • 16:11
+Now, is there a way to help it be
+
+Speaker 3 • 16:13
+clean?
+
+Speaker 1 • 16:14
+So that when they get that that invite
+
+Speaker • 16:16
+for their scope of work, it says, yes, you can bring it.
+
+Speaker • 16:21
+Hello, Oaks Electric.
+
+Speaker • 16:23
+This is the conversation and something, something, etc., etc.
+
+Speaker • 16:27
+So we can have it say, like the concept, because they are texting things allowed is you can say, hey, it's Macy, and this is Ryan, and this is.
+
+Speaker • 16:40
+This is lines remodeling dash maple street.
+
+Speaker • 16:45
+You know, something like that you can code that to this project.
+
+Speaker 0 • 16:50
+So then I will so then on our phone, we're gonna have a conversation with okay, the electricians, Ryan, Macy, and Peter Project, and then we're gonna have the same thing with the painter, same thing. And and
+
+Speaker • 17:03
+the con the confusing part for you guys or for your subs is you're not gonna have one conversation going with your painter.
+
+Speaker • 17:10
+You'll have three.
+
+Speaker • 17:12
+Your painter won't have one.
+
+Speaker • 17:13
+That's what I think's going with you.
+
+Speaker • 17:17
+But again, some of these jackasses are going to go back to us with singular
+
+Speaker 0 • 17:20
+texts. They will. Keep in mind. They are hugging.
+
+Speaker • 17:24
+I'm going to pick on Dewey again because he is a well and and Neil.
+
+Speaker • 17:29
+Not because they're both technologically stupid, because they are.
+
+Speaker 0 • 17:31
+But Neil. Theoretically Steve, not Neil. Yeah.
+
+Speaker • 17:40
+Dewey, in
+
+Speaker 3 • 17:42
+particular,
+
+Speaker • 17:43
+says yes or
+
+Speaker • 17:45
+That doesn't
+
+Speaker 3 • 17:46
+mean
+
+Speaker • 17:47
+Brian, Luke, etc.
+
+Speaker 3 • 17:50
+etc.
+
+Speaker • 17:51
+etc. Look who's calling.
+
+Speaker 3 • 17:52
+That's so odd.
+
+Speaker • 17:54
+This is so funny.
+
+Speaker • 17:55
+I'm so tempted to talk to them.
+
+Speaker • 17:57
+What do they want to sell you?
+
+Speaker • 17:59
+Well, you know, I built the company on the behalf of like I Shane and Holly Ball seven dollar
+
+Speaker 0 • 18:07
+lead
+
+Speaker • 18:08
+for a map.
+
+Speaker 0 • 18:10
+Julie's not gonna go. Julie's not gonna go when he's fully searched Keatser project, Macy Ryan. Well, here's
+
+Speaker • 18:15
+what here's what we're meeting at.
+
+Speaker • 18:17
+Whoever he is signed to the project is the one that's gonna text me directly.
+
+Speaker • 18:26
+when you have a Dewey or a Neil, and the painters as well are in the same situation.
+
+Speaker • 18:31
+I just don't know any of the subs on the painting club because they're new to I'm just double
+
+Speaker 1 • 18:35
+checking. My point is, they each have six employees, and I could get any one of them assigned my
+
+Speaker • 18:41
+job.
+
+Speaker • 18:41
+Hold on.
+
+Speaker • 18:43
+because this is what I'm thinking.
+
+Speaker • 18:48
+You got that the very first command on your
+
+Speaker 3 • 18:53
+chat
+
+Speaker • 18:54
+add the you can add the app to your new
+
+Speaker 1 • 19:00
+true true uh see where did they pick up from then on well because they convoke
+
+Speaker • 19:05
+they gave you a new chat so this would be a new chat but again in your app it's all recorded as part of the project you don't care
+
+Speaker 1 • 19:13
+Got
+
+Speaker • 19:13
+And you know, these guys, you know, you can say
+
+Speaker 1 • 19:16
+they have the project actually happening. If I know Steve is assigned by Neil, I add Steve.
+
+Speaker • 19:23
+You can add Steve.
+
+Speaker • 19:24
+You can add the blueprint.
+
+Speaker • 19:28
+And then, or if some doorknob decides to just text you directly, let's say, I'm just going to add the project to that chat. And.
+
+Speaker • 19:38
+I can add a group to that singular combo.
+
+Speaker • 19:42
+I didn't know I could even do that in in yes.
+
+Speaker • 19:47
+I wasn't aware that I could attach a group to a singular combo.
+
+Speaker • 19:51
+Right, I knew the other way makes sense.
+
+Speaker • 19:55
+Okay.
+
+Speaker • 19:57
+So, and that's on our end.
+
+Speaker • 19:58
+That's not on them.
+
+Speaker • 19:59
+That allows them to still float in the ether doing their thing.
+
+Speaker • 20:01
+Again, right?
+
+Speaker 0 • 20:03
+It's going to help the app, right? That's why you want to do it this way. Well, I
+
+Speaker • 20:06
+want to help you guys.
+
+Speaker 1 • 20:07
+Yeah, well,
+
+Speaker 0 • 20:08
+I know, but for and for the having that app time, it
+
+Speaker 1 • 20:11
+helps it be operational.
+
+Speaker • 20:14
+It helps it operate, and it helps you guys know everything that's going on.
+
+Speaker 0 • 20:18
+Then that's fine. Let's try
+
+Speaker 1 • 20:20
+So here's my question. Let's say, do we get the message I installed whenever we publish the calendar? And it says electrical roughing at the Lafarell residence, Ryves
+
+Speaker • 20:33
+Lane,
+
+Speaker 1 • 20:35
+on you know August 25th. Please reply yes or no to confirm these dates were. He says no, it won't work. We're overbooked. Mike, I need you to maybe schedule that for September 1st. I have to go back in the app. It's not like he's going to be able to move that. And I don't want him to. But we have to take that info.
+
+Speaker • 21:05
+Go back.
+
+Speaker • 21:05
+I see.
+
+Speaker • 21:06
+There's an opportunity if this starts making any money.
+
+Speaker • 21:11
+There's an opportunity down the road to incorporate AI into the process.
+
+Speaker 1 • 21:16
+Those condos.
+
+Speaker • 21:17
+That kind of condos.
+
+Speaker • 21:18
+So the AI would say, I see Dewey needs to reschedule.
+
+Speaker • 21:22
+He wants to use this state, and he wants to work.
+
+Speaker • 21:25
+The the AI system could rearrange schedules and say, Hey, Ryan or Mason, this works.
+
+Speaker • 21:32
+Are you okay with that?
+
+Speaker • 21:34
+And then it would
+
+Speaker 1 • 21:35
+automatically work its way through the GATS chart as well.
+
+Speaker • 21:38
+So you can do that.
+
+Speaker • 21:38
+But I would try to, I would do that only after it starts making money because AI is going to generate costs.
+
+Speaker • 21:47
+Oh yeah, on top of you know just some of our general costs.
+
+Speaker • 21:52
+Keep in mind that this this process of having phone numbers per job is going to cost a little money.
+
+Speaker • 22:01
+The Google voice numbers customer.
+
+Speaker • 22:03
+These aren't Google Voice.
+
+Speaker • 22:04
+You can't do a app managed Google Voice job.
+
+Speaker • 22:09
+So we have to use like temporary.
+
+Speaker • 22:12
+They're temporary numbers.
+
+Speaker • 22:13
+They're like Google Voice, then it's not Google Voice.
+
+Speaker • 22:17
+So you're
+
+Speaker 1 • 22:19
+what are we? What are we talking? A couple box a number? If you're,
+
+Speaker • 22:22
+if we kind of we have guesstimated, given you've got a rented number and you're gonna pay for check, you'll probably pay like ten bucks per job per
+
+Speaker 3 • 22:33
+month.
+
+Speaker 2 • 22:35
+Okay, which is not
+
+Speaker • 22:36
+much.
+
+Speaker 2 • 22:37
+But fifty.
+
+Speaker 1 • 22:42
+We're Sammy's all the way around. Look at that.
+
+Speaker 2 • 22:46
+My first time messing around with the baby. Blast radio, Yeah, exactly. You want a little bit more.
+
+Speaker • 22:58
+Everybody else calls it soda water.
+
+Speaker 1 • 23:07
+Get these off complete free. Woo! They're fresh. That's one. They are one. Speaking of fresh, that roast beef was just finishing. Did you pull the rest of it or just some of it?
+
+Speaker 0 • 23:22
+Some of it. Yeah, look at that ketchup. Yum.
+
+Speaker 1 • 23:28
+Red read your ingredients. Read your ingredients. Oh, it's grequos. Oh, it's right in the front.
+
+Speaker • 23:34
+Tomato concentrates on red tomatoes.
+
+Speaker • 23:36
+I forget.
+
+Speaker • 23:37
+Third ingredients.
+
+Speaker • 23:38
+Sex gun.
+
+Speaker • 23:39
+Second.
+
+Speaker • 23:40
+Shouldn't even be ingredient.
+
+Speaker • 23:41
+Shouldn't be drinking anything.
+
+Speaker • 23:43
+I got more than sir cords there.
+
+Speaker • 23:45
+It tastes good.
+
+Speaker • 23:46
+That's your argument.
+
+Speaker 0 • 23:49
+Anything else right away, my guys? girl.
+
+Speaker 0 • 23:58
+My name is Rachel. I'm in college with you.
+
+Speaker • 24:02
+So I figure if you're running jobs, you're looking at like ten bucks a month for the communication process for per project.
+
+Speaker • 24:15
+For a number, yeah, per project.
+
+Speaker • 24:21
+For doing
+
+Speaker 3 • 24:22
+this
+
+Speaker • 24:25
+I was figuring that you want to look no I changed it I saw the
+
+Speaker 0 • 24:31
+problem
+
+Speaker • 24:35
+I was figuring that you would
+
+Speaker 0 • 24:37
+probably
+
+Speaker • 24:41
+prefer the chicken you started with chicken you switch to rosy she doesn't
+
+Speaker 0 • 24:44
+want the rose
+
+Speaker • 24:45
+just let her finish the chicken I think you sell this for like a hundred dollars a month for five jobs.
+
+Speaker 1 • 24:56
+That's that's still significantly cheaper.
+
+Speaker • 25:00
+Well, I know, but under
+
+Speaker 1 • 25:02
+integratable calendars.
+
+Speaker • 25:03
+Yes, somebody who needed to run like six or seven jobs at the same time paid two hundred dollars a month.
+
+Speaker • 25:12
+Somebody's only doing like two or three jobs at a time.
+
+Speaker • 25:15
+Find a way to hundred dollars a month.
+
+Speaker 1 • 25:18
+negate the price point per job thing. That's a huge differentiation in the markets because they all pull that shit and they all get tricky about it. But get rid of that, don't do it? I would people may not like that. There's something out there. I forget the name of it, but it was like an all-in-one CRM and scheduling thing, and it was a one-time cost.
+
+Speaker • 25:38
+But here's here's the power and.
+
+Speaker • 25:40
+But they don't generate
+
+Speaker 1 • 25:41
+the calendars in the way we need. Here's what you have to
+
+Speaker • 25:43
+think about.
+
+Speaker • 25:46
+It's going to cost me, you, whoever's running this software, yes, ten bucks a month per job.
+
+Speaker • 25:55
+So I can't just have people having more and more jobs in there.
+
+Speaker • 26:03
+Baker companies use a lot of jobs.
+
+Speaker 0 • 26:04
+Well, absolutely. Bigger, companies are
+
+Speaker 1 • 26:06
+already on build trucks.
+
+Speaker • 26:08
+at a thousand a month or fourteen hundred a month.
+
+Speaker • 26:10
+So they'd switch to this if they could.
+
+Speaker 0 • 26:12
+Well,
+
+Speaker • 26:13
+I'm looking for the needs in the world.
+
+Speaker • 26:15
+I don't care about the big guys.
+
+Speaker 0 • 26:16
+Yeah, but we have to we have the future project of who would maybe use.
+
+Speaker • 26:20
+that's the problem.
+
+Speaker • 26:21
+I can't just have somebody who's going to have ten jobs at one time and another guy has two jobs at one time.
+
+Speaker • 26:26
+They generate totally different costs from me.
+
+Speaker 0 • 26:29
+It's the um the other thing is is well okay because this software is not going to do any sort of like we're not trying to make it do estimates or anything like that like we're simply focused on the
+
+Speaker • 26:42
+scheduling
+
+Speaker 1 • 26:44
+scheduling software to do estimates and I don't need it to do financials that's what Villa Trent thought that we were supposed to be all in or they didn't want us And they wanted us enslaved.
+
+Speaker 0 • 26:54
+Does it do? Does it do customer communication?
+
+Speaker • 27:00
+Of course it does.
+
+Speaker • 27:00
+Yes, it does same thing, giving them a
+
+Speaker 1 • 27:03
+not touchable calendar to communicate what we plan. They don't have any reason to edit it. It's a view. It's just a window. That's easy.
+
+Speaker • 27:12
+you can communicate back and forth with customers, change the schedules.
+
+Speaker • 27:15
+All that's the same as you do with the contractors.
+
+Speaker • 27:21
+They just can't they can't really approve or reject.
+
+Speaker • 27:24
+I guess that was one of my questions.
+
+Speaker • 27:25
+You're like, do you run into scenarios where the schedule doesn't work for the customer?
+
+Speaker • 27:33
+To say, hey, we're going to start painting on Tuesday.
+
+Speaker • 27:35
+Does the customer need to approve that?
+
+Speaker • 27:40
+Or does it just kind of more of an upfront plan thing?
+
+Speaker 1 • 27:42
+customer is asked at signing. When over the next four months would us being in your home not working and they go we're out of town XYZ or nothing at all or I'm having surgery on this day and I'm gonna need you to recuperate and then we say will that bar us from being in your house will you give us access
+
+Speaker • 28:07
+so that's more of a you setting up the plan thing
+
+Speaker • 28:10
+not
+
+Speaker • 28:11
+Yeah, we're not getting the response.
+
+Speaker • 28:13
+What I'm trying to get is, do we need the customer to be having approval texts?
+
+Speaker • 28:18
+It's
+
+Speaker 0 • 28:18
+tricky because, like, yes, because what if they are, you know, like gone, or like, or especially if like they're supposed to paint and they're like, oh, I can't paint that weekend, you know, or something. But then we're giving them kind of a lot of say in the matter when I don't want to really necessarily always give them that much say. You know, like
+
+Speaker 1 • 28:40
+we do, though, Macy. We do give them a kind of a preview of the calendar the first
+
+Speaker 0 • 28:44
+sub Yeah, it's true. Like one of the
+
+Speaker 1 • 28:48
+events is I integrate the calendar with the existing project calendar. Then she says, guys, this is our proposed skeletal structure. they go, that works. Then we go to the first sub. That's because we go to the first sub. We go good, they go yep, we go to the second, they go good, yep, down the line. Most importantly, chuck and
+
+Speaker • 29:10
+nails.
+
+Speaker 1 • 29:13
+Sometimes we do. We have to usually push out a phase and go, are we good here? Everybody goes, that's all good. It's usually the rough end folks. And then you get to closing up the job site with drywall. Those guys are generally pretty flexible because we're their biggest everything. We are their income. I'm not trying to call them. They have other customers, but not like
+
+Speaker 0 • 29:35
+thing though. And then it
+
+Speaker 1 • 29:36
+comes up to Nick. And Nick is usually the date I'm working backward from. So Nick, he did it this morning to me. He goes, October fifth, my next availability. I built an entire calendar at the job site this morning. For small project in reverse.
+
+Speaker • 29:52
+No, it's not with me.
+
+Speaker • 29:53
+I'll just start with me.
+
+Speaker 0 • 29:54
+If you build it, though, if you build it for us to go one step at a time, I think customer first should be industry standard.
+
+Speaker 1 • 30:03
+And that was one of the annoyances about Billettrend. There was no there's send all out or nothing. So I would have to not assign tasks, and then once I got the folks I needed to assign to say yes. I have to go back in, add the next sub, send it, and then wait.
+
+Speaker • 30:19
+Okay, and
+
+Speaker 1 • 30:19
+then wait. Sometimes you get to the end of the project and find out I forgot to add a sub because I had to go back in and out. You know what I mean? So kind of annoying, but that is a realistic scenario that we have to check in with folks who are more important than others. That's all there is to
+
+Speaker • 30:38
+it. Well.
+
+Speaker • 30:40
+I mean, a lot of it's really, you know, if you're doing cabinetry, it's all really, you got to have that squared way.
+
+Speaker 0 • 30:51
+So yeah, customer first approval from them would be helpful. And then when they approve that, that's like saying, okay, we're going to you you have access to my home. I see the schedule. I'm like. And then schedule changes, I would want approval of from them as well.
+
+Speaker • 31:13
+At least an acknowledgement.
+
+Speaker • 31:18
+Shot your plate.
+
+Speaker 0 • 31:20
+You got approval? The word approval is hard because you don't want to give them that.
+
+Speaker 1 • 31:36
+Honey, you just wrap your salmon in your bab. Here, try again. Whoop, try, try again. Try again. Fresh food. Fry fresh food. Now she's in her bab. She's like, what else is in here? I love this. There's food in here.
+
+Speaker 3 • 31:55
+I don't
+
+Speaker 1 • 31:56
+have any more chickens. I got her, don't worry. She's like a bushy grapefruit.
+
+Speaker • 32:05
+I've learned how to slow down finish that first button.
+
+Speaker • 32:08
+Put solid food in my mouth.
+
+Speaker • 32:09
+Oh, she
+
+Speaker 1 • 32:10
+can chew it
+
+Speaker • 32:10
+up.
+
+Speaker 0 • 32:16
+Okay, so what other kind of like decisions did you make are this? That you have like questions
+
+Speaker • 32:21
+on that was a I have a couple documents I need to pull up.
+
+Speaker • 32:28
+Are we
+
+Speaker 1 • 32:30
+really truly stuck on this phone number thing?
+
+Speaker • 32:32
+I'm not stuck on it.
+
+Speaker 1 • 32:34
+Is there no way to mitigate that cost?
+
+Speaker • 32:38
+That's pretty dollar twenty-five a month on the phone number they
+
+Speaker 1 • 32:42
+are
+
+Speaker • 32:43
+for the actual number.
+
+Speaker • 32:44
+I thought it
+
+Speaker 1 • 32:44
+was ten.
+
+Speaker • 32:45
+It's ten for the number and all the communication you would be doing because you pay for texting in a normal situation.
+
+Speaker • 32:53
+Okay, right?
+
+Speaker • 32:55
+Your phone carrier doesn't charge you, but there's cost.
+
+Speaker 1 • 32:59
+Because I honestly, I don't want to be rude. You actually really care. So the communication tools beyond the click here, do it subject or go still calculated text. Yeah, then you still need that because. We can communicate in groupies all the time. We do it all the time. Now I understand the part of us segregating from one job to the next, but I don't think these boys can keep up. I would agree. I don't think they. So if we do
+
+Speaker • 33:25
+or if we do the approver links that still go out, one way to do this would be.
+
+Speaker • 33:34
+We just have one phone number for each contractor.
+
+Speaker • 33:38
+I mean, name Ryan is the contractor, right?
+
+Speaker • 33:42
+So each subscriber to the system would have one phone number that it would use for communicating out schedules and changes.
+
+Speaker • 33:52
+But the actual dialogue communication would not be part of the system.
+
+Speaker 1 • 34:00
+Right, I think that because I'm going to use this terminology and I want it to kind of be the mantra mean and mean let's get to what it does. But here's the problem new meat try new meat
+
+Speaker • 34:16
+as a consult as a contractor Right Take those.
+
+Speaker • 34:28
+This comes back to you.
+
+Speaker • 34:29
+As a contractor, there's currently no way for you to know who said what, when, where, why, when in text for a project, not for a project now.
+
+Speaker • 34:41
+You'd have to go research through your text and figure out.
+
+Speaker 0 • 34:45
+Yep, I do do
+
+Speaker • 34:47
+Now, this other way would take care of all of that.
+
+Speaker • 34:51
+It would be in the app.
+
+Speaker • 34:54
+Whether you for whatever purpose that you needed it for.
+
+Speaker • 35:00
+is that valuable enough as a feature to say our system does
+
+Speaker 1 • 35:16
+Not for me.
+
+Speaker • 35:20
+That's worth thinking about because
+
+Speaker 1 • 35:23
+I'm really, really back. It's like this thing needs to do four things. And one thing that the other softwares don't do better, what's integration, easily integrates to the subscriber.
+
+Speaker • 35:39
+That's one thing.
+
+Speaker • 35:39
+What else?
+
+Speaker 1 • 35:41
+Well, I wanted I want it to show the customer a calendar. I want us to be able to to build a calendar easily so what am I at two show the calendar
+
+Speaker • 35:51
+show the contractor
+
+Speaker 1 • 35:52
+contract contract merk confirmation sub sub confirmation for me so my ability to build my ability to get confirmations and my customers ability to see the calendar yep We'll do all that. And into grade. That's the four things if you're saying it's four. Beyond that, anything else it does is super close to getting the goal of we've made a calendar and everyone could see it. Now you start getting into what are the extras? The extras are, oh, well, add photos and check in and check out every day for the subs. Okay, whoa, We can do that to an email address that they are required to check into every day. We could. That would be just company policy. I have a solution for that that's much more analog. Every job site, and I've said this before, she's rolling her eyes a QR code to a Google Drive folder where they scan the code, the subdescript. They scan the QR code that's in a laminated sheet of paper attached to each junction, like determined, correct? And they take a photo and it adds it to the Google Drive and they check out. That's how they check out. They go, here's what I did today. Click pictures. They leave. That's it. It's so simple. Checkout process. How do they do it? They just listen. It's simple training. There is a company called Company Cam that already does it. Some of them actually use an actual camera that's completely 100% always affixed to the job scene. Not kidding.
+
+Speaker • 37:36
+How's your money?
+
+Speaker 1 • 37:37
+100%. Is it? I'm saying put your boss on the sub to click a fucking QR code. I don't care if it's. You got a hundred dollar
+
+Speaker • 37:44
+camera, and you've got to have the.
+
+Speaker 1 • 37:47
+Correct, correct, right? You have to have a Wi-Fi somewhere. You have to have a data point. You have to have a hotspot. You have to have a ping to the universe to to have that work. Okay, so there's a lot of money involved in that. Think vehicle trackers for my fleet. Same technology, but can carry larger data far straight up. Okay, it's not paying up to the di-de-de- for the cars.
+
+Speaker • 38:10
+No, they scan the QR code with their own phone.
+
+Speaker 0 • 38:13
+That's the
+
+Speaker • 38:13
+point.
+
+Speaker • 38:13
+That's way easy.
+
+Speaker 1 • 38:14
+Oh, 100%.
+
+Speaker 0 • 38:15
+Well, so just for them to have instead of, hey, where are the cabinet plans or whatever? Here they are. I'm here for you.
+
+Speaker 1 • 38:21
+So that's a simple. Simple Google Drive folder management. Now, if you want them to, when they scan the QR code, they also see in the drive folder and every person that comes to that job site, you can have it say, scan this QR code for resources for jobs.
+
+Speaker 0 • 38:40
+That's what I would
+
+Speaker 1 • 38:41
+think. Start with that, but end with here's what you will do at the end of the day. Oh, how about this? Two QR codes. Well, you arrived. Scan here. Job resources are here. You could have tile layout. It could have everything. Understood, and then scan here at the end of each day. Check out of the job site. It could have door codes to lock. It could have important things of note. It's very easy. Those are things that I don't feel like a software has to do for me. It's too easy to structure that per job, and it allows me to be flexible in that little Google Drive folder that is nothing but a dollar denied monthly subscription to get extra. Here's the
+
+Speaker • 39:20
+If you're already going to this software, the type of project, figure out who your contractors are, why would you not just put this in the software that just does it all on?
+
+Speaker • 39:30
+If the QR code they scan when they arrive goes to a data data software, cool.
+
+Speaker 1 • 39:36
+It's not a drive at all. That's fine. That's the only variation necessary. Well, maybe the software
+
+Speaker • 39:40
+produced software can do the Google Drive.
+
+Speaker 1 • 39:43
+Correct, correct. Sure. Software could give you the drug in our database.
+
+Speaker 0 • 39:47
+I think
+
+Speaker • 39:49
+no, you wouldn't need to store the value.
+
+Speaker • 39:51
+I was telling you to store the database.
+
+Speaker • 39:53
+Smoked salmon.
+
+Speaker 0 • 39:54
+Oh, I'm she's a
+
+Speaker • 39:55
+bougie little baby.
+
+Speaker 0 • 39:56
+Oh, that's right. That's right, baby girl. Show her how
+
+Speaker • 40:00
+you smash
+
+Speaker 0 • 40:01
+bougie. You're going playing. Look
+
+Speaker 1 • 40:05
+at look at the
+
+Speaker 0 • 40:06
+texture this. Yeah. We buy in. Yeah, brilliant. I wasn't sure
+
+Speaker • 40:10
+if you liked that.
+
+Speaker 1 • 40:12
+We make sure it doesn't
+
+Speaker • 40:13
+have blades.
+
+Speaker 1 • 40:15
+We've never had an ounce of sugar.
+
+Speaker 1 • 40:21
+That's right.
+
+Speaker • 40:22
+So, I mean, it sounds to me like that if if you think that's worth paying for, which this Google Drive idea
+
+Speaker 1 • 40:32
+well, Google Drive to have a terabyte of info is a popular event at all.
+
+Speaker • 40:37
+I know, but I'm just saying if we have the software
+
+Speaker 0 • 40:39
+say
+
+Speaker • 40:41
+this is where Ryan or Macy You want me to hold it?
+
+Speaker • 40:47
+Oh, it's like pickering.
+
+Speaker 0 • 40:48
+literally like all she was doing a slip.
+
+Speaker • 40:53
+There we go.
+
+Speaker 0 • 40:55
+Sorry. Get up.
+
+Speaker • 40:56
+Good up.
+
+Speaker • 40:56
+Yeah, I thought the plane was to have somebody else watching the picture.
+
+Speaker 0 • 40:59
+Well, she's out picture.
+
+Speaker 1 • 41:02
+We had to reschedule training as well.
+
+Speaker 0 • 41:04
+This was the baby was not supposed to be here.
+
+Speaker 2 • 41:07
+We'll do another
+
+Speaker • 41:08
+one.
+
+Speaker 1 • 41:09
+gonna be fun.
+
+Speaker • 41:10
+So, no, what I'm just saying is, you know, you could write the software so that Macy or Ryan, you just put the documents you want in the project.
+
+Speaker 1 • 41:19
+and it options. And then it figures
+
+Speaker • 41:21
+out the Google Drive and the QR shows to print the thingies and do all this stuff for you.
+
+Speaker • 41:26
+And I want to
+
+Speaker 1 • 41:27
+be clear.
+
+Speaker • 41:28
+And the
+
+Speaker 1 • 41:28
+son that walks into Josh, who's never seen our software because he's not the auditor, it's with a sign that says, Stand here to start with your day.
+
+Speaker • 41:39
+How are they going to know that?
+
+Speaker • 41:40
+You have to tell.
+
+Speaker 1 • 41:41
+It's going to be big. It could be outside on the front door. It may have the door code in it. But think about that. The QR code's set here. Now, the problem there is security. Side of that. Some stranger walks up. Send me the QR code. It says punch two six and walk into the car. Yeah, we're not
+
+Speaker 0 • 41:59
+going to do the
+
+Speaker 1 • 41:59
+door code. I just want that, I guess.
+
+Speaker 1 • 42:04
+Well, that's not true
+
+Speaker 3 • 42:06
+because
+
+Speaker • 42:08
+the QR code, well, that's not going to work.
+
+Speaker • 42:12
+Exactly.
+
+Speaker • 42:12
+I'm going to know who the contractor is, and I'm going to know who the subcontractor, and I'm going to know their phone number.
+
+Speaker • 42:19
+But I'm not going to know all of their employees' phone number.
+
+Speaker • 42:22
+Yep,
+
+Speaker • 42:23
+Right, because I could just say the other person that can scan this is the subcontractor.
+
+Speaker 0 • 42:31
+You can put a restriction on who scans in the QR code.
+
+Speaker • 42:37
+She gonna be a site.
+
+Speaker • 42:38
+I mean, she's a terrorist ticket bringing to this place.
+
+Speaker • 42:41
+It says this QR code was scanned by this phone because that's not a legal phone.
+
+Speaker • 42:47
+Or like, would it like request access, but then that's available?
+
+Speaker • 42:53
+Yeah, that makes it harder.
+
+Speaker • 42:55
+That that adds complexity.
+
+Speaker • 43:02
+But so Ryan, so with this phone number change, you're saving like forty bucks a month.
+
+Speaker • 43:14
+It's not about money.
+
+Speaker • 43:15
+It's about the clunkiness.
+
+Speaker • 43:16
+The clunking.
+
+Speaker • 43:18
+I don't care to have you don't.
+
+Speaker • 43:19
+You don't have to.
+
+Speaker • 43:20
+That's separate job group.
+
+Speaker • 43:22
+Subs will never keep up with that.
+
+Speaker • 43:24
+They'll never abide by it.
+
+Speaker • 43:26
+I'm sorry.
+
+Speaker • 43:27
+They won't.
+
+Speaker • 43:28
+They will not stay in line.
+
+Speaker • 43:29
+They're not professionals in that respect at all.
+
+Speaker • 43:33
+They can explain how an ohm test works on a heated floor before you cover it.
+
+Speaker 1 • 43:38
+That's that's technical. This stuff, for some reason, is so far.
+
+Speaker • 43:45
+I've never met even another company owner that's as techy as we could.
+
+Speaker • 43:49
+We the job workers won't handle it.
+
+Speaker • 43:52
+And my question would be if the purpose was to help the app keep up, which I understand, what happens if they pull up?
+
+Speaker • 44:02
+Because they say, oh, we're going to do this, and this
+
+Speaker • 44:06
+What do you mean?
+
+Speaker • 44:06
+I'll get out of that group there.
+
+Speaker • 44:07
+Yeah, they're not going to go.
+
+Speaker • 44:09
+The call
+
+Speaker • 44:10
+That's why in this day and age, it's when you say, I'm just going to call them, and sometimes I go, no, no, email the customer.
+
+Speaker • 44:19
+Well, that I know.
+
+Speaker • 44:20
+I rarely say sometimes so much too.
+
+Speaker • 44:24
+Well, I know, but.
+
+Speaker • 44:26
+Sometimes, how often are you just you call up Dewey while you're using call up?
+
+Speaker • 44:31
+We are still a call-based business.
+
+Speaker • 44:33
+We are with certain individuals.
+
+Speaker • 44:36
+So if Dewey and I have a disagreement on a on an invoice, sometimes they email.
+
+Speaker • 44:43
+Sometimes I just call him and say, I think you double billed on this.
+
+Speaker • 44:45
+But if Nick needs something from me for the job site, he's not going to sit there and look in his phone and find the group text message for this job in Texas.
+
+Speaker • 44:54
+He's calling.
+
+Speaker • 44:55
+True.
+
+Speaker • 44:55
+And so if our phone number's making my phone, they will invalidate this effort put into the group number, having a separate number per each project.
+
+Speaker • 45:06
+I don't think that's going to work.
+
+Speaker • 45:07
+Definitely helps.
+
+Speaker • 45:08
+I don't think it helps us.
+
+Speaker • 45:10
+If you still can talk to that a way to make some software work, I'll hear you out.
+
+Speaker • 45:15
+But I believe it's now.
+
+Speaker • 45:17
+I mean, like I said, if you had one master phone number and you used it for every project and all the subs and all the customers, I think because the system is originating a bunch of those approval links, that process will still work.
+
+Speaker • 45:35
+So just lose the fact
+
+Speaker 1 • 45:37
+behind having a common number for the whole company. We don't have that.
+
+Speaker • 45:41
+Same.
+
+Speaker • 45:42
+Says totally awesome.
+
+Speaker • 45:43
+Okay, so that ten bucks a month.
+
+Speaker • 45:47
+It would end up being more than ten bucks a month because they're on the project.
+
+Speaker • 45:51
+I own the number forever, though, because those can get lost to whoops, missed a payment.
+
+Speaker • 45:58
+I own this number.
+
+Speaker • 46:00
+Is it does it behoove us to get a third phone?
+
+Speaker • 46:03
+Because we have tablets with phone numbers.
+
+Speaker • 46:04
+They have phone numbers.
+
+Speaker • 46:06
+We just got a call out of them.
+
+Speaker • 46:08
+We never make calls out of the tablets, but that's not fine.
+
+Speaker • 46:13
+The tablets.
+
+Speaker • 46:14
+No, here's the deal.
+
+Speaker • 46:16
+In the long run, the app needs to do texting.
+
+Speaker • 46:20
+The tablets can take a text, but the gap cannot control another text number once you get a number for like Verizon or whatever, the apple can do the app can do nothing.
+
+Speaker • 46:33
+The Cairo Office had your view from a desktop or the owner's phone.
+
+Speaker • 46:41
+To answer customer segment
+
+Speaker 0 • 46:43
+review wave
+
+Speaker • 46:43
+multiple what's it
+
+Speaker 0 • 46:44
+called review wave is what we use
+
+Speaker • 46:46
+review wave yeah why is review in the title it's in the baseline sending
+
+Speaker 0 • 46:53
+customers messages to ask for reviews after a service so you would set it up for
+
+Speaker • 46:58
+false you all confirmed appointments oh yeah any point of yeah use a similar technology software on the back computers the front computers the offices okay the reason
+
+Speaker 0 • 47:07
+it's called
+
+Speaker 3 • 47:07
+review wave is because like after their six Appointment, they would automatically message be like, Read your service on da and then it gives them the link to the book to complete the review. I still get that from the Cairo angles.
+
+Speaker • 47:19
+Right, and you don't own the
+
+Speaker • 47:23
+but you keep it as long as you pay a subscription.
+
+Speaker • 47:25
+Yeah, now you had Cairo customers who would reply to that number and you all could read it.
+
+Speaker • 47:34
+I want that for this company.
+
+Speaker • 47:36
+I want a number that says this is our communication.
+
+Speaker • 47:38
+It doesn't have to be the advertised number.
+
+Speaker • 47:40
+This is I want once the job is running one number.
+
+Speaker • 47:48
+I want that for us, just in general.
+
+Speaker • 47:52
+I don't think that's nothing to do with the software.
+
+Speaker • 47:54
+But the software didn't. come in said like text messages on your phone you would have to log into the
+
+Speaker 3 • 48:01
+website it has to have an app well maybe it does my new button that does this but has an app anyway
+
+Speaker 1 • 48:08
+no or not because i want to know if that is software you could latch onto that's because now that communication is housed inside of a cloud somewhere not a phone number you're
+
+Speaker • 48:22
+gonna run into the same file i
+
+Speaker 1 • 48:23
+heard you right you can't
+
+Speaker • 48:24
+control a
+
+Speaker • 48:26
+You could withdraw a base number, a VPN number.
+
+Speaker • 48:30
+No, it's Twilio's real phone numbers.
+
+Speaker • 48:33
+Right, but runs through their software.
+
+Speaker • 48:35
+No, my software.
+
+Speaker • 48:37
+I'm so confused.
+
+Speaker • 48:38
+Okay, I thought there was something special.
+
+Speaker • 48:39
+Twilio is a sender.
+
+Speaker • 48:42
+They allow us to text message on numbers that they can give us.
+
+Speaker • 48:46
+Now, I'm not positive about the ownership of those numbers, meaning can Ryan. take control of that number at a later point?
+
+Speaker • 48:57
+Not so sure.
+
+Speaker • 48:58
+Can you keep it as long as you're paying Trillium?
+
+Speaker • 49:01
+Sure, but you know?
+
+Speaker • 49:05
+You're saying I'm subscribing to this app for a hundred bucks a month, and then I've you know I decide to no longer pay you know CVK don't move that.
+
+Speaker • 49:14
+I'm not going to gaze like a tough.
+
+Speaker • 49:17
+I didn't even want to Cairo office breaks number for that, but they would just change it.
+
+Speaker • 49:21
+Here's the problem.
+
+Speaker • 49:22
+Actually, your original Google voice says free.
+
+Speaker • 49:27
+You can send do all that with a Google.
+
+Speaker • 49:31
+Can't control it.
+
+Speaker • 49:31
+They're soft, right?
+
+Speaker • 49:33
+And you have other choices.
+
+Speaker • 49:34
+How would the number with review wave?
+
+Speaker • 49:38
+Do you not know that?
+
+Speaker • 49:39
+It may not have even shown you the number.
+
+Speaker • 49:42
+Can you do a trial subscription to review wave for us to play
+
+Speaker 3 • 49:46
+with? Maybe
+
+Speaker • 49:48
+maybe what do you mean, maybe?
+
+Speaker • 49:50
+You can sign up for
+
+Speaker • 49:52
+Do you have any earthly idea what it costs?
+
+Speaker 3 • 49:54
+I think it's a they also did all the like social media ads and stuff, so it was a bunch of stuff all included. So it's they're good. There we
+
+Speaker • 50:03
+go again.
+
+Speaker • 50:03
+I only need one tool of something that they're not saved like a dollar twenty five.
+
+Speaker • 50:08
+Not about a dollar twenty-five for customers.
+
+Speaker • 50:13
+I do want a central number and I've asked for something like that a long time ago.
+
+Speaker • 50:17
+Why can't we do it through this?
+
+Speaker • 50:18
+I said you.
+
+Speaker • 50:21
+No, I said I could do it per contractor.
+
+Speaker • 50:25
+Per contractor.
+
+Speaker • 50:26
+No, I not even that.
+
+Speaker • 50:28
+You're the contractor.
+
+Speaker • 50:29
+Oh, yeah.
+
+Speaker • 50:30
+Sorry, sounds much contractor.
+
+Speaker • 50:35
+If you haven't understood the idea that you're a GC, that's a contractor.
+
+Speaker • 50:39
+The C and G C is the contractor.
+
+Speaker • 50:43
+I think it's sub contractors.
+
+Speaker • 50:46
+That's my point.
+
+Speaker • 50:49
+So next.
+
+Speaker • 50:53
+So I can do a number for a contractor.
+
+Speaker 0 • 50:56
+And he says for contract errors to meet with others with an email contract.
+
+Speaker • 51:02
+But you're still paying like whatever.
+
+Speaker • 51:11
+And there's no no communication tracking.
+
+Speaker • 51:14
+Okay, better member over there for the just the central number per
+
+Speaker 3 • 51:18
+contractor again. Brian and I have options to tell the website and have the app downloaded on our
+
+Speaker • 51:24
+phone.
+
+Speaker • 51:26
+How do we get the
+
+Speaker • 51:27
+There's no app.
+
+Speaker • 51:27
+It's a website.
+
+Speaker • 51:29
+William?
+
+Speaker • 51:31
+Yeah, it's the same reveal.
+
+Speaker • 51:33
+It's not an app.
+
+Speaker • 51:34
+How do we get the messages
+
+Speaker 3 • 51:36
+on our phone?
+
+Speaker • 51:39
+Whether you get your messages now through text. Yeah.
+
+Speaker • 51:43
+It's trying to simple.
+
+Speaker • 51:44
+If they met, if they try to text.
+
+Speaker • 51:46
+The central number.
+
+Speaker 3 • 51:52
+Did you hear
+
+Speaker • 51:54
+So the customers text the central number.
+
+Speaker 3 • 51:57
+How do you and I get the number?
+
+Speaker • 51:59
+Do you want me to route that to your phone number?
+
+Speaker • 52:01
+Well, this is why I'm asking for a phone number based at an address to your central number.
+
+Speaker • 52:07
+I want to find a middle ground so that can be controlled by the app as well.
+
+Speaker 0 • 52:10
+Or you can route it to I
+
+Speaker • 52:11
+can route it to your numbers.
+
+Speaker 0 • 52:12
+That's what I
+
+Speaker • 52:16
+My phone has this at the top.
+
+Speaker • 52:18
+Yeah, also mine.
+
+Speaker • 52:21
+If your question, so you can take a singular number.
+
+Speaker • 52:29
+They say, customer, this is the communication number for us.
+
+Speaker • 52:32
+It goes out, and it would act like email.
+
+Speaker • 52:34
+It would be global.
+
+Speaker • 52:35
+Let me go to your MML.
+
+Speaker • 52:37
+Let me go to your tag.
+
+Speaker • 52:38
+Okay, so her phone digs, my phone digs.
+
+Speaker • 52:41
+I answer the message.
+
+Speaker • 52:42
+They get an answer.
+
+Speaker • 52:44
+She answers the message as well.
+
+Speaker • 52:46
+They get a second answer.
+
+Speaker • 52:48
+It's problematic.
+
+Speaker • 52:51
+I want a homogeneous number.
+
+Speaker • 53:00
+Remember what I'm talking
+
+Speaker 3 • 53:01
+about?
+
+Speaker • 53:02
+Yeah, you can get a reply, but you would get the reply that he sent.
+
+Speaker • 53:07
+so they're somehow pinging back and forth.
+
+Speaker • 53:11
+To give you a reply, it would kind of reply all, you know?
+
+Speaker • 53:15
+Okay. it wouldn't prevent her from what the request
+
+Speaker 3 • 53:19
+would the customer
+
+Speaker • 53:21
+just be a group message with our number that other number
+
+Speaker 3 • 53:27
+no because when the customer gets the message is it coming from ryan macy or centra
+
+Speaker • 53:35
+we'd have to decide i
+
+Speaker 3 • 53:36
+want
+
+Speaker • 53:38
+if we have the system running it we could have it go from central
+
+Speaker 3 • 53:41
+i want it from central I don't want me to use that.
+
+Speaker • 53:51
+Okay, so that's a different kind
+
+Speaker 3 • 53:52
+of
+
+Speaker • 53:53
+communication process, and I can run that through some analysis and see if we can do it.
+
+Speaker • 54:01
+But it makes sense.
+
+Speaker 3 • 54:04
+Because people have. More than one worker, right? So how do they or more than one project manager who wants to get mates, you got
+
+Speaker • 54:14
+a scheduler, you got subs, you got Alex, you got here's here's the problem.
+
+Speaker • 54:19
+Here's something I can see happening.
+
+Speaker • 54:22
+Brian, yeah.
+
+Speaker • 54:24
+Your painter sends you a text on this, you know, this central member talking about whatever.
+
+Speaker • 54:31
+You have no idea what job that's for.
+
+Speaker 3 • 54:34
+That's why in regards
+
+Speaker • 54:36
+to the
+
+Speaker • 54:36
+message.
+
+Speaker • 54:38
+I'm at.
+
+Speaker • 54:40
+So I would know that.
+
+Speaker • 54:43
+That's good enough.
+
+Speaker • 54:43
+I'm at that job. Yes. Yeah.
+
+Speaker 3 • 54:46
+They usually
+
+Speaker • 54:47
+preface.
+
+Speaker 3 • 54:52
+would it be ideal for if they had a separate group of private sectors? Probably would be ideal. Yeah, except
+
+Speaker • 54:59
+I kind of agree with Ryan a little in that you guys know your subs and the people that work for the subs.
+
+Speaker • 55:05
+And if you think that they're really not going to manage that well, then it's probably going to fall apart, correct?
+
+Speaker • 55:12
+So and once once the crews are on site, Especially for the pharmaceutical electrician.
+
+Speaker • 55:20
+And Ajrac.
+
+Speaker • 55:22
+Well, no, the pharmaceutical electricians, the pharmacists, the employees are not talking to us.
+
+Speaker • 55:27
+A-track, we still have Ethan.
+
+Speaker • 55:29
+He still controls his crew.
+
+Speaker • 55:30
+He threw us, even though he's not there.
+
+Speaker • 55:33
+But we're never going to talk to Neil about what he's doing or will.
+
+Speaker • 55:36
+We're going to talk to Dewey about what Luke and Brian and Cody are doing ever.
+
+Speaker • 55:41
+At that point, that person shows up at our job site.
+
+Speaker • 55:44
+They're communicating directly with one of us.
+
+Speaker • 55:47
+You know, I'm still hungry.
+
+Speaker • 55:48
+Do you want my knuckle?
+
+Speaker • 55:50
+Get out.
+
+Speaker • 55:51
+Get his glasses.
+
+Speaker • 55:52
+That's the first thing that's going to go.
+
+Speaker • 55:54
+I'm going to get my glasses.
+
+Speaker • 55:56
+Oh, these glasses.
+
+Speaker • 55:57
+Yeah, he's like, nah, here.
+
+Speaker • 56:00
+Can I put something a little less destructive?
+
+Speaker • 56:02
+Yeah, all too much.
+
+Speaker • 56:04
+Especially that green light on the back.
+
+Speaker • 56:05
+There's a light in there.
+
+Speaker • 56:06
+Jesus.
+
+Speaker 3 • 56:08
+Brian, are we worried about with the central number thing, like something? You know, sometimes you handle things and I don't always know everything that you handle on a day.
+
+Speaker • 56:23
+That is why.
+
+Speaker • 56:25
+If everybody, including the Sums and their employees, now got your customers, all had one number that goes ding ding, and we both see what the other person responded to.
+
+Speaker 3 • 56:39
+What do you think? I'm worried about it overwhelming me.
+
+Speaker • 56:43
+what what's overwhelming you
+
+Speaker 3 • 56:44
+know like the fact that i don't always know but when ryan talks to a partner on his website and about
+
+Speaker • 56:51
+this is the solution to that
+
+Speaker • 56:53
+wow
+
+Speaker 3 • 56:53
+yeah you would see
+
+Speaker 1 • 56:55
+that i responded
+
+Speaker 3 • 56:56
+yeah you
+
+Speaker 1 • 56:56
+would also see that i didn't
+
+Speaker 3 • 56:58
+okay about knowing that i didn't everything that happened in my head during the day is a lot
+
+Speaker • 57:03
+you would know what's going on
+
+Speaker • 57:05
+You're both on the same chest.
+
+Speaker 3 • 57:06
+Yeah, but then for to have a challenge.
+
+Speaker • 57:11
+A little bit.
+
+Speaker 3 • 57:13
+I'll do it in the
+
+Speaker • 57:14
+chest.
+
+Speaker 3 • 57:17
+Do you want to keep this?
+
+Speaker • 57:19
+You nibbling?
+
+Speaker 3 • 57:23
+I'm not.
+
+Speaker • 57:24
+Well, you, am I letting them go, you are?
+
+Speaker 3 • 57:29
+Thank
+
+Speaker • 57:39
+Are you messing?
+
+Speaker 1 • 57:39
+Yeah, probably you messy. We didn't really clean her up. Are you kicked in? Yeah, we're ten minutes.
+
+Speaker 3 • 57:48
+But the scheduling is a big deal. Having it go to their calendar and then a customer being able to see it. Now, when the customer sees it, are they going to see it on?
+
+Speaker 1 • 57:58
+No, we're a little bit on a tangent because I'm describing a way to resolve communication. I don't require the app to
+
+Speaker 3 • 58:05
+be
+
+Speaker 1 • 58:06
+the only reason why I don't require the app to be my communication tool. This other solution deletes that from the app's mean tool. I want the app to be a lean, mean calendar communicating machine.
+
+Speaker 3 • 58:22
+How does the customer see the calendar?
+
+Speaker • 58:24
+That's to click the link to go, or they go to the app to you know they can log into their website or they
+
+Speaker 3 • 58:29
+just log into the website.
+
+Speaker • 58:30
+know, because when they're a customer, how
+
+Speaker 1 • 58:32
+do we eliminate the login? They just have a link that's in their text.
+
+Speaker • 58:35
+can do
+
+Speaker 1 • 58:36
+Secure. I don't really care.
+
+Speaker 3 • 58:41
+Well, listen, secure security matters because then somebody else gets a hold of that movie. It doesn't matter if somebody else gets a hold of it. They know, oh, them's going in on this day.
+
+Speaker 1 • 58:50
+The people are going to be gone. Dang it. Oh wait, wait. We had an extremely hard job sometimes getting people to get through the login process. I build a trend. They had to build it. They had to sign in. You can always do the thing. Simple in a way, right? So they, you know, they they had a link saying, hey, Ryan's Remodeling started a project, you know, at your house. Got a hell of a reach. So Ryan's Remodeling started a project and published a calendar or whatever.
+
+Speaker • 59:43
+Here's your text, and it says, Welcome to the project, and you say, Okay, it's going to know their phone number and their email, right?
+
+Speaker • 59:50
+So let's say they want to go to the website.
+
+Speaker • 59:53
+They can put in.
+
+Speaker 2 • 59:55
+I can, change the computer. I think you might.
+
+Speaker • 60:00
+So they can go to the website, click in the link.
+
+Speaker 1 • 60:25
+Yeah, she loves me. There she goes. She loves her pictures. Just need a little help. Yay! Again. Chew on it a little
+
+Speaker • 60:43
+bit.
+
+Speaker • 60:46
+But anyway, if somebody wants to log into site and says, you know, give me your, there's going to know Gmail, email, whatever, they put it in, and it can say, you know what?
+
+Speaker • 60:56
+I just sent you a code.
+
+Speaker • 60:59
+Yeah, you get it when you log in.
+
+Speaker 1 • 61:00
+Yeah, every time. Every time. Your your student loan site does that. Yeah. It does not care about your login. It always wants to send a code, which is why I changed the phone number on your profile. What's your
+
+Speaker • 61:11
+phone number?
+
+Speaker • 61:11
+Oh, I just sent you a text.
+
+Speaker • 61:13
+I log in to pay your
+
+Speaker 1 • 61:14
+zero. Hello. I'm logging in to pay your student loan.
+
+Speaker • 61:19
+So that makes the.
+
+Speaker • 61:22
+And most people have
+
+Speaker 3 • 61:22
+that type of thing in that auto fill from your messages when you get a
+
+Speaker 1 • 61:26
+code and you just stupid. That's a function. it just automatically copies paste the code.
+
+Speaker 3 • 61:33
+Mm-hmm.
+
+Speaker 1 • 61:34
+never have
+
+Speaker 3 • 61:35
+to look at the code and type in the code. I press the
+
+Speaker 1 • 61:38
+button. As much as you can, sometimes you fuck up and you delete the notification.
+
+Speaker 1 • 61:50
+I like that. I like that the homeowner goes, oh yeah, that's me. It shows. I mean, There's no login. Can they app to download? That is stupidly neat.
+
+Speaker 3 • 62:02
+Is there a chance? Could they get it integrated to their Google Calendar if they wanted to?
+
+Speaker 1 • 62:07
+That's the point.
+
+Speaker 3 • 62:10
+Not everybody will want to, but some will.
+
+Speaker 1 • 62:12
+Okay, so so years ago we did your kitchen, and I literally just added the project calendar. I would never do that for most contract or most customers. Never. Now Macy's beta testing with one customer that we have a really good job going for right now. He's confident, drunk tax, and she and him get along and his wife is swimming. Macy has built their separate calendar. Have you done that with him? And it's working. Mike is able to see the job on his own calendar. I'm not privy to it. What did you do? Did you create a second Google account?
+
+Speaker 3 • 62:52
+What do
+
+Speaker 1 • 62:52
+you talk about
+
+Speaker 3 • 62:53
+Ryan's remodeling
+
+Speaker 1 • 62:55
+project
+
+Speaker 3 • 62:55
+schedule or something?
+
+Speaker 1 • 62:56
+Something long as fuck.
+
+Speaker 3 • 63:02
+Ryan three modeling dot
+
+Speaker 1 • 63:04
+customers
+
+Speaker 3 • 63:04
+at gmail dot
+
+Speaker 1 • 63:05
+com.
+
+Speaker 3 • 63:07
+Yeah, he gets an email from Ryan at Ryanthremodelling dot customers at gmail dot com. Literally. Because we already have Ryan's remodeling. We have Ryan's remodeling calendar, and now we have Ryan's remodeling customers. Because calendar is the one that we use for sub.
+
+Speaker 3 • 63:28
+And then their invite.
+
+Speaker • 63:37
+What are you doing?
+
+Speaker • 63:38
+Are you walking?
+
+Speaker • 63:39
+Are you running?
+
+Speaker • 63:40
+You're doing something.
+
+Speaker 3 • 63:42
+She's looking right at you. She's like, look what I
+
+Speaker • 63:45
+have.
+
+Speaker • 63:47
+It's on the floor now, and I can't reach
+
+Speaker 1 • 63:48
+her. So the Ryan's.
+
+Speaker 3 • 63:54
+Do you need help?
+
+Speaker 1 • 63:57
+Here it is. Okay, so there's a distinction between these two calendars. That's the main company Gmail account. Yep, and then here's the actual job calendar. So if I press that button, my calendar is going to get real lean. See that? That's just other stuff. The whole brick of
+
+Speaker 3 • 64:15
+dirt.
+
+Speaker 1 • 64:16
+She loves seeing her people and herself. This is my dad for the first time in forever. I'm not even in that photo. Wasn't I over here? Did you cut me out? There was another photo I was in. That's my nephew. That's my actual nephew. That's my sister's son. So that's my dad with his only two grandchildren, by the way. That's that artist turned a page. Yeah, she loves this one. This is on the Gustavus campus. So anyway, what Macy did is she created yet another Google account. Renamed it. Yep, this is my podcast partner. We work for something ranzer modeling dot customer. See how we do rhinestermodeling dot calendar. So the subs that are customers seeing that Google account hit their inbox. Some of them literally click reply. And write messages about their availability, which is dumb. We don't monitor that email exact for messaging.
+
+Speaker 3 • 65:26
+Yeah, we don't.
+
+Speaker 1 • 65:27
+That's problematic. Now, do we catch it? Yeah, we do. But you know, it's not a prolific enough problem.
+
+Speaker 3 • 65:33
+So if some if a sub were to say they get the text from the app, from the contracting number, here you're gonna do this project on this day, approved. And if they hit deny, then what happens?
+
+Speaker • 65:48
+They can reply to your text.
+
+Speaker • 65:51
+And then it'll come back to you guys.
+
+Speaker 3 • 65:53
+Because it's the contact. Yeah, yeah,
+
+Speaker 1 • 65:57
+Is there a way to build software to say don't push out item number two until first one gets yes?
+
+Speaker • 66:03
+You can put that in.
+
+Speaker • 66:04
+So I mean, you needed to do that. Yeah.
+
+Speaker • 66:07
+Because you're talking about cascading the approvals, right?
+
+Speaker • 66:12
+This guy got approved and whatever.
+
+Speaker • 66:15
+So you can say if this guy did not, you know, you can make sure they're dependent on each other, or some of them are dependent on each other, so that if this guy doesn't approve, the process stops until.
+
+Speaker 1 • 66:32
+But if a yes comes, the next one goes.
+
+Speaker • 66:34
+Yeah, if a yes comes in, like this, okay, you approved it, and that's what he automatically
+
+Speaker 1 • 66:38
+tells the next guy.
+
+Speaker • 66:39
+That's nice.
+
+Speaker 1 • 66:39
+And if he hits yes, it automatically tells the
+
+Speaker 3 • 66:41
+guy. That's great. Love that.
+
+Speaker 1 • 67:10
+Have all of them
+
+Speaker • 67:11
+approve or not approve all at once
+
+Speaker • 67:13
+two of them not approve and then you've got to mess with the whole county.
+
+Speaker 1 • 67:16
+Yeah, which is why Dewey has electricians at a job in the
+
+Speaker 3 • 67:20
+army.
+
+Speaker 1 • 67:21
+But they're not serious on
+
+Speaker 3 • 67:22
+this literally. Literally
+
+Speaker 1 • 67:23
+however. Down the first date. We shifted it. He got his email.
+
+Speaker 3 • 67:31
+Yeah, that's
+
+Speaker 1 • 67:32
+why you're not.
+
+Speaker • 67:35
+that was a question.
+
+Speaker 1 • 67:37
+know, Dewey and Hale are perfect examples of circling the drive. I was nuts with me.
+
+Speaker • 67:41
+One thing I considered, and you should consider, should we do all of these things as both email and text?
+
+Speaker • 67:49
+thought.
+
+Speaker 3 • 67:51
+I like both email and text because
+
+Speaker 1 • 67:53
+I think they should opt. Definitely the customer. I'm either an email book or I'm a text. Right, as far as notifications.
+
+Speaker • 68:01
+Because you can do both.
+
+Speaker • 68:02
+You can do one or the other.
+
+Speaker 3 • 68:03
+I like both because the reason I say both is because some. Use email, some use text. Yeah, right,
+
+Speaker 1 • 68:11
+and I'm fine with that. Let me know when I can jump in with another ask. I'm good. Okay. But can the customer get a text at the front end of each page? I know they are on the calendar, but can they get a text on? You know, reminder today is demo day tomorrow or tomorrow is demo day. And then your so listen, your little message that you always email adjacent rooms, covered things.
+
+Speaker 0 • 68:48
+I need to go out like a week.
+
+Speaker 1 • 68:51
+But I'm saying customer gets a reminder. Don't forget tomorrow's demo day. You should have already received an email with details on how to prep your space, the house.
+
+Speaker • 69:01
+You can have this and
+
+Speaker 1 • 69:03
+then it says something like two days have been aside for demos. The team may show up on Monday or Tuesday. Right, so
+
+Speaker • 69:11
+I'm thinking related to some other stuff we talked about.
+
+Speaker • 69:16
+You talked about having diagrams, instructions, all that kind of stuff for the subs.
+
+Speaker • 69:24
+Now you're talking about having some instead of instructions for the customers.
+
+Speaker • 69:29
+I think all of these could be just embedded in the software so that you know you would attach you attach them to a job.
+
+Speaker • 69:36
+Some are you use all the time, and the system would just take care of scheduling these out when they're due.
+
+Speaker • 69:43
+Like, hey, the job starts next week.
+
+Speaker • 69:45
+This thing goes out automatically.
+
+Speaker 3 • 69:47
+Great.
+
+Speaker 1 • 69:48
+Well, yeah, that that's what I would want.
+
+Speaker 3 • 69:53
+When the plumbers are going on plumbing day, could it send the cabinet plans to the
+
+Speaker • 69:57
+plumbers?
+
+Speaker • 70:00
+Or you could just say, I like Ryan's idea if you're going to have this QR code on the door to
+
+Speaker 1 • 70:04
+say the
+
+Speaker • 70:06
+QR code because the problem was sending stuff out to
+
+Speaker • 70:10
+is you're going to know who this sub is, but the owner,
+
+Speaker 3 • 70:15
+not the worker.
+
+Speaker • 70:18
+So if the worker comes up to the door and says, scan the QR code, here's your files, you know, there you go.
+
+Speaker 1 • 70:25
+So my original thought was treating this QR code and a potential Google Drive folder as just a forget about hyper organization, a bucket. It's a bucket. In the bucket is Shibu Prince. In the bucket is photos from other stuff. In the bucket is a permit.
+
+Speaker 0 • 70:44
+Are we okay with the customer's
+
+Speaker 1 • 70:45
+channel? The customer can walk up, scan it, see the permit, see the prints. Who cares? And if the customer is looking at all of the photos the guys put up, there's an open folder with no like hypersecurity. It's not outside. It's happy to take some job. You understand?
+
+Speaker • 71:05
+And we don't care about Joe Schmo walking up and scanning.
+
+Speaker 1 • 71:09
+Well, homeowner, not up to any
+
+Speaker • 71:11
+anybody.
+
+Speaker • 71:12
+Indoors.
+
+Speaker • 71:13
+Oh, this is inside indoors
+
+Speaker 1 • 71:14
+at the threshold of the project.
+
+Speaker • 71:16
+Okay, I can deal with it.
+
+Speaker 1 • 71:18
+All subs stand here to check
+
+Speaker • 71:20
+Right, seriously.
+
+Speaker • 71:22
+And then the
+
+Speaker 1 • 71:23
+first file is going to read relevant info to job site and do a problem. It could be every job scope of work spelled out too, because their boss is fucking terrible at sending scope of work. A terrible application. I'm gonna again, I'm checking on Dewey. I'm gonna show you something here. So Dewey's guys show up on a regular basis, and all the shit we wasted our time writing in here. Look, we write all of this. Finish up two bathrooms, master bathroom, hallway bathroom. Install this, that, and the other thing, right?
+
+Speaker • 72:01
+Hold
+
+Speaker 1 • 72:01
+on.
+
+Speaker • 72:04
+It's my exercise recap.
+
+Speaker 1 • 72:06
+Oh God, you just did about
+
+Speaker • 72:07
+my cardio load was zero, and I don't know what I did.
+
+Speaker • 72:12
+Get about 55 steps, 12 calories from flinging it around.
+
+Speaker • 72:21
+So this gets sent to Dewey.
+
+Speaker • 72:25
+He never forwards this.
+
+Speaker • 72:27
+Send me that.
+
+Speaker • 72:29
+What here?
+
+Speaker • 72:30
+Let me do whoops.
+
+Speaker • 72:32
+Whoops.
+
+Speaker • 72:32
+You should start sending me all the stuff you normally send out or talk to me. Sure. Press down arrow.
+
+Speaker 1 • 72:42
+You knew about
+
+Speaker • 72:43
+The down arrow.
+
+Speaker • 72:44
+Now I have a link
+
+Speaker 1 • 72:45
+beat screenshot. you didn't know about that. Check it out. Watch this. So you go to a website, right? Not this one, better one. Better one. Let's go to a different window. You're gonna love this problem. Let's go with these electric lights I would shop with my nephew, right? So I screenshot this, press down. Press down.
+
+Speaker • 73:11
+It keeps loading down for miles.
+
+Speaker • 73:26
+Oh, look at that.
+
+Speaker • 73:28
+Perfect.
+
+Speaker • 73:29
+Cool.
+
+Speaker • 73:29
+It's a whole page.
+
+Speaker • 73:31
+I actually complete home inspection checklist.
+
+Speaker • 73:34
+I have a TikTok guy I subscribe to that has sandstone hats.
+
+Speaker • 73:39
+Two things before I go. Yeah.
+
+Speaker • 73:40
+Because I gotta go.
+
+Speaker • 73:42
+One I'm planning this initial build out to just work with Google.
+
+Speaker • 73:50
+Not Apple, Google Act.
+
+Speaker • 73:51
+Just as a just to turn up that later, beginning, right?
+
+Speaker • 73:55
+Eventually, I have to do Apple.
+
+Speaker • 73:57
+Maybe maybe even
+
+Speaker 3 • 73:58
+like
+
+Speaker • 73:59
+Outlook or whatever.
+
+Speaker • 74:00
+Here's the thing.
+
+Speaker • 74:01
+Even if a guy is on an iPhone, he still runs an email calendar.
+
+Speaker • 74:04
+That is almost
+
+Speaker 3 • 74:06
+initial. That's not true.
+
+Speaker • 74:08
+They could use account.
+
+Speaker • 74:10
+Well, I'm grateful.
+
+Speaker • 74:12
+You want email strictly for the count.
+
+Speaker • 74:15
+Second question.
+
+Speaker • 74:20
+Since I'm doing all the work, we'll do all the testing.
+
+Speaker • 74:27
+I have I I okay.
+
+Speaker • 74:29
+To be count testing, I have three.
+
+Speaker • 74:32
+Number one, check.
+
+Speaker • 74:34
+So how many of these screenshots of work orders do you want?
+
+Speaker • 74:38
+I just need a couple samples of each.
+
+Speaker • 74:40
+I don't need like every company.
+
+Speaker • 74:41
+But hey, pay attention.
+
+Speaker • 74:44
+I'm gonna forget to send you that screenshot.
+
+Speaker • 74:47
+So testing is one. Yeah. Sales.
+
+Speaker • 74:52
+Yeah, I'm not going to sell.
+
+Speaker • 74:54
+Okay, this won't happen.
+
+Speaker • 74:56
+I will I show up at a trade show or whatever?
+
+Speaker • 74:59
+Can I talk to people?
+
+Speaker • 75:00
+I got no problem talking to people.
+
+Speaker • 75:01
+Am I a great salesperson?
+
+Speaker • 75:03
+Okay, so third, at least for a while, since I'm doing all the work, I don't want to pay for this.
+
+Speaker • 75:12
+Right, right.
+
+Speaker • 75:13
+So I'm looking at somewhere around a hundred bucks a month per
+
+Speaker 1 • 75:16
+while
+
+Speaker • 75:18
+to pay for.
+
+Speaker • 75:19
+Putting this back.
+
+Speaker • 75:20
+What else we need to credit?
+
+Speaker • 75:21
+We're making it work all that use
+
+Speaker 1 • 75:23
+our residual expense part. If you're fine with that, then that's fine. And I would imagine the days, if there's only ever one customer, that's fine. Cost-wise,
+
+Speaker • 75:33
+it's cheap.
+
+Speaker • 75:34
+That's totally okay.
+
+Speaker • 75:35
+But I figure even if you got if you bought got one other customer to use it, then you guys are free.
+
+Speaker 1 • 75:42
+You do realize that Dewey and Neal are the kind of customers.
+
+Speaker • 75:46
+Yeah, knowing there is they're not GCs
+
+Speaker 1 • 75:48
+like us.
+
+Speaker 3 • 75:49
+Yeah, we can make a lot of stuff. If not,
+
+Speaker • 75:50
+anybody who's using multiple teams to do stuff could use this.
+
+Speaker • 75:55
+you know, it doesn't
+
+Speaker 1 • 75:56
+trade for now. This could be a deck builder. It could be a kitchen builder. It could be a reefer. It could be
+
+Speaker 3 • 76:02
+Setty.
+
+Speaker 1 • 76:03
+Setty is his company. I don't know how you're talking.
+
+Speaker • 76:09
+We could readdress what we think is a reasonable cost later, but a hundred bucks a month, I think is easy enough.
+
+Speaker 1 • 76:16
+Listen, that's a good starting point compared to the competition. There's nobody out there that has a lean calendar management tool that integrates properly.
+
+Speaker 3 • 76:28
+Five jobs at once, right?
+
+Speaker • 76:31
+Well, that's what I thought for a subscription might be nice.
+
+Speaker • 76:35
+But he was pushing back on having five jobs for this cost, ten jobs for this cost, fifteen jobs.
+
+Speaker • 76:42
+You're limiting this
+
+Speaker 1 • 76:43
+custom number per
+
+Speaker 3 • 76:45
+I get it. So my my question is if you gave five jobs for this month, ten for this month. Once a job is done. Does that still count as part of your five?
+
+Speaker • 76:54
+No, actually when it's
+
+Speaker 1 • 76:55
+closed, the reason Builder Trend had the close function is because they used to bill for a job for a
+
+Speaker 1 • 77:04
+They used to.
+
+Speaker • 77:06
+And I don't want you to be able to close a job just to say, Hey, we're no longer.
+
+Speaker • 77:09
+I'm worried about this stop coming.
+
+Speaker • 77:12
+It's eliminated
+
+Speaker 1 • 77:13
+from the Gantt chart project. You know, I
+
+Speaker • 77:16
+pulled this open so I can see what the hell I'm doing, and I didn't let them move.
+
+Speaker • 77:21
+probably have something at one thirty, but I think I don't two.
+
+Speaker 3 • 77:25
+We're
+
+Speaker 3 • 77:34
+Oh my God. I gotta get that on my way.
+
+Speaker 1 • 77:38
+Yeah, I should get out.
+
+Speaker 1 • 77:49
+We have a jock cloth at the house. Mama needs to hurry up. Hurry up.
+
+Speaker 0 • 79:13
+Thank you so much, my friend. Yeah, have a really great rest of your day. Are you done with that?
+
+Speaker 1 • 79:20
+You don't want the baby there. No, breathe the baby. There's expectation of more food if she sits in
+
+Speaker 0 • 79:26
+there.
+
+Speaker 1 • 79:27
+It's gone. It's gone, baby. You ate the dog. You cannot have.
+
+Speaker • 79:43
+I need to send me a transcript.

@@ -31,7 +31,7 @@ Decisions below ratify existing exploration docs. Open forks are called out expl
 | **Hosting** | Azure App Service (API) + Azure Static Web Apps or same App Service (UI) | Matches skillset and exploration |
 | **Secrets** | Azure Key Vault | OAuth client secrets, Twilio keys, Stripe webhook secret (Phase 2) |
 | **Observability** | Application Insights | Logs, traces, dependency calls |
-| **SMS/MMS** | Twilio (Telnyx spike) | Group MMS required; ACS does not support group MMS |
+| **SMS/MMS** | Twilio Programmable Messaging (Telnyx spike) | One company # per contractor; SMS relay to staff; 1:1 to subs/customers — group MMS retired |
 | **Transactional email** | **Resend** | Magic links, invites, pokes, customer channel confirm; `IEmailSender` abstraction. Decided 2026-08-20. |
 | **SMS/MMS compliance (10DLC)** | **Platform brand + campaign** | One ContractorPro 10DLC registration in Twilio Trust Hub; all tenant handle #s linked to platform campaign. Per-GC brands deferred. Decided 2026-08-20. |
 | **Google APIs** | Google Cloud project (Calendar + Sign-In) | APIs only — app stays on Azure |
@@ -43,7 +43,7 @@ Decisions below ratify existing exploration docs. Open forks are called out expl
 | **Invitee auth** | Custom magic links | Signed tokens in API — not Entra. Subs/customers never OAuth in v0.1. |
 | **Calendar mode** | **Pro-provided per project** | App creates one Google calendar per project under GC's OAuth; subs/customers via event attendee invites on confirm. Decided 2026-08-20. |
 | **Calendar UI (app)** | **Portfolio + per-project views** | Contractor sees all projects on one calendar in-app (default option); filter by project. Google side stays per-project calendars. |
-| **Number reuse (same company)** | **No reuse in MVP** | New project always JIT-buys fresh number; archive → cooling (default **90d**) → release to Twilio. Per-contractor override + global default. Decided 2026-08-20; cooling **90d** 2026-08-20. |
+| **Number reuse (same company)** | **N/A — one company #** | One E.164 per contractor; churn releases number; return customer gets new #. Per-project pool retired 2026-08-20. |
 | **Dashboard refresh** | **Polling (60s default)** | Team member dashboard polls API; interval from **platform admin** `platform_settings` only — not per-contractor. SignalR deferred. Decided 2026-08-20. |
 | **Invitee identity** | **Global `persons` by phone** | One person per `phone_e164`; `project_memberships` for project + role (sub/customer). Cross-contractor supported. **Contractor subscribers may also be subs/customers elsewhere** — separate from `users`/`team_members`. Decided 2026-08-20. |
 
@@ -126,44 +126,31 @@ All pre-M1 forks from planning checklist Sections A–C are locked. See [plannin
 
 **Later (v0.1.1+):** BYO — link an existing Google calendar per project instead of app-created; optional single "company master" calendar mapping.
 
-### 1.7 Project handle numbers (decided)
+### 1.7 Company phone number & SMS relay (decided 2026-08-20)
 
-Tenant isolation (already locked): numbers **never** cross `contractor_id`. Churn → release all numbers to Twilio immediately.
+Supersedes per-project handle model. Full detail: [company-number-messaging.md](./technical-exploration/company-number-messaging.md). SME flow validation: [company-number-sms-relay.md](../sme-meetings/sme-follow-ups/company-number-sms-relay.md).
 
-**MVP lifecycle (no same-company reuse):**
+**Model:** One **10DLC local number per contractor** (`contractor_phone_numbers`). Subs/customers text only that number. Ryan + Maci use **SMS relay (Pattern A)** — forwards from company #, replies to company #, platform routes to external participant and copies other staff.
+
+**Staff relay — lenient mode:**
 
 ```
-JIT buy → assigned (active project)
-       → cooling (archived; default 90 days; inbound still routes to archived project)
-       → released (deprovision at Twilio; E.164 kept on project as display-only)
-
-New project → always JIT buy fresh number (never pull from pool in MVP)
+Token in reply?     → route to thread
+One open thread?    → route (no token)
+Else                → disambiguation SMS (never guess)
 ```
 
-**Cooling duration (configurable):**
+**Provisioning:** First paid tier or first outbound comms — not sandbox signup.
 
-| Level | Field | Default |
-|-------|-------|---------|
-| **Platform** | `platform_settings.phone_cooling_days_default` | **90** |
-| **Contractor** | `contractors.phone_cooling_days` | `NULL` → inherit platform default |
+**Churn:** Release number to Twilio immediately; DB history retained; new number on return.
 
-On archive: `cooling_until = now() + effective_cooling_days`. `PhoneNumberCoolingService` uses per-number `cooling_until` (snapshot at archive time so platform default changes don't retroactively affect in-flight cooling).
+**Retired:** JIT buy per project, group MMS, Twilio Conversations, `PhoneNumberCoolingService`, per-project cooling pool.
 
-| Phase | Behavior |
-|-------|----------|
-| **Project create** | Buy or take from pool — MVP: **always buy** (pool `available` unused until v0.1.1) |
-| **Project archive** | Number → `cooling`; `cooling_until` from contractor setting or platform default; inbound MMS/SMS still ingests to archived project; notify team member in-app |
-| **Cooling end** | `PhoneNumberCoolingService` deprovisions at Twilio → `released`; historical threads remain in DB |
-| **New project** | Fresh number — Marcus's old group text to Maple # after release goes nowhere (expected) |
-| **Account churn** | Release **all** numbers immediately (assigned + cooling); DB history retained |
+**Cost:** ~$1.15/mo number rent + message volume (not ~$10/active project).
 
-**Why no reuse in MVP:** Reassigning `(555) 100-0001` from Maple St → Oak Ave breaks Marcus's old group MMS thread — requires [history routing](technical-exploration/project-handle-numbers.md). Defer to v0.1.1.
+**Outbound branding:** `[Project · Contractor]` prefix on system SMS; magic-link accept/decline (not SMS YES/NO).
 
-**Build in MVP anyway:** `phone_number_assignments` table on every assign/archive — audit trail + ready for v0.1.1 reuse without schema migration.
-
-**v0.1.1 reuse (when pool cost hurts):** After cooling → `available` → reassign within same company; inbound routes by `(to_e164, from_phone)` + assignment history. Tracked: **BL-23**, **SP-1**, story **E8-S5**.
-
-**Cost at MVP scale:** ~$1.15/mo per active + per cooling archived project; released after cooling expires stops rent. 90d default lowers hold time vs 180d.
+**App inbox:** Same threads as relay — project assign, orphan queue, reply without token, polling 60s.
 
 ### 1.8 A2P 10DLC (decided)
 
@@ -268,11 +255,11 @@ flowchart LR
 |--------|------|--------------------------|
 | **IAM** | Entra External ID JWT validation, first-login provisioning, magic-link issue/validate, platform admin auth | Entra External ID, Google (via Entra IdP) |
 | **Tenant** | `contractors`, `team_members`, company profile, onboarding state | — |
-| **Projects** | `projects`, `tasks`, `task_dependencies`, project settings (cascade toggle) | Telephony (JIT handle on create) |
+| **Projects** | `projects`, `tasks`, `task_dependencies`, project settings (cascade toggle) | — |
 | **Scheduling** | `task_assignments`, negotiation history, cascade engine, confirmation dashboard queries | Notifications, Calendar |
 | **Notifications** | `notification_log`, `reminder_schedules`, poke cadence, quiet hours, batching | Twilio (SMS/MMS), **Resend** (email) |
-| **Messaging** | `mms_threads`, `messages`, `message_attachments` metadata | Twilio webhooks, Blob |
-| **Telephony** | `phone_number_pool`, `phone_number_assignments`, inbound routing | Twilio number API |
+| **Messaging** | `comm_threads`, `messages`, `message_attachments`, staff SMS relay | Twilio webhooks, Blob |
+| **Telephony** | `contractor_phone_numbers`, inbound routing, staff fan-out | Twilio number API |
 | **Calendar** | `calendar_connections`, `calendar_events`, token refresh | Google Calendar API |
 | **Billing** *(Phase 2)* | `subscription_entitlements`, Stripe sync, entitlement checks | Stripe webhooks |
 
@@ -302,8 +289,7 @@ flowchart LR
 |--------|---------|--------|
 | `PokeSchedulerService` | Cron / queue | Notifications |
 | `CalendarSyncWorker` | On assignment confirmed | Calendar |
-| `MmsMediaIngestWorker` | After inbound webhook | Messaging |
-| `PhoneNumberCoolingService` | Daily scan | Telephony |
+| `MmsMediaIngestWorker` | After inbound webhook | Messaging → **`InboundMediaIngestWorker`** |
 
 ---
 
@@ -411,7 +397,7 @@ Ryan's phone (+1…)
 erDiagram
   contractors ||--o{ team_members : has
   contractors ||--o{ projects : owns
-  contractors ||--o{ phone_number_pool : pools
+  contractors ||--o| contractor_phone_numbers : has
   contractors ||--|| subscription_entitlements : has
 
   team_members }o--|| users : is
@@ -419,12 +405,11 @@ erDiagram
 
   projects ||--o{ project_memberships : has
   projects ||--o{ tasks : has
-  projects ||--o{ mms_threads : has
+  projects ||--o{ comm_threads : has
   projects ||--o| calendar_connections : has
-  projects }o--o| phone_number_pool : handle
 
   persons ||--o{ project_memberships : participates
-  project_memberships ||--o{ mms_threads : has
+  project_memberships ||--o{ comm_threads : has
   project_memberships ||--o{ task_assignments : assigned
 
   tasks ||--o{ task_dependencies : predecessor
@@ -432,7 +417,7 @@ erDiagram
   task_assignments ||--o{ assignment_negotiation_events : history
   task_assignments ||--o{ reminder_schedules : poke
 
-  mms_threads ||--o{ messages : contains
+  comm_threads ||--o{ messages : contains
   messages ||--o{ message_attachments : has
 
   task_assignments ||--o| calendar_events : syncs
@@ -515,8 +500,8 @@ projects
   postal_code         text
   status              text NOT NULL    -- draft | active | archived
   cascade_enabled     boolean NOT NULL DEFAULT false
-  handle_phone_e164   text NULL        -- denormalized from pool; historical after release
-  handle_phone_id     uuid FK → phone_number_pool NULL
+  handle_phone_e164   text NULL        -- historical display only (per-project handles retired)
+  handle_phone_id     uuid NULL        -- deprecated; use contractor_phone_numbers
   archived_at         timestamptz NULL
   comms_enabled       boolean NOT NULL DEFAULT true   -- Phase 2: gate per project
   created_at          timestamptz
@@ -622,44 +607,54 @@ reminder_schedules
 ### 5.5 Messaging & telephony
 
 ```sql
-phone_number_pool
+contractor_phone_numbers            -- one active number per contractor (MVP)
   id                  uuid PK
-  contractor_id       uuid FK → contractors
+  contractor_id       uuid FK → contractors UNIQUE
   e164                text NOT NULL UNIQUE
   provider            text NOT NULL DEFAULT 'twilio'
   provider_sid        text NOT NULL
-  status              text NOT NULL
-    -- available | assigned | cooling | released | retired
-  current_project_id  uuid FK → projects NULL
-  cooling_until       timestamptz NULL     -- set on archive: now + effective_cooling_days at that moment
+  status              text NOT NULL    -- provisioning | active | released
+  provisioned_at      timestamptz
   released_at         timestamptz NULL
   created_at          timestamptz
 
-phone_number_assignments          -- history: audit in MVP; inbound routing when reuse ships (v0.1.1)
-  id                  uuid PK
-  phone_number_id     uuid FK → phone_number_pool
-  project_id          uuid FK → projects
-  assigned_at         timestamptz
-  released_at         timestamptz NULL
-  release_reason      text NULL    -- archive | churn | cooling_expired | retired
+contractors
+  company_phone_id    uuid FK → contractor_phone_numbers NULL
 
-mms_threads
+staff_sms_sessions                  -- open relay contexts for lenient routing
   id                  uuid PK
-  project_id          uuid FK → projects
+  contractor_id       uuid FK
+  staff_phone_e164    text NOT NULL
+  thread_id           uuid FK → comm_threads
+  ref_token           text NOT NULL    -- e.g. 7K2M
+  notified_at         timestamptz NOT NULL
+  expires_at          timestamptz NOT NULL
+
+comm_threads
+  id                  uuid PK
   contractor_id       uuid FK → contractors
-  membership_id       uuid FK → project_memberships
-  conversation_sid    text NULL          -- Twilio Conversations id
-  handle_phone_e164   text NOT NULL      -- denormalized
+  project_id          uuid FK → projects NULL   -- NULL = orphan
+  person_id           uuid FK → persons
+  membership_id       uuid FK → project_memberships NULL
+  audience            text NOT NULL    -- subcontractor | customer
+  status              text NOT NULL    -- active | archived | orphan
+  assigned_to_user_id uuid FK → users NULL
+  last_message_at     timestamptz
+  last_outbound_by    uuid FK → users NULL
   created_at          timestamptz
+  UNIQUE (contractor_id, person_id, project_id, audience)
 
 messages
   id                  uuid PK
-  mms_thread_id       uuid FK → mms_threads
-  project_id          uuid FK
-  membership_id       uuid FK NULL       -- null for outbound system
-  direction           text NOT NULL      -- inbound | outbound
+  comm_thread_id      uuid FK → comm_threads
+  project_id          uuid FK NULL
+  membership_id       uuid FK NULL
+  direction           text NOT NULL    -- inbound | outbound
+  sender_type         text NOT NULL    -- person | team_member | system
+  sender_id           uuid NULL
   body                text
   provider_message_sid text UNIQUE NULL
+  delivery_status     text NULL
   sent_at             timestamptz
   created_at          timestamptz
 
@@ -675,7 +670,17 @@ message_attachments
   thumbnail_blob_path text NULL
   original_filename   text NULL
   created_at          timestamptz
+
+in_app_notifications
+  id                  uuid PK
+  team_member_id      uuid FK → team_members
+  thread_id           uuid FK → comm_threads
+  message_id          uuid FK → messages NULL
+  read_at             timestamptz NULL
+  created_at          timestamptz
 ```
+
+**Retired tables (migration):** `phone_number_pool`, `phone_number_assignments`, `mms_threads`.
 
 ### 5.6 Calendar
 
@@ -833,25 +838,21 @@ stateDiagram-v2
 
 **Calendar rule:** Google event reflects `confirmed_*` dates only. On `proposed_change`, calendar keeps last confirmed until re-accept.
 
-### 6.2 Phone number pool (MVP — no reuse)
+### 6.2 Company phone number (MVP)
 
 ```mermaid
 stateDiagram-v2
-  [*] --> assigned: JIT buy on project create
-  assigned --> cooling: project archived
-  cooling --> released: cooling_until elapsed OR churn
-  assigned --> released: account churn
-  assigned --> retired: abuse
+  [*] --> provisioning: first paid / comms enabled
+  provisioning --> active: Twilio buy + webhook config
+  active --> released: churn OR admin release
+  released --> [*]
 
-  note right of cooling
-    Inbound routes to archived project.
-    Duration: contractor.phone_cooling_days
-    or platform default (90d).
-    MVP: never transitions to available.
+  note right of active
+    One E.164 per contractor.
+    SMS relay + app inbox.
+    Per-project pool retired.
   end note
 ```
-
-**v0.1.1** adds: `cooling` → `available` → `assigned` with history-based inbound routing.
 
 ---
 
@@ -903,6 +904,7 @@ Feature folders inside Application:
 | Date | Change |
 |------|--------|
 | 2026-08-19 | Initial draft — schema, modules, billing hooks |
+| 2026-08-20 | §1.7 company # + SMS relay; §5.5 comm_threads; retires per-project handles |
 | 2026-08-20 | React/Entra/BFF/calendar/handle# decisions from Winston session |
 | 2026-08-20 | §1.2 forks closed (Sections A–C); §9 cascade resolved; hand-typed fetch + IHostedService locked |
 
@@ -935,7 +937,8 @@ Complete before **production** outbound SMS/MMS/email (beta with real phones):
 | [epics-and-stories.md](./prds/prd-ContractorPro-2026-08-15/epics-and-stories.md) | Build order |
 | [stack-web-api-db.md](./technical-exploration/stack-web-api-db.md) | Stack exploration |
 | [schedule-confirmation-workflow.md](./technical-exploration/schedule-confirmation-workflow.md) | Assignment state machine detail |
-| [project-handle-numbers.md](./technical-exploration/project-handle-numbers.md) | Telephony lifecycle |
+| [company-number-messaging.md](./technical-exploration/company-number-messaging.md) | Company # + SMS relay (supersedes project handles) |
+| [project-handle-numbers.md](./technical-exploration/project-handle-numbers.md) | **Superseded** — historical per-project model |
 | [messaging-and-media.md](./technical-exploration/messaging-and-media.md) | MMS architecture |
 
 ---

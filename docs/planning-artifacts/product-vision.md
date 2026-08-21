@@ -76,8 +76,8 @@ Core pieces:
 - **Google Calendar as first-class** — sync on sub accept; cascade proposes shifts; shared project calendars (BT only offers one-way iCal feed) — see [schedule-confirmation-workflow.md](./technical-exploration/schedule-confirmation-workflow.md)
 - **Sub date confirmation** — GC proposes → sub accepts/declines via SMS/email link → both calendars update; GC sees pending vs confirmed
 - **Automated poke until response** — daily reminders (SMS/email) until sub acts; Buildertrend-style persistence; calendar invites alone are insufficient
-- **Job planning before commit (v0.2)** — phases, durations, buffers, multi-job balance, sub conflict check; **finalize** triggers scheduling — see [job-planning-workflow.md](./technical-exploration/job-planning-workflow.md)
-- **Magic-link sub + homeowner comms** — group MMS per relationship (logged); GC hub between threads
+- **Job planning before commit (MVP)** — phases, durations, buffers, overlay, **publish prelim**, **finalize → sub cascade** — see [job-planning-workflow.md](./technical-exploration/job-planning-workflow.md)
+- **Company number + shared inbox** — one # per contractor; SMS relay + app inbox; subs/customers text company line (not group MMS per project)
 - **Scheduling in web app** — GC manages multi-job schedule, cascade, confirmations; not in MMS
 - **Event-triggered AI drafts** — instant “what changed” copy on schedule shift (**v0.2+**; not MVP)
 
@@ -86,9 +86,12 @@ Core pieces:
 ### In scope
 
 - Residential projects with linked task timeline
+- **Job planning workspace** — templates, plan mode, prelim publish, finalize → cascade
 - Optional cascade on schedule changes
-- Messaging with **image uploads** — MMS ingest + web; Azure Blob + SQL
-- Messaging: **group MMS** per GC↔sub and GC↔customer (Dana + party + project handle #); logged in app
+- Messaging with **image uploads** — inbound MMS to company # + portal upload to Google Drive
+- Messaging: **company number** + SMS relay + **shared app inbox** (not per-project group MMS)
+- **QR job-site resources** — check-in/out, Drive-backed doc bucket via app portal
+- **Automated customer milestone prep comms**
 - Magic-link invites for subs and homeowners
 - **Easy join flow** — GC invites by phone; invitee confirms name + phone on one screen; no password (see [invite-join-flow.md](./technical-exploration/invite-join-flow.md))
 - SMS/MMS notifications (confirm links, poke; tier limits TBD)
@@ -98,7 +101,8 @@ Core pieces:
 
 ### Out of scope (explicitly later)
 
-- **Full job planning module** (phases, buffers, portfolio planner, finalize) — **v0.2**; see [job-planning-workflow.md](./technical-exploration/job-planning-workflow.md). v0.1 may ship simple project + task dates only.
+- **Multi-job portfolio balance panel** — v0.1.1 (RC-6); single-job overlay in MVP
+- **Reverse-schedule from anchor trade** — v0.1.1 (RC-6)
 - Commercial workflows, service tickets
 - **Native mobile apps** (iOS/Android) — responsive web only; see Client strategy above
 - Estimating, selections, time cards, safety/compliance modules

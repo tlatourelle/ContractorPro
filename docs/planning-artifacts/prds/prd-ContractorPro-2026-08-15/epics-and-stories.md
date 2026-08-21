@@ -21,7 +21,9 @@ Derived from [prd.md](./prd.md). Product-facing stories only — implementation 
 | **MVP (Phase 1)** | Self-enrolling Contractors run real jobs end-to-end | **None** — all features open for beta |
 | **Post-MVP (Phase 2)** | Monetize + telco-aligned gates | **Stripe Billing** — sandbox vs paid tiers (FR-18) |
 
-**MVP success:** Ryan self-serves signup → first project → first sub confirmed — without Thomas provisioning anything.
+**MVP success:** Ryan self-serves signup → plan job → publish prelim → finalize → first sub confirmed — without Thomas provisioning anything.
+
+**Correct-course (2026-08-20):** Company # + SMS relay replaces per-project group MMS; job planning promoted to MVP (E13–E15). See [sprint-change-proposal-2026-08-20.md](../../sprint-change-proposal-2026-08-20.md).
 
 ---
 
@@ -129,9 +131,10 @@ Derived from [prd.md](./prd.md). Product-facing stories only — implementation 
 **Acceptance:**
 - [ ] Project belongs to my Contractor subscription only
 - [ ] Subcontractor/Customer memberships cannot create projects
-- [ ] Project create triggers handle assignment via **E8-S4** (JIT from company pool)
+- [ ] Project created with status **`planning`** — no telco provisioning on create
+- [ ] Company number provisioned at contractor level via **E8-S1** (not per project)
 
-**FR:** FR-2, FR-14, FR-20
+**FR:** FR-2, FR-21
 
 ---
 
@@ -453,82 +456,90 @@ Derived from [prd.md](./prd.md). Product-facing stories only — implementation 
 
 ---
 
-## Epic E8 — MMS Group Threads & Photos
+## Epic E8 — Company Number, SMS Relay & Inbox
 
-*Group MMS per relationship (Dana + party + project handle #); ingest + web mirror.*
+*One company # per contractor; SMS relay to staff + shared app inbox. Supersedes group MMS / per-project handle model — [company-number-messaging.md](../../technical-exploration/company-number-messaging.md).*
 
-### E8-S1: MMS group thread per Subcontractor
+### E8-S1: Provision company number — **MVP**
 
-**As a** team member, **I can** run field comms in a group MMS with a Subcontractor and the project handle # **so that** texts are logged to the project without subs using the portal.
+**As the** system, **I must** provision one Twilio 10DLC number per Contractor **so that** all subs/customers text a single company line.
 
 **Acceptance:**
-- [ ] **One handle # per project** provisioned on project create
-- [ ] Inbound MMS: `To` → project, `From` → membership
-- [ ] `mms_thread` record per relationship (`conversation_sid` when provisioned)
-- [ ] Inbound MMS ingested and tied to project + sub membership
-- [ ] Thread visible in web dashboard (mirror)
-- [ ] Separate group per sub — no sub↔sub thread
+- [ ] One active E.164 per contractor subscription (`contractor_phone_numbers`)
+- [ ] Provision trigger TBD — interim: first paid / comms enabled (see SME follow-up 1b)
+- [ ] Sandbox signup: no number until entitled
+- [ ] Churn: release number immediately; DB history retained; return customer gets new number
+
+**FR:** FR-14 · **Ref:** [company-number-messaging.md](../../technical-exploration/company-number-messaging.md)
+
+---
+
+### E8-S2: Inbound webhook + thread routing — **MVP**
+
+**As the** system, **when** external SMS/MMS arrives at the company #, **I must** route to the correct thread or orphan queue **so that** traffic is logged and staff notified.
+
+**Acceptance:**
+- [ ] Twilio webhook validates signature; idempotent by `MessageSid`
+- [ ] Thread model: `(contractor_id, person_id, project_id, audience)`
+- [ ] 0 project matches → orphan queue; 1 match → attach; N matches → orphan + suggest in app
+- [ ] Fan-out SMS relay notification to team member phones from company #
+- [ ] Staff phone allowlist bypasses carrier STOP for relay copies (see RC-5)
 
 **FR:** FR-14 · **UJ:** UJ-8
 
 ---
 
-### E8-S2: MMS group thread per Customer
+### E8-S3: Staff SMS relay — **MVP**
 
-**As a** team member, **I can** use group MMS with a Customer and the project handle # **so that** homeowner comms are captured separately from subs.
+**As a** team member, **I can** reply to subs/customers by texting the company # **so that** field coordination works without opening the app.
 
 **Acceptance:**
-- [ ] Same ingest/mirror pattern as E8-S1
-- [ ] Customer cannot see sub threads
+- [ ] Staff inbound from allowlisted phone → `StaffSmsRouter`
+- [ ] Lenient ref token: token match → route; else single open thread → route; else disambiguation SMS
+- [ ] Never auto-send to external participant on ambiguous staff inbound
+- [ ] Outbound to external participant + copy to other staff from company #
+- [ ] Open thread TTL default 72h (see RC-5)
 
-**FR:** FR-14 · **UJ:** UJ-8, UJ-4
+**FR:** FR-14 · **Spike:** SP-4 SME validation before build lock
 
 ---
 
-### E8-S3: MMS and web photos
+### E8-S4: App shared inbox — **MVP**
 
-**As a** team member, Subcontractor, or Customer, **I can** send photos via **MMS in the group** or web upload **so that** job photos live on the project record.
+**As a** team member, **I can** view and reply in a shared inbox **so that** Ryan and Maci see the same threads and can assign orphans.
 
 **Acceptance:**
-- [ ] MMS images ingested to blob storage and shown in thread
-- [ ] Optional camera upload via magic-link web session
-- [ ] System schedule messages (propose/poke/confirm) sent via MMS/SMS to relationship thread
+- [ ] Unified inbox with filters (project, participant, audience, unassigned)
+- [ ] Reply from app binds `thread_id` directly (no token)
+- [ ] Optional thread claim; show last replier
+- [ ] All team members see all threads in MVP
+- [ ] Polling refresh ~60s (SignalR deferred — RC-5)
 
-**FR:** FR-15 · **UJ:** UJ-6, UJ-8
+**FR:** FR-14, FR-15 · **UJ:** UJ-8
 
 ---
 
-### E8-S4: Project handle number pool lifecycle — **MVP**
+### E8-S5: Inbound MMS ingest — **MVP**
 
-**As the** system, **I must** JIT-provision, hold, cool, and release project handle numbers **so that** MMS routing stays correct, tenant-isolated, and telco cost matches usage.
+**As the** system, **I must** store inbound MMS media **so that** photos in SMS threads appear in the app.
 
 **Acceptance:**
-- [ ] **JIT assign** on project create: **always buy** new number from CPaaS in MVP (do not pull from `available` pool until E8-S5)
-- [ ] **Tenant isolation:** number never moves from Company A to Company B while on platform
-- [ ] **States (MVP):** `assigned` → `cooling` → `released`; `retired` on abuse; `available` unused until v0.1.1 (E8-S5)
-- [ ] **Project archive (C-25):** number → `cooling` for **90 days** (default; per-contractor or platform override); inbound MMS/SMS still ingests to **archived** project; notify team member in-app
-- [ ] **Cooling end (MVP):** deprovision at Twilio → `released`; E.164 on project is display-only; **not** returned to `available` pool
-- [ ] **Churn / account closure:** release **all** company numbers to CPaaS immediately (assigned + cooling + available); message/media history **retained** in DB/blob
-- [ ] **Return after churn:** reactivated company gets **new** JIT numbers; old E.164 on projects is historical display only
-- [ ] `phone_number_pool` + `phone_number_assignments` history tables; inbound webhook resolves `To` → **current** assigned or cooling project only (history routing → **E8-S5 / SP-1**)
-- [ ] Audit log on assign, enter cooling, release to vendor
+- [ ] `InboundMediaIngestWorker` persists MMS to blob + thread
+- [ ] Staff MMS outbound from inbox **deferred v1** (RC-5)
 
-**FR:** FR-14, FR-20 · **Journey:** C-25 · **Ref:** [project-handle-numbers.md](../../technical-exploration/project-handle-numbers.md) · **Reuse later:** [backlog.md](./user-journeys/backlog.md) BL-23, SP-1
+**FR:** FR-15
 
 ---
 
-### E8-S5: Same-company number reuse — **Post-MVP (v0.1.1)**
+### E8-S6: Platform STOP on company # — **MVP (pre-prod SMS)**
 
-**As the** system, **when** a cooled number returns to the company pool, **I must** reassign it safely **so that** telco cost drops without misrouting Marcus's old group texts to the wrong project.
+**As the** system, **when** a person texts STOP on the company line, **I must** block automated outbound **so that** we comply with TCPA.
 
 **Acceptance:**
-- [ ] After `cooling_until`: transition `cooling` → `available` (same `contractor_id` only) instead of `released` — configurable per platform flag
-- [ ] Project create may pull from `available` before buying new
-- [ ] Inbound webhook: **history routing** — `(to_e164, from_phone)` matches prior `phone_number_assignments` → route to correct project (archived/cooling/current)
-- [ ] Spike **SP-1** completed with test matrix before ship
-- [ ] Admin metric: pool size and reuse rate per contractor
+- [ ] Same platform-global opt-out as E6-S5 / E12-S1
+- [ ] Staff allowlisted phones do not opt out company line when texting STOP on relay copies
 
-**Depends:** E8-S4 · **Backlog:** BL-23 · **Spike:** SP-1
+**FR:** FR-14 · **Journey:** A-11 · **Depends:** E12-S1
 
 ---
 
@@ -556,6 +567,205 @@ Derived from [prd.md](./prd.md). Product-facing stories only — implementation 
 - [ ] Milestone-level changes only; no sub pricing or internal notes
 
 **FR:** FR-17
+
+---
+
+### E9-S3: Customer preliminary schedule view — **MVP**
+
+**As a** Customer, **I can** view a read-only preliminary schedule after GC publishes **so that** I see the plan before subs are invited.
+
+**Acceptance:**
+- [ ] Triggered by **Publish prelim** action (E13-S4) — separate from finalize
+- [ ] Optional customer gate slot disabled by default until SME 2B
+
+**FR:** FR-21 · **UJ:** UJ-4
+
+---
+
+### E9-S4: Automated milestone prep comms — **MVP**
+
+**As a** Customer, **I receive** automated prep messages before milestones **so that** I know how to prepare (e.g. demo day).
+
+**Acceptance:**
+- [ ] Sends N days before customer-visible milestone; N = contractor setting (FR-24)
+- [ ] Respects `notify_via`; from company # / email
+- [ ] Distinct from schedule-change notifications (RC-2)
+
+**FR:** FR-24 · **Epic overlap:** E15
+
+---
+
+## Epic E13 — Job Planning & Finalize — **MVP**
+
+*Plan-first workflow promoted from v0.2 — [job-planning-workflow.md](../../technical-exploration/job-planning-workflow.md).*
+
+### E13-S1: Project templates — **MVP**
+
+**As a** team member, **I can** save and apply job templates **so that** phases, durations, buffers, and cascade defaults reuse across jobs.
+
+**Acceptance:**
+- [ ] Template includes phase list, deps, default cascade waves (parallel/sequential)
+- [ ] Apply template to new project in `planning` status
+
+**FR:** FR-21, FR-22
+
+---
+
+### E13-S2: Planning workspace — **MVP**
+
+**As a** team member, **I can** edit the plan (durations, buffers, start date, overlay vs existing calendar) **so that** I finalize a realistic schedule before notifying anyone.
+
+**Acceptance:**
+- [ ] No Google writes or outbound SMS in planning mode
+- [ ] Overlay single-job vs existing commitments
+- [ ] Dashed / planning UI styling
+
+**FR:** FR-21
+
+---
+
+### E13-S3: Contract / customer constraints — **MVP**
+
+**As a** team member, **I can** record blackouts and access notes at project setup **so that** planning respects customer constraints.
+
+**Acceptance:**
+- [ ] Structured or freeform fields TBD (RC-7)
+- [ ] Constraints visible in planning workspace
+
+**FR:** FR-21
+
+---
+
+### E13-S4: Publish preliminary schedule to customer — **MVP**
+
+**As a** team member, **I can** publish a skeletal schedule to the customer **so that** they preview before subs are invited.
+
+**Acceptance:**
+- [ ] **Separate button** from finalize
+- [ ] Customer sees read-only prelim (E9-S3)
+- [ ] Optional gate slot off by default (2B)
+
+**FR:** FR-21
+
+---
+
+### E13-S5: Finalize plan & start sub cascade — **MVP**
+
+**As a** team member, **I can** finalize the plan **so that** sub approval cascade begins and project becomes `active`.
+
+**Acceptance:**
+- [ ] **Separate button** from publish prelim
+- [ ] Triggers configurable cascade (E13-S6 / FR-22)
+- [ ] Sub assignments in planning become invite targets
+
+**FR:** FR-21, FR-22
+
+---
+
+### E13-S6: Runtime cascade override — **MVP**
+
+**As a** team member, **I can** adjust cascade waves at runtime **so that** I send parallel invites or skip gates without rebuilding the plan.
+
+**Acceptance:**
+- [ ] Override who goes next, skip gate, open parallel wave
+- [ ] Outbound from company # with project prefix
+
+**FR:** FR-22
+
+---
+
+## Epic E14 — Project Resources & QR — **MVP**
+
+*Google Drive backend; app-only portal — [decision-workbook.md](../../../sme-meetings/decision-workbook.md) §4, §5.*
+
+### E14-S1: Google Drive folder per project — **MVP**
+
+**As a** team member, **I can** link or auto-create a Drive folder **so that** job docs live where Ryan already works.
+
+**Acceptance:**
+- [ ] OAuth scope for Drive (calendar + drive minimum)
+- [ ] Folder create/link on project setup or finalize
+- [ ] Degradation path when GC revokes Google (SP-3)
+
+**FR:** FR-23 · **Spike:** SP-3
+
+---
+
+### E14-S2: Doc list + portal file view — **MVP**
+
+**As a** sub/customer, **I can** view project files in the app portal **so that** I never open drive.google.com.
+
+**Acceptance:**
+- [ ] GC manages doc list in app; sync to Drive folder
+- [ ] In-portal list + preview (strategy TBD — SP-3)
+
+**FR:** FR-23
+
+---
+
+### E14-S3: Printable QR → resource page — **MVP**
+
+**As a** team member, **I can** print a QR sheet for the job site **so that** subs scan to reach project resources.
+
+**Acceptance:**
+- [ ] QR URL is app resource page — not raw Drive link
+- [ ] Single QR with Check in + Upload actions (RC-1)
+
+**FR:** FR-23
+
+---
+
+### E14-S4: QR check-in & check-out — **MVP**
+
+**As a** sub, **I can** scan QR to check in and upload end-of-day photos **so that** progress is captured on the job.
+
+**Acceptance:**
+- [ ] First scan: verify phone + bind to sub on project roster
+- [ ] Return scan: recognize phone + sub
+- [ ] Check-out: photos/notes upload via app → Drive folder
+
+**FR:** FR-23, FR-5
+
+---
+
+## Epic E15 — Customer Milestone Comms — **MVP**
+
+*Automated prep messages — FR-24; overlaps E9-S4.*
+
+### E15-S1: Contractor milestone lead-time setting — **MVP**
+
+**As a** team member, **I can** set default days-before for milestone comms **so that** customers get prep notice on my schedule.
+
+**Acceptance:**
+- [ ] Company-level default (e.g. 1 day, 7 days)
+- [ ] Optional per-phase override TBD (RC-2)
+
+**FR:** FR-24
+
+---
+
+### E15-S2: Milestone prep templates — **MVP**
+
+**As a** team member, **I can** attach prep message templates to customer-visible phases **so that** automated sends have useful content.
+
+**Acceptance:**
+- [ ] Template: milestone name + prep instructions
+- [ ] Tied to plan phases from E13
+
+**FR:** FR-24
+
+---
+
+### E15-S3: Scheduled milestone send worker — **MVP**
+
+**As the** system, **I must** send milestone comms on schedule **so that** customers are notified without manual Ryan/Macie email.
+
+**Acceptance:**
+- [ ] Worker runs against plan phase dates minus lead-time
+- [ ] Respects `notify_via`; from company # / email
+- [ ] Does not duplicate schedule-**change** alerts (RC-2)
+
+**FR:** FR-24
 
 ---
 
@@ -667,15 +877,17 @@ Derived from [prd.md](./prd.md). Product-facing stories only — implementation 
 
 | Step | Stories | Outcome |
 |------|---------|---------|
-| **1 — Skeleton** | E1-S1, E2-S1/S2, E10-S1 | OAuth signup creates company; first project + tasks |
+| **1 — Skeleton** | E1-S1, E2-S1/S2, E10-S1 | OAuth signup creates company; first project (`planning`) + tasks |
 | **2 — Onboarding UX** | E1-S4, E3-S1, E3-S3 | Checklist; calendar connect; portfolio view |
-| **3 — People** | E4 | Invite sub + customer, join, role portals |
-| **4 — Core loop** | E5, E6 | Propose, accept/decline, poke, dashboard |
-| **5 — Calendar** | E3-S2 | Pro-provided calendar + attendee invites on confirm |
-| **6 — Comms** | E8 (incl. S4 pool), E9 | MMS threads, handle lifecycle, customer feed |
-| **7 — Power** | E7, E2-S3/S4 | Cascade preview + apply |
-| **8 — Compliance** | E12-S1–S3, E6-S5 | STOP/opt-out + delivery trace (before prod SMS) |
-| **9 — MVP ship** | E10-S2, E12-S4, polish | Cross-tenant edge case; pre-launch gate; beta ready |
+| **3 — Planning** | E13-S1–S3 | Templates; planning workspace; constraints |
+| **4 — People** | E4, E8-S1 | Invite sub + customer; provision company # |
+| **5 — Resources** | E14 | Drive folder; QR; check-in/out |
+| **6 — Finalize loop** | E13-S4–S6, E5, E6 | Prelim publish; finalize + cascade; propose/accept/poke |
+| **7 — Calendar** | E3-S2 | Pro-provided calendar + attendee invites on confirm |
+| **8 — Comms** | E8-S2–S6, E9, E15 | Inbox + relay; customer feed + milestone comms |
+| **9 — Power** | E7, E2-S3/S4 | Cascade preview + apply (live reschedule) |
+| **10 — Compliance** | E12-S1–S3, E8-S6 | STOP/opt-out + delivery trace (before prod SMS) |
+| **11 — MVP ship** | E10-S2, E12-S4, polish | Cross-tenant edge case; pre-launch gate; beta ready |
 
 **MVP exit criteria:** 3–5 design-partner Contractors complete C-1 → first sub confirmed without admin help.
 
@@ -698,21 +910,26 @@ Use as sprint backbone for Phase 1. Each row ≈ one deliverable slice.
 |---|------|---------|---------|
 | M1 | Auth + auto-provision Contractor on first OAuth | E1-S1 | — |
 | M2 | Company profile + team member session | E1-S1, E10-S1 | M1 |
-| M3 | Create project + JIT handle # from company pool | E2-S1, E8-S4 | M2 |
-| M3a | Number pool: assign, archive→cooling, inbound to archived project | E8-S4 | M3, M13 |
+| M3 | Create project (`planning` status) | E2-S1 | M2 |
+| M3a | Provision company # | E8-S1 | M2 |
+| M3b | Planning template + workspace | E13-S1, S2 | M3 |
 | M4 | Task CRUD + timeline view | E2-S2 | M3 |
 | M5 | Onboarding checklist widget | E1-S4 | M3 |
 | M6 | Google Calendar OAuth connect | E3-S1 | M2 |
+| M6a | Drive folder + QR resource page | E14-S1–S3 | M3, SP-3 |
 | M7 | Sub/customer invite + magic link join | E4-S1, S2, S3 | M3 |
-| M8 | Propose date + accept/decline + status | E5-S1–S3, S5 | M7 |
+| M7a | Publish prelim + finalize + cascade start | E13-S4, S5, S6 | M7, M3b |
+| M8 | Propose date + accept/decline + status | E5-S1–S3, S5 | M7a |
 | M9 | Counter-propose + reschedule + reassign | E5-S2b, S3b, S4 | M8 |
 | M10 | Poke scheduler + manual reminder/snooze | E6-S1–S3 | M8 |
 | M11 | Confirmation dashboard / action queue | E5-S5, E6-S4 | M8 |
 | M12 | Calendar write on confirm + attendee invites | E3-S2 | M6, M8 |
 | M12a | Portfolio calendar UI | E3-S3 | M6, M8 |
-| M13 | MMS ingest + thread mirror (sub) | E8-S1, S3 | M3, M7 |
-| M14 | MMS thread (customer) + photos | E8-S2, S3 | M13 |
-| M15 | Customer schedule notify + timeline | E9-S1, S2 | M7, M8 |
+| M13 | Company # inbound + SMS relay + inbox | E8-S2–S4 | M3a, M7 |
+| M13a | Inbound MMS ingest | E8-S5 | M13 |
+| M14 | QR check-in/out + Drive upload | E14-S4 | M6a, M7 |
+| M15 | Customer schedule notify + timeline + prelim | E9-S1–S3 | M7, M8 |
+| M15a | Milestone prep comms worker | E15, E9-S4 | M7a, M8 |
 | M16 | Task dependencies + cascade toggle | E2-S3, S4 | M4 |
 | M17 | Cascade preview + apply | E7-S1, S2 | M16, M8 |
 | M18 | Schema placeholders: `tier`, `stripe_*`, `comms_enabled` (defaults open) | E1-S5 prep | M2 |

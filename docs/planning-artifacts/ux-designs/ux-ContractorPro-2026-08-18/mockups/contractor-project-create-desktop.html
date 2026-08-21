@@ -60,7 +60,7 @@
   <main class="main">
     <div class="breadcrumb">Projects › New project</div>
     <h1>Create project</h1>
-    <p class="subtitle">Set up Maple St Kitchen — customer, tasks, and first sub in one flow (~20 min)</p>
+    <p class="subtitle">Create Maple St Kitchen in <strong>planning mode</strong> — customer + tasks first; notify subs after finalize</p>
 
     <div class="steps">
       <div class="step done">1 · Calendar ✓</div>
@@ -81,17 +81,22 @@
             <input type="text" value="142 Maple St, Riverside">
           </div>
         </div>
-        <div class="handle-box">
-          <strong>Project text number (auto-assigned)</strong>
-          <div class="number">(555) 100-0001</div>
-          Use this number when creating group texts with subs and customers on this job.
-          <div class="planning-note">Planning: Twilio-provisioned handle · ~$1.15/mo + ~$4–7/mo messaging per active project · numbers reused when jobs complete</div>
+        <div class="handle-box" style="background:#E8F5EC;border-color:#34C759;border-style:solid">
+          <strong>Status: Planning</strong>
+          <div class="number" style="font-size:15px;font-weight:600;color:#2D8A4E">No subs notified · no Google writes until finalize</div>
+          After planning, you'll publish a prelim to the customer, then finalize to start the sub cascade.
+        </div>
+        <div class="handle-box" style="margin-top:12px">
+          <strong>Company text line (not per project)</strong>
+          <div class="number">(555) 482-0100 · Acme Remodeling</div>
+          All jobs share this number — subs text Acme, not your personal cell. See company # setup after onboarding.
+          <div class="planning-note">~$1.15/mo + SMS volume per company (not ~$10/project). See company-number-messaging.md</div>
         </div>
       </div>
     </div>
 
     <div class="card">
-      <div class="card-header">Primary customer <span style="font-weight:400;color:#6B7A8D;font-size:13px">— connect links sent automatically on save</span></div>
+      <div class="card-header">Primary customer <span style="font-weight:400;color:#6B7A8D;font-size:13px">— connect links after publish/finalize, not on save</span></div>
       <div class="card-body">
         <div class="form-row">
           <div><label>Name</label><input type="text" value="Lauren Chen"></div>
@@ -101,7 +106,7 @@
           <div><label>Email</label><input type="email" value="lauren.chen@email.com"></div>
         </div>
         <div class="info-box">
-          <strong>On save:</strong> Lauren receives email + MMS confirm links. Both channels must be confirmed before schedule notifications are sent.
+          <strong>Plan-first:</strong> Customer won't get schedule texts until you publish prelim or finalize. Assign subs in planning — they're not invited yet.
         </div>
       </div>
     </div>
@@ -144,7 +149,7 @@
 
     <div class="btn-row">
       <button class="btn btn-ghost">Save draft</button>
-      <button class="btn btn-accent">Create project &amp; invite subs →</button>
+      <button class="btn btn-accent">Create project &amp; open planning →</button>
     </div>
   </main>
   <div class="frame-label">Desktop · Project Creation · C-1, C-17</div>

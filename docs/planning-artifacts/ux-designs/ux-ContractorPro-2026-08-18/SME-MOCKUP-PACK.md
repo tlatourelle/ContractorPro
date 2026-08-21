@@ -1,39 +1,40 @@
 # SME Mockup Pack — Ryan & Maci Review
 
-**Status:** Draft for planning validation  
-**Created:** 2026-08-18  
-**Audience:** Ryan (contractor/owner) + Maci (office manager) — same v0.1 access  
-**Goal:** Validate *"is this how you work?"* — not pixel-perfect brand
+**Status:** Updated for correct-course (2026-08-20)  
+**Created:** 2026-08-18 · **Updated:** 2026-08-20  
+**Audience:** Ryan (contractor/owner) + Maci (office manager)  
+**Goal:** Validate *"is this how you work?"* — plan-first, company #, shared inbox, QR resources
 
-> **Browse in browser:** Open <a href="index.html" target="_blank">index.html</a> (all mockup links open in a new browser tab).  
-> **System overview (for SMEs):** <a href="mockups/system-overview.html" target="_blank">system-overview.html</a> — how the pieces fit together.  
-> From terminal in this folder: `start index.html`
+> **Browse in browser:** Open <a href="index.html" target="_blank">index.html</a>  
+> **System overview:** <a href="mockups/system-overview.html" target="_blank">system-overview.html</a>  
+> From terminal: `start index.html`
 
 ---
 
 ## How to use this pack
 
-0. **Optional context:** <a href="mockups/system-overview.html" target="_blank">system-overview.html</a> — high-level diagram (who uses what, Azure vs vendors).
-1. **Onboarding first:** <a href="mockups/contractor-project-create-desktop.html" target="_blank">contractor-project-create-desktop.html</a> — walk C-1 project setup with Ryan/Macie.
-2. **Then MMS setup:** <a href="mockups/contractor-mms-group-setup-desktop.html" target="_blank">contractor-mms-group-setup-desktop.html</a> + <a href="mockups/mms-group-created.png" target="_blank">mms-group-created.png</a> — C-13 group text creation.
-3. **Then the slip workflow:** <a href="mockups/workflow-connected-overview.html" target="_blank">workflow-connected-overview.html</a> — UJ-9 connecting MMS + app + portals.
-4. **Log decisions** in [discovery-log.md](../../discovery-log.md).
+0. **Context:** <a href="mockups/system-overview.html" target="_blank">system-overview.html</a> — company # + plan + QR (updated 2026-08-20)
+1. **Onboarding:** <a href="mockups/contractor-project-create-desktop.html" target="_blank">project create</a> → <a href="mockups/contractor-planning-workspace-desktop.html" target="_blank">planning workspace</a>
+2. **Company #:** <a href="mockups/contractor-company-number-desktop.html" target="_blank">company number setup</a> (replaces group MMS setup)
+3. **Comms:** <a href="mockups/contractor-inbox-desktop.html" target="_blank">shared inbox</a> + <a href="mockups/workflow-connected-overview.html" target="_blank">full workflow</a>
+4. **Job site:** <a href="mockups/sub-resource-portal-mobile.html" target="_blank">QR resource portal</a>
+5. **Log decisions** in [discovery-log.md](../../discovery-log.md)
 
 ---
 
-## Project handle # — planning note (for facilitators)
+## Company number — planning note (for facilitators)
 
-Each active project gets a **dedicated text number** (the handle) via **Twilio** — not Google Voice or the GC's personal line. Numbers are **reused** from a pool when jobs finish (with a cooling period).
+**One Twilio 10DLC number per company** (not per project). Subs/customers text Acme Co; staff use SMS relay + app inbox.
 
 | What | Rough cost (Twilio, US) |
 |------|-------------------------|
-| Per project number | ~**$1.15/mo** while active |
-| Per project messaging | ~**$4–7/mo** (typical group MMS + system texts) |
-| 5 active jobs (Ryan-sized crew) | ~**$22–46/mo** telco COGS total |
+| Company number | ~**$1.15/mo** |
+| Messaging volume | ~**$4–15/mo** typical (depends on traffic) |
+| 5 active jobs | **Not** 5× number rent — one line serves all |
 
-Full vendor analysis: [project-handle-numbers.md](../../technical-exploration/project-handle-numbers.md). Full operating budget: [monthly-run-rate.md](../../../finances/monthly-run-rate.md).
+Architecture: [company-number-messaging.md](../../technical-exploration/company-number-messaging.md)
 
-**SME prompts:** Is the auto-assigned number clear? Would subs trust **"Maple St · ContractorPro"** as the contact name? Do you expect heavy photo texting (drives cost)?
+**SME prompts (SP-4):** Will you reply to Acme # instead of Marcus's cell? Can Maci follow relay forwards?
 
 ---
 
@@ -43,107 +44,101 @@ Full vendor analysis: [project-handle-numbers.md](../../technical-exploration/pr
 
 | File | Surface | Journey |
 |------|---------|---------|
-| <a href="mockups/system-overview.html" target="_blank">system-overview.html</a> | Architecture | How the system fits together (SME-friendly) |
-| <a href="mockups/workflow-connected-overview.html" target="_blank">workflow-connected-overview.html</a> | Overview | UJ-9 full walkthrough |
+| <a href="mockups/system-overview.html" target="_blank">system-overview.html</a> | Architecture | Plan · Talk · Commit |
+| <a href="mockups/workflow-connected-overview.html" target="_blank">workflow-connected-overview.html</a> | Overview | Full walkthrough |
 
 ### Contractor — Ryan / Maci
 
 | File | Form factor | Journey |
 |------|-------------|---------|
-| <a href="mockups/contractor-project-create-desktop.html" target="_blank">contractor-project-create-desktop.html</a> | Desktop | C-1, C-17 |
-| <a href="mockups/contractor-project-create-mobile.html" target="_blank">contractor-project-create-mobile.html</a> | Mobile | C-1 |
-| <a href="mockups/contractor-mms-group-setup-desktop.html" target="_blank">contractor-mms-group-setup-desktop.html</a> | Desktop modal | C-13 |
-| <a href="mockups/contractor-dashboard-desktop.html" target="_blank">contractor-dashboard-desktop.html</a> | Desktop | C-6, C-7, C-19 |
-| <a href="mockups/contractor-cascade-preview-desktop.html" target="_blank">contractor-cascade-preview-desktop.html</a> | Desktop | C-12, C-20 |
-| <a href="mockups/contractor-mms-mirror-desktop.html" target="_blank">contractor-mms-mirror-desktop.html</a> | Desktop | C-14, C-15 |
-| <a href="mockups/contractor-mobile-queue.html" target="_blank">contractor-mobile-queue.html</a> | Mobile | C-19 |
+| <a href="mockups/contractor-project-create-desktop.html" target="_blank">contractor-project-create-desktop.html</a> | Desktop | C-1 (planning mode) |
+| <a href="mockups/contractor-planning-workspace-desktop.html" target="_blank">contractor-planning-workspace-desktop.html</a> | Desktop | E13 · phase list |
+| <a href="mockups/contractor-planning-calendar-desktop.html" target="_blank">contractor-planning-calendar-desktop.html</a> | Desktop | E13 · overlay calendar |
+| <a href="mockups/contractor-cascade-template-editor-desktop.html" target="_blank">contractor-cascade-template-editor-desktop.html</a> | Desktop | E13-S1 · company templates |
+| <a href="mockups/contractor-finalize-cascade-desktop.html" target="_blank">contractor-finalize-cascade-desktop.html</a> | Desktop | E13-S6 · per-job override |
+| <a href="mockups/contractor-google-calendar-connect-desktop.html" target="_blank">contractor-google-calendar-connect-desktop.html</a> | Desktop | E3-S1 · Calendar + Drive OAuth |
+| <a href="mockups/contractor-portfolio-calendar-desktop.html" target="_blank">contractor-portfolio-calendar-desktop.html</a> | Desktop | E3-S3 · all jobs |
+| <a href="mockups/contractor-project-files-desktop.html" target="_blank">contractor-project-files-desktop.html</a> | Desktop | E14 · GC files + upload |
+| <a href="mockups/printable-job-site-qr-sheet.html" target="_blank">printable-job-site-qr-sheet.html</a> | Print / PDF | E14-S3 · laminate sheet |
+| <a href="mockups/contractor-company-number-desktop.html" target="_blank">contractor-company-number-desktop.html</a> | Desktop modal | E8-S1 |
+| <a href="mockups/contractor-inbox-desktop.html" target="_blank">contractor-inbox-desktop.html</a> | Desktop | E8 · inbox |
+| <a href="mockups/contractor-cascade-preview-desktop.html" target="_blank">contractor-cascade-preview-desktop.html</a> | Desktop | C-20 live reschedule |
+| <a href="mockups/contractor-dashboard-desktop.html" target="_blank">contractor-dashboard-desktop.html</a> | Desktop | C-6, C-19 |
 
-### Sub — Jesse (role-play with Ryan/Macie)
+### Sub — Jesse / Marcus
 
 | File | Form factor | Journey |
 |------|-------------|---------|
-| <a href="mockups/sub-accept-decline-mobile.html" target="_blank">sub-accept-decline-mobile.html</a> | Mobile portal | S-1, S-5 |
+| <a href="mockups/sub-accept-decline-mobile.html" target="_blank">sub-accept-decline-mobile.html</a> | Mobile portal | S-1 |
+| <a href="mockups/sub-resource-portal-mobile.html" target="_blank">sub-resource-portal-mobile.html</a> | Mobile · QR | E14 · check-in/out |
 
-### Customer — Lauren (role-play with Ryan/Macie)
+### Customer — Lauren
 
 | File | Form factor | Journey |
 |------|-------------|---------|
-| <a href="mockups/customer-connect-mobile.html" target="_blank">customer-connect-mobile.html</a> | Mobile portal | H-1, H-4 |
+| <a href="mockups/customer-prelim-mobile.html" target="_blank">customer-prelim-mobile.html</a> | Mobile portal | E13-S4 prelim |
+| <a href="mockups/customer-connect-mobile.html" target="_blank">customer-connect-mobile.html</a> | Mobile portal | H-1 |
 | <a href="mockups/customer-timeline-mobile.html" target="_blank">customer-timeline-mobile.html</a> | Mobile portal | H-21 |
 
-### MMS — native phone (images)
+### Retired / redirect
 
-| File | Shows | Journey |
-|------|-------|---------|
-| <a href="mockups/mms-group-created.png" target="_blank">mms-group-created.png</a> | New group with Marcus + handle # | C-13 |
-| <a href="mockups/mms-sub-delay-thread.png" target="_blank">mms-sub-delay-thread.png</a> | Marcus texts delay in group | UJ-9 step 1, C-14 |
-| <a href="mockups/mms-system-confirm.png" target="_blank">mms-system-confirm.png</a> | Jesse gets re-confirm SMS | UJ-9 step 4, S-5 |
-| <a href="mockups/mms-customer-milestone.png" target="_blank">mms-customer-milestone.png</a> | Lauren gets milestone MMS | UJ-9 step 4, H-21 |
+| File | Notes |
+|------|-------|
+| contractor-mms-group-setup-desktop.html | → company-number-desktop |
+| contractor-mms-mirror-desktop.html | → inbox-desktop |
+| mms-*.png | Legacy SMS appearance refs only |
 
 ---
 
 ## SME discussion prompts
 
-### Project creation (C-1)
-- Is 20–30 min realistic for first project setup? What would you skip on day one?
-- Should customer email + MMS go out automatically on save, or do you want a review step first?
-- Are tasks + sub assignment on the same form right, or separate screens?
-- Is the auto-assigned project text number clear enough?
+### Planning (new)
+- Is template → overlay → prelim → finalize the right sequence?
+- Two buttons (publish prelim vs finalize) — clear enough?
+- How long can a job sit in planning?
+- **Template editor:** Kitchen/bath/whole-home enough? Default invite waves make sense?
 
-### MMS group setup (C-13)
-- Will you actually create a **new** group per sub, or try to add the handle to an existing thread?
-- Is the copy-paste contact card helpful, or would you just do it from memory?
-- Is "Maple St - Marcus" the right group naming convention for 5+ active jobs?
+### Google connect
+- Calendar + Drive in one OAuth — OK?
+- Planning dates stay out of Google until subs accept — clear?
 
-### Workflow (UJ-9)
-- When Marcus texts a delay, do you see it in the app first or on your phone first?
-- Is "talk in MMS, commit in app" how you actually handle slips today?
-- Would Maci draft the cascade and Ryan approve on phone — or the reverse?
+### Company # + inbox
+- Will you text Acme # instead of subs' personal cells?
+- Is shared inbox enough for Maci without asking Ryan?
+- Orphan assign when Jose texts about wrong job — workable?
 
-### Contractor dashboard
-- Is the pending queue the right home screen priority?
-- Is "Send reminder" / "Snooze 2 days" the right poke controls?
-- Do you need to see customer channel status (email ✅ / MMS ⏳) on the dashboard?
+### QR resources
+- Single QR with Check in + Upload — OK? (RC-1)
+- Laminated at threshold — matches your workflow?
 
-### Cascade
-- Is +3 days preview with "who gets notified" enough before publish?
-- Should customer milestones be called out separately from sub re-confirms?
-
-### MMS groups
-- Will you create a **new** group per sub with the project handle #, or try to use existing threads?
-- Is the group naming ("Maple St - Marcus") clear enough when you have 5 active jobs?
-
-### Sub portal
-- Would Jesse tap this link? What would make him ignore it?
-- Is batch accept (3 tasks in one tap) right, or one task per link?
-
-### Customer portal
-- Is dual-channel confirm (email + MMS) worth the friction?
-- Is the timeline view enough — or do customers need more detail?
-- Accept/decline only (no counter-propose) — is that right for homeowners?
+### Cascade + portals
+- Magic links only (no reply YES) — fine for subs?
+- Customer prelim — enough detail or too skeletal?
 
 ---
 
 ## What's NOT in this pack (deferred)
 
 - Sub roster management (C-4, C-5)
-- Calendar linking flows (S-5a, H-6)
-- Photo upload in threads (C-16)
-- Full brand / logo lockup
+- Full Drive admin / doc upload UX for Ryan
 - Interactive prototypes
+- Customer approval gate before subs (2B SME pending)
+
+Thin spots: backlog RC-1–RC-7
 
 ---
 
 ## Design spines
 
-- Visual identity: [DESIGN.md](./DESIGN.md)
-- Experience spec: [EXPERIENCE.md](./EXPERIENCE.md)
+- [DESIGN.md](./DESIGN.md)
+- [EXPERIENCE.md](./EXPERIENCE.md)
 
 ---
 
-## Next steps after SME review
+## Change log
 
-1. Log decisions in discovery-log.md
-2. Update user journeys where SMEs push back
-3. Add deferred screens if critical gaps found
-4. Run `bmad-create-epics-and-stories` when journeys stabilize
+| Date | Change |
+|------|--------|
+| 2026-08-18 | Initial SME pack |
+| 2026-08-20 | Correct-course: company #, planning, inbox, QR; retired group MMS mockups |
+| 2026-08-20 | Added: GC files, planning calendar, portfolio calendar, printable QR sheet, finalize cascade, Google connect, cascade template editor |

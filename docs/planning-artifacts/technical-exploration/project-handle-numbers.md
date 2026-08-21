@@ -1,6 +1,8 @@
 # Project Handle Numbers — Vendor, Pooling & Cost Model
 
-Status: **Exploratory → tentative decision** (2026-08-18)  
+> **Superseded (2026-08-20)** by [company-number-messaging.md](./company-number-messaging.md) — one company # per contractor + SMS relay. Retained for historical context only.
+
+Status: **Superseded** — was exploratory → tentative decision (2026-08-18)  
 Related: [messaging-and-media.md](./messaging-and-media.md), [stack-web-api-db.md](./stack-web-api-db.md), [discovery-log.md](../discovery-log.md)
 
 ## Summary

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ContractorPro — Finalize & Cascade Config (Desktop)</title>
+<!-- E13-S5/S6; FR-22 cascade waves -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F4F6F8; color: #1A2332; display: flex; min-height: 100vh; }
+  .sidebar { width: 220px; background: #1B4B7A; color: white; padding: 24px 0; flex-shrink: 0; }
+  .logo { padding: 0 20px 24px; font-weight: 700; font-size: 18px; }
+  .main { flex: 1; padding: 28px 32px; max-width: 880px; }
+  h1 { font-size: 22px; margin-bottom: 4px; }
+  .subtitle { font-size: 14px; color: #6B7A8D; margin-bottom: 24px; }
+  .modal-like { background: white; border-radius: 12px; border: 1px solid #D8DEE6; padding: 24px; }
+  .wave { border: 1px solid #EEF1F5; border-radius: 10px; padding: 16px; margin-bottom: 12px; }
+  .wave-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .wave-title { font-weight: 600; font-size: 15px; }
+  .wave-type { font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; background: #E8EEF5; color: #1B4B7A; }
+  .wave-type.seq { background: #FFF8E6; color: #8B6914; }
+  .subs { font-size: 13px; color: #6B7A8D; }
+  .subs strong { color: #1A2332; }
+  .gate { font-size: 12px; color: #6B7A8D; margin-top: 8px; padding: 8px; background: #F4F6F8; border-radius: 6px; }
+  .gate.off { opacity: 0.7; }
+  .actions { display: flex; gap: 10px; margin-top: 24px; justify-content: flex-end; }
+  .btn { padding: 12px 20px; border-radius: 8px; border: none; font-weight: 600; font-size: 14px; cursor: pointer; }
+  .btn-ghost { background: #F4F6F8; border: 1px solid #D8DEE6; }
+  .btn-accent { background: #E87722; color: white; }
+  .warn { background: #E8F5EC; border: 1px solid #A8D5B5; border-radius: 8px; padding: 12px; font-size: 13px; color: #2D8A4E; margin-bottom: 20px; }
+  .frame-label { position: fixed; bottom: 12px; right: 16px; font-size: 11px; color: #6B7A8D; background: white; padding: 4px 10px; border-radius: 4px; border: 1px solid #D8DEE6; }
+</style>
+</head>
+<body>
+  <aside class="sidebar"><div class="logo">ContractorPro</div></aside>
+  <main class="main">
+    <h1>Finalize &amp; start sub cascade</h1>
+    <p class="subtitle">Maple St Kitchen · Review invite waves before first SMS from Acme Co #</p>
+
+    <div class="modal-like">
+      <div class="warn">Prelim published to Lauren · Sep 4. Customer approval gate <strong>off</strong> (2B TBD).</div>
+
+      <div class="wave">
+        <div class="wave-head">
+          <span class="wave-title">Wave 1 — Demo</span>
+          <span class="wave-type">Parallel · sends now</span>
+        </div>
+        <p class="subs"><strong>Mike's Demo</strong> — propose Sep 5–7</p>
+      </div>
+
+      <div class="wave">
+        <div class="wave-head">
+          <span class="wave-title">Wave 2 — Rough trades</span>
+          <span class="wave-type seq">Sequential · after Wave 1 confirms</span>
+        </div>
+        <p class="subs"><strong>Nate Torres</strong> (elec) then <strong>Jose</strong> (plumb) — or open parallel ↗</p>
+        <div class="gate">Runtime override: skip gate · add sub · change order</div>
+      </div>
+
+      <div class="wave">
+        <div class="wave-head">
+          <span class="wave-title">Wave 3 — Finish</span>
+          <span class="wave-type seq">Sequential · after rough complete</span>
+        </div>
+        <p class="subs"><strong>Jesse</strong> (paint) → <strong>Marcus</strong> (floor)</p>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-ghost">Back to planning</button>
+        <button class="btn btn-accent">Finalize &amp; send Wave 1</button>
+      </div>
+    </div>
+  </main>
+  <div class="frame-label">Desktop · Cascade Config at Finalize · E13-S6, FR-22</div>
+</body>
+</html>

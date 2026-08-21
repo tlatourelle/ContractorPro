@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ContractorPro — Company Number Setup (Desktop)</title>
+<!-- Replaces group MMS setup; E8-S1 -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: rgba(26,35,50,0.5); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .modal { background: white; border-radius: 16px; max-width: 520px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.2); overflow: hidden; }
+  .modal-header { background: #1B4B7A; color: white; padding: 24px 28px; }
+  .modal-header h2 { font-size: 20px; margin-bottom: 6px; }
+  .modal-header p { font-size: 14px; opacity: 0.9; }
+  .modal-body { padding: 28px; }
+  .number-card { background: #E8EEF5; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; }
+  .number-card .label { font-size: 12px; font-weight: 600; text-transform: uppercase; color: #6B7A8D; letter-spacing: 0.5px; }
+  .number-card .number { font-size: 28px; font-weight: 700; color: #1B4B7A; margin: 8px 0; }
+  .number-card .contact { font-size: 14px; color: #1B4B7A; font-weight: 600; }
+  .steps { list-style: none; margin-bottom: 24px; }
+  .steps li { display: flex; gap: 12px; margin-bottom: 16px; font-size: 14px; line-height: 1.5; }
+  .steps .n { width: 24px; height: 24px; background: #1B4B7A; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .retired { font-size: 12px; color: #6B7A8D; background: #F4F6F8; padding: 12px; border-radius: 8px; margin-bottom: 20px; line-height: 1.5; }
+  .btn-row { display: flex; gap: 12px; }
+  .btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 600; font-size: 14px; cursor: pointer; }
+  .btn-primary { background: #E87722; color: white; }
+  .btn-ghost { background: #F4F6F8; color: #1A2332; border: 1px solid #D8DEE6; }
+  .frame-label { position: fixed; bottom: 12px; right: 16px; font-size: 11px; color: white; background: #1A2332; padding: 4px 10px; border-radius: 4px; }
+</style>
+</head>
+<body>
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Your company text line</h2>
+      <p>One number for all jobs — subs and customers text Acme, not your personal cell.</p>
+    </div>
+    <div class="modal-body">
+      <div class="number-card">
+        <div class="label">Acme Remodeling</div>
+        <div class="number">(555) 482-0100</div>
+        <div class="contact">Save as "Acme Co" in contacts</div>
+      </div>
+      <ul class="steps">
+        <li><span class="n">1</span><span>Tell subs &amp; customers to text <strong>this number only</strong> for job talk.</span></li>
+        <li><span class="n">2</span><span>When a text comes in, you &amp; Maci get a forward <strong>from</strong> Acme # on your phones.</span></li>
+        <li><span class="n">3</span><span>Reply <strong>to Acme #</strong> — not the sub's personal cell — so it's logged and Maci sees it.</span></li>
+        <li><span class="n">4</span><span>Or reply in the <strong>app inbox</strong> — same threads, no codes needed.</span></li>
+      </ul>
+      <div class="retired"><strong>No more:</strong> separate group text per sub with a project handle #. No "add Marcus + Maple # to Messages."</div>
+      <div class="btn-row">
+        <button class="btn btn-ghost">Copy number</button>
+        <button class="btn btn-primary">Got it — open inbox</button>
+      </div>
+    </div>
+  </div>
+  <div class="frame-label">Desktop · Company # Onboarding · E8-S1 (replaces C-13 group MMS)</div>
+</body>
+</html>

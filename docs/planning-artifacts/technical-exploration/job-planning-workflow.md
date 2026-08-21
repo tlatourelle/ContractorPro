@@ -1,7 +1,7 @@
 # Job Planning Workflow — Plan, Balance, Finalize
 
-Status: **Exploratory** (2026-08-14)  
-Related: [product-vision.md](../product-vision.md), [schedule-confirmation-workflow.md](./schedule-confirmation-workflow.md), [google-calendar-integration.md](./google-calendar-integration.md), [competitor-research.md](../competitor-research.md)
+Status: **MVP (promoted 2026-08-20)** — was exploratory v0.2  
+Related: [product-vision.md](../product-vision.md), [schedule-confirmation-workflow.md](./schedule-confirmation-workflow.md), [google-calendar-integration.md](./google-calendar-integration.md), [sprint-change-proposal-2026-08-20.md](../sprint-change-proposal-2026-08-20.md)
 
 ## Product intent (from stakeholder)
 
@@ -31,7 +31,9 @@ Two modes, one product — separated by a **finalize** action.
 PLAN (draft, internal, reversible)
   phases → durations → buffers → start date → preview → overlays → conflicts
         ↓
-   [ Finalize schedule ]
+   [ Publish prelim to customer ]     ← separate action (2B gate optional, off by default)
+        ↓
+   [ Finalize & start sub cascade ]   ← separate action; project → active
         ↓
 SCHEDULE (commit — see schedule-confirmation-workflow.md)
   propose → SMS/email → accept/decline → poke → Google Calendar

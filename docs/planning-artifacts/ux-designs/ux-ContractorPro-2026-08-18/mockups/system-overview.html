@@ -88,7 +88,7 @@
   <p class="nav"><a href="../index.html" target="_blank">← All mockups</a> · <a href="workflow-connected-overview.html" target="_blank">Schedule slip workflow (UJ-9)</a></p>
 
   <div class="principle">
-    <strong>Two lanes:</strong> Day-to-day talk happens in <strong>group text (MMS)</strong> on your phone. Schedule changes and cascade happen in the <strong>ContractorPro web app</strong>. The app logs texts and sends confirm links back out.
+    <strong>Three beats:</strong> <strong>Plan</strong> the job in the app (no one bothered yet). <strong>Talk</strong> on one company text line — Acme # + shared inbox + SMS relay. <strong>Commit</strong> schedule changes in the app → magic links go out.
   </div>
 
   <div class="legend">
@@ -109,8 +109,8 @@
           <strong>Ryan / Maci</strong>
           <p>General contractor team</p>
           <ul>
-            <li><strong>Laptop</strong> — scheduling, cascade, dashboard</li>
-            <li><strong>Phone</strong> — group texts with subs &amp; customers</li>
+            <li><strong>Phone</strong> — SMS relay from Acme Co #</li>
+            <li><strong>App</strong> — planning, inbox, cascade</li>
           </ul>
         </div>
 
@@ -118,7 +118,8 @@
           <strong>Subs (e.g. Marcus, Jesse)</strong>
           <p>Field trades</p>
           <ul>
-            <li><strong>Phone</strong> — group MMS with you + project #</li>
+            <li><strong>Phone</strong> — text <strong>Acme Co #</strong>; replies to Acme (not sub's cell)</li>
+            <li><strong>App inbox</strong> — same threads as SMS relay</li>
             <li><strong>Magic link</strong> — tap to accept/decline dates (no password)</li>
           </ul>
         </div>
@@ -127,7 +128,8 @@
           <strong>Customers (e.g. Lauren)</strong>
           <p>Homeowners</p>
           <ul>
-            <li><strong>Phone</strong> — group MMS for updates</li>
+            <li><strong>Phone</strong> — text Acme Co # for questions</li>
+            <li><strong>QR at job site</strong> — check in, view plans, upload photos</li>
             <li><strong>Magic link</strong> — timeline, milestone confirms</li>
           </ul>
         </div>
@@ -136,16 +138,17 @@
       <!-- CENTER: Core + connectors -->
       <div class="col">
         <div class="connector-col" style="padding-top:0;margin-bottom:12px">
-          <div class="arrow-row"><span class="arrow bidir"></span> Browser ↔ web app</div>
-          <div class="arrow-row"><span class="arrow bidir"></span> Group MMS ↔ project handle #</div>
-          <div class="arrow-row"><span class="arrow right"></span> SMS / email with links</div>
+          <div class="arrow-row"><span class="arrow bidir"></span> Browser ↔ web app (plan, inbox, cascade)</div>
+          <div class="arrow-row"><span class="arrow bidir"></span> 1:1 SMS ↔ company # (Twilio)</div>
+          <div class="arrow-row"><span class="arrow right"></span> SMS relay → staff phones</div>
+          <div class="arrow-row"><span class="arrow right"></span> Magic links + milestone comms</div>
         </div>
 
         <div class="stack-label">Hosted on Microsoft Azure</div>
         <div class="center-stack">
           <div class="box core">
             <strong>ContractorPro web app</strong>
-            <p>What you log into — projects, tasks, cascade, message mirror, pending queue. Works in any modern browser (desktop or phone).</p>
+            <p>What you log into — <strong>planning workspace</strong>, shared inbox, cascade, pending queue. Works in any modern browser.</p>
           </div>
           <div class="box core">
             <strong>ContractorPro API</strong>
@@ -153,7 +156,7 @@
           </div>
           <div class="box core">
             <strong>Database + file storage</strong>
-            <p>Project data, participants, messages. Photos from MMS stored securely in the cloud (not on your phone only).</p>
+            <p>Project data, threads, plans. Job photos in <strong>Google Drive</strong> (via app portal). Inbound MMS in Azure blob.</p>
           </div>
         </div>
 
@@ -170,14 +173,14 @@
 
         <div class="box vendor">
           <span class="tag">Twilio</span>
-          <strong>Project text numbers</strong>
-          <p>Each active job gets a dedicated handle # (e.g. Maple St). Powers group MMS, ingests texts into the app, sends system confirmations. ~$10/mo per active project (planning estimate).</p>
+          <strong>Company text number</strong>
+          <p><strong>One</strong> Twilio line per company (e.g. Acme Co). All subs/customers text it. Staff get SMS relays; app inbox mirrors threads. ~$1.15/mo + message volume — not one number per job.</p>
         </div>
 
         <div class="box vendor">
           <span class="tag">Google</span>
-          <strong>Calendar + optional sign-in</strong>
-          <p>Two-way sync with <strong>Google Calendar</strong> when you connect. Optional “Sign in with Google” for your team. Google hosts calendars — not the ContractorPro app.</p>
+          <strong>Calendar + Drive + sign-in</strong>
+          <p>Calendar sync on sub accept. <strong>Drive folder</strong> per job for plans/photos (subs see files via app QR portal, not drive.google.com). Optional Google sign-in for your team.</p>
         </div>
 
         <div class="box vendor">
@@ -202,15 +205,25 @@
   </div>
 
   <div class="section">
-    <h2>Two lanes in plain English</h2>
+    <h2>How it fits together</h2>
     <div class="lanes">
-      <div class="lane-card mms">
-        <h3>Lane 1 — Conversation (phone)</h3>
-        <p>You create a <strong>group text</strong> per sub or customer: you + them + the project handle #. Everyone texts normally. ContractorPro logs the thread. Photos in text are saved to the project.</p>
-      </div>
       <div class="lane-card app">
-        <h3>Lane 2 — Scheduling (web app)</h3>
-        <p>When dates move, <strong>you change the schedule in ContractorPro</strong> — not by texting back and forth. The app sends confirm links via text/email. Subs and customers tap to accept.</p>
+        <h3>Plan → Prelim → Finalize</h3>
+        <p>Build the job schedule internally. <strong>Publish prelim</strong> for customer preview. <strong>Finalize</strong> to start sub cascade — only then do texts and calendar writes begin.</p>
+      </div>
+      <div class="lane-card mms">
+        <h3>Talk — company # + inbox</h3>
+        <p>Everyone texts <strong>Acme Co</strong>. You &amp; Maci see the same threads in the app or via SMS relay. Reply <em>to Acme #</em> so it's logged.</p>
+      </div>
+    </div>
+    <div class="lanes" style="margin-top:16px">
+      <div class="lane-card app">
+        <h3>Commit — schedule in app</h3>
+        <p>When dates move, change the schedule in ContractorPro. Confirm links go out via SMS/email (magic link — not "reply YES").</p>
+      </div>
+      <div class="lane-card portal">
+        <h3>Job site — QR portal</h3>
+        <p>Laminated QR → subs check in, view plans, upload end-of-day photos to the job Drive folder through the app.</p>
       </div>
     </div>
   </div>
@@ -228,14 +241,24 @@
           <td>Yes — browser on laptop or phone</td>
         </tr>
         <tr>
-          <td><strong>Field chat with subs/customers</strong></td>
-          <td>Native <strong>Messages</strong> app on your phone</td>
-          <td>Yes — same as today, plus project # in the group</td>
+          <td><strong>Job planning, prelim, finalize</strong></td>
+          <td>ContractorPro web app</td>
+          <td>Yes — before any sub texts</td>
         </tr>
         <tr>
-          <td><strong>Project handle #</strong></td>
-          <td>Twilio (virtual phone line per job)</td>
-          <td>You add it as a contact; you don’t “call Twilio”</td>
+          <td><strong>Field chat</strong></td>
+          <td>Text <strong>Acme Co #</strong> + app inbox</td>
+          <td>Yes — phone + browser</td>
+        </tr>
+        <tr>
+          <td><strong>Company text line</strong></td>
+          <td>Twilio (one per company)</td>
+          <td>Save as "Acme Co" contact</td>
+        </tr>
+        <tr>
+          <td><strong>Job site docs &amp; photos</strong></td>
+          <td>Google Drive + app QR portal</td>
+          <td>Subs scan QR; never open Drive directly</td>
         </tr>
         <tr>
           <td><strong>Sub/customer date confirms</strong></td>
@@ -248,9 +271,9 @@
           <td>Your existing calendar app</td>
         </tr>
         <tr>
-          <td><strong>Photos from MMS</strong></td>
-          <td>Azure file storage + shown in app</td>
-          <td>View in app mirror; originals in text thread</td>
+          <td><strong>Photos from texts / QR upload</strong></td>
+          <td>Azure blob (MMS) + Drive (portal uploads)</td>
+          <td>View in app inbox or resource portal</td>
         </tr>
       </tbody>
     </table>
@@ -258,11 +281,11 @@
 
   <div class="section">
     <h2>What we are NOT building in v0.1</h2>
-    <p>No native iPhone/Android app for you or subs. No replacing your personal cell number. No injecting into old group texts — you start a <strong>new</strong> group with the project handle. No AI reading texts to auto-reschedule (you commit changes in the app).</p>
+    <p>No native iPhone/Android app. No per-project text numbers or group MMS setup. Personal cell chats stay outside the system. Customer approval gate before subs (2B) — TBD with SMEs.</p>
   </div>
 
   <div class="facilitator">
-    <strong>Facilitator note:</strong> This is the planning architecture for SME validation — vendors and hosting may change slightly before build, but the <em>two-lane</em> pattern (MMS for talk, app for schedule) is the product bet. Technical detail: <code>project-handle-numbers.md</code>, <code>monthly-run-rate.md</code>.
+    <strong>Facilitator note:</strong> Updated 2026-08-20 after SME Meeting 01 + correct-course. Company # model: <code>company-number-messaging.md</code>. Planning: <code>job-planning-workflow.md</code>.
   </div>
 </div>
 </body>

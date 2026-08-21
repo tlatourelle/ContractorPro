@@ -1,5 +1,7 @@
 # Messaging & Media (Images) — Exploration
 
+> **Partially superseded (2026-08-20):** Group MMS + per-project handle # retired. Current model: [company-number-messaging.md](./company-number-messaging.md). Image/blob patterns below still apply.
+
 Status: **Exploratory** (2026-08-13)  
 Related: [product-vision.md](../product-vision.md), [nosql-vs-relational.md](./nosql-vs-relational.md), [stack-web-api-db.md](./stack-web-api-db.md)
 

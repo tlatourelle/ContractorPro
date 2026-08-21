@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ContractorPro — Shared Inbox (Desktop)</title>
+<!-- Spine: EXPERIENCE.md WF-1; E8; company-number-messaging.md -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F4F6F8; color: #1A2332; display: flex; min-height: 100vh; }
+  .sidebar { width: 220px; background: #1B4B7A; color: white; padding: 24px 0; flex-shrink: 0; }
+  .logo { padding: 0 20px 24px; font-weight: 700; font-size: 18px; }
+  .main { flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+  .topbar { padding: 20px 24px 12px; border-bottom: 1px solid #D8DEE6; background: white; }
+  h1 { font-size: 20px; font-weight: 600; }
+  .company-line { font-size: 13px; color: #6B7A8D; margin-top: 4px; }
+  .filters { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .filter { padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; border: 1px solid #D8DEE6; background: #F4F6F8; color: #6B7A8D; }
+  .filter.active { background: #1B4B7A; color: white; border-color: #1B4B7A; }
+  .filter.warn { background: #FFF8E6; color: #C45A00; border-color: #F0D878; }
+  .inbox-layout { display: grid; grid-template-columns: 280px 1fr 300px; flex: 1; min-height: 0; }
+  .thread-list { border-right: 1px solid #D8DEE6; background: white; overflow-y: auto; }
+  .thread-item { padding: 14px 16px; border-bottom: 1px solid #EEF1F5; cursor: pointer; }
+  .thread-item.active { background: #E8EEF5; border-left: 3px solid #1B4B7A; }
+  .thread-item.orphan { background: #FFF8E6; }
+  .thread-name { font-weight: 600; font-size: 14px; }
+  .thread-preview { font-size: 12px; color: #6B7A8D; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .thread-meta { font-size: 11px; color: #9AA5B4; margin-top: 4px; }
+  .conversation { display: flex; flex-direction: column; background: #F4F6F8; }
+  .messages { flex: 1; padding: 20px; overflow-y: auto; }
+  .msg { margin-bottom: 14px; max-width: 70%; }
+  .msg.inbound { margin-right: auto; }
+  .msg.outbound { margin-left: auto; }
+  .bubble { padding: 10px 14px; border-radius: 16px; font-size: 14px; line-height: 1.4; }
+  .msg.inbound .bubble { background: white; border: 1px solid #D8DEE6; border-bottom-left-radius: 4px; }
+  .msg.outbound .bubble { background: #1B4B7A; color: white; border-bottom-right-radius: 4px; }
+  .sender { font-size: 11px; color: #6B7A8D; margin-bottom: 4px; }
+  .reply-bar { padding: 16px 20px; background: white; border-top: 1px solid #D8DEE6; }
+  .reply-bar input { width: 100%; padding: 12px 14px; border: 1px solid #D8DEE6; border-radius: 8px; font-size: 14px; margin-bottom: 8px; }
+  .reply-note { font-size: 11px; color: #6B7A8D; }
+  .panel { padding: 20px; background: white; border-left: 1px solid #D8DEE6; overflow-y: auto; }
+  .panel h3 { font-size: 14px; margin-bottom: 12px; }
+  .alert { background: #FFF8E6; border: 1px solid #F0D878; border-radius: 8px; padding: 12px; font-size: 13px; margin-bottom: 12px; }
+  .btn { display: block; width: 100%; padding: 10px; border-radius: 8px; border: none; font-weight: 600; font-size: 13px; cursor: pointer; margin-bottom: 8px; }
+  .btn-accent { background: #E87722; color: white; }
+  .btn-primary { background: #1B4B7A; color: white; }
+  .relay-tip { font-size: 12px; color: #6B7A8D; line-height: 1.5; margin-top: 12px; padding-top: 12px; border-top: 1px solid #EEF1F5; }
+  .frame-label { position: fixed; bottom: 12px; right: 16px; font-size: 11px; color: #6B7A8D; background: white; padding: 4px 10px; border-radius: 4px; border: 1px solid #D8DEE6; z-index: 10; }
+</style>
+</head>
+<body>
+  <aside class="sidebar"><div class="logo">ContractorPro</div></aside>
+  <div class="main">
+    <div class="topbar">
+      <h1>Shared inbox</h1>
+      <p class="company-line">Acme Remodeling · <strong>(555) 482-0100</strong> — Ryan &amp; Maci see all threads</p>
+      <div class="filters">
+        <span class="filter active">All</span>
+        <span class="filter">Maple St</span>
+        <span class="filter">Subs</span>
+        <span class="filter">Customers</span>
+        <span class="filter warn">Unassigned (1)</span>
+      </div>
+    </div>
+    <div class="inbox-layout">
+      <div class="thread-list">
+        <div class="thread-item active">
+          <div class="thread-name">Marcus Webb · Flooring</div>
+          <div class="thread-preview">Supplier slipped — can't start Thursday…</div>
+          <div class="thread-meta">Maple St · Sub · 7:48 AM · Ryan notified via SMS relay</div>
+        </div>
+        <div class="thread-item">
+          <div class="thread-name">Lauren Chen</div>
+          <div class="thread-preview">Thanks — is demo still Monday?</div>
+          <div class="thread-meta">Maple St · Customer · Yesterday</div>
+        </div>
+        <div class="thread-item orphan">
+          <div class="thread-name">Unknown · (555) 901-4422</div>
+          <div class="thread-preview">Hey this is Jose — Oak Ave job?</div>
+          <div class="thread-meta">⚠ Assign to project</div>
+        </div>
+      </div>
+      <div class="conversation">
+        <div class="messages">
+          <div class="msg inbound">
+            <div class="sender">Marcus Webb (via company #)</div>
+            <div class="bubble">Supplier slipped — can't start flooring Thursday. Maybe next week?</div>
+          </div>
+          <div class="msg outbound">
+            <div class="sender">Ryan · sent from app</div>
+            <div class="bubble">Got it — let me check the plan and get back to you today.</div>
+          </div>
+        </div>
+        <div class="reply-bar">
+          <input type="text" placeholder="Reply to Marcus — sends from Acme Co (555) 482-0100…" value="">
+          <p class="reply-note">Same thread if you reply from your phone — text <strong>to</strong> Acme #, not Marcus's cell.</p>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Thread actions</h3>
+        <div class="alert">Delay detected — reschedule in app to send confirm links (magic link only).</div>
+        <button class="btn btn-accent">Open cascade reschedule</button>
+        <button class="btn btn-primary">Assign to Maple St</button>
+        <p class="relay-tip"><strong>SMS relay:</strong> Inbound texts fan out to Ryan + Maci from Acme #. Maci sees this without asking Ryan. Ref token <code>7K2M</code> only when multiple open chats.</p>
+      </div>
+    </div>
+  </div>
+  <div class="frame-label">Desktop · Shared Inbox + SMS Relay · E8, FR-14</div>
+</body>
+</html>

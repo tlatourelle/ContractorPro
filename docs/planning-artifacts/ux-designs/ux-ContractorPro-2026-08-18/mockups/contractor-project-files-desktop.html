@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ContractorPro — Project Files (Desktop)</title>
+<!-- E14-S1/S2; GC doc management + QR print -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F4F6F8; color: #1A2332; display: flex; min-height: 100vh; }
+  .sidebar { width: 220px; background: #1B4B7A; color: white; padding: 24px 0; flex-shrink: 0; }
+  .logo { padding: 0 20px 24px; font-weight: 700; font-size: 18px; }
+  .main { flex: 1; padding: 28px 32px; max-width: 960px; }
+  .breadcrumb { font-size: 13px; color: #6B7A8D; margin-bottom: 8px; }
+  h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+  .subtitle { font-size: 14px; color: #6B7A8D; margin-bottom: 20px; }
+  .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid #D8DEE6; }
+  .tab { padding: 10px 16px; font-size: 14px; font-weight: 600; color: #6B7A8D; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .tab.active { color: #1B4B7A; border-bottom-color: #1B4B7A; }
+  .toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
+  .btn { padding: 10px 16px; border-radius: 8px; border: none; font-weight: 600; font-size: 13px; cursor: pointer; }
+  .btn-primary { background: #1B4B7A; color: white; }
+  .btn-accent { background: #E87722; color: white; }
+  .btn-ghost { background: white; border: 1px solid #D8DEE6; color: #1A2332; }
+  .drive-status { font-size: 13px; color: #2D8A4E; background: #E8F5EC; padding: 8px 12px; border-radius: 8px; margin-left: auto; }
+  .card { background: white; border-radius: 12px; border: 1px solid #D8DEE6; overflow: hidden; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #EEF1F5; }
+  th { background: #F4F6F8; font-size: 12px; text-transform: uppercase; color: #6B7A8D; font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  .file-icon { margin-right: 8px; }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 999px; background: #E8EEF5; color: #1B4B7A; font-weight: 600; }
+  .note { font-size: 13px; color: #6B7A8D; line-height: 1.5; padding: 16px; background: #F4F6F8; border-radius: 8px; }
+  .upload-zone { border: 2px dashed #D8DEE6; border-radius: 12px; padding: 32px; text-align: center; color: #6B7A8D; font-size: 14px; margin-bottom: 20px; background: white; }
+  .frame-label { position: fixed; bottom: 12px; right: 16px; font-size: 11px; color: #6B7A8D; background: white; padding: 4px 10px; border-radius: 4px; border: 1px solid #D8DEE6; }
+</style>
+</head>
+<body>
+  <aside class="sidebar"><div class="logo">ContractorPro</div></aside>
+  <main class="main">
+    <div class="breadcrumb">Maple St Kitchen › Resources</div>
+    <h1>Project files</h1>
+    <p class="subtitle">Files live in your Google Drive folder — subs &amp; customers see them only through the app portal (never drive.google.com)</p>
+
+    <div class="tabs">
+      <span class="tab">Planning</span>
+      <span class="tab">Schedule</span>
+      <span class="tab active">Files &amp; QR</span>
+      <span class="tab">Comms</span>
+    </div>
+
+    <div class="toolbar">
+      <button class="btn btn-primary">+ Upload file</button>
+      <button class="btn btn-ghost">+ Add Drive link</button>
+      <button class="btn btn-accent">Print job-site QR sheet</button>
+      <span class="drive-status">✓ Drive · Maple St Kitchen folder</span>
+    </div>
+
+    <div class="upload-zone">
+      Drop blueprints, permits, scope PDFs here — or click Upload<br>
+      <span style="font-size:12px;margin-top:8px;display:block">Synced to Google Drive · visible on QR portal when subs scan in</span>
+    </div>
+
+    <div class="card">
+      <table>
+        <thead><tr><th>Name</th><th>Type</th><th>Portal</th><th>Updated</th><th></th></tr></thead>
+        <tbody>
+          <tr><td><span class="file-icon">📄</span>Kitchen layout v3.pdf</td><td>Plan</td><td><span class="badge">Subs + customer</span></td><td>Aug 18</td><td style="color:#6B7A8D">⋯</td></tr>
+          <tr><td><span class="file-icon">📄</span>Electrical permit.pdf</td><td>Permit</td><td><span class="badge">Subs + customer</span></td><td>Aug 12</td><td style="color:#6B7A8D">⋯</td></tr>
+          <tr><td><span class="file-icon">📄</span>Scope of work — Maple St.docx</td><td>Scope</td><td><span class="badge">Subs only</span></td><td>Aug 10</td><td style="color:#6B7A8D">⋯</td></tr>
+          <tr><td><span class="file-icon">📁</span>Progress photos/</td><td>Upload folder</td><td><span class="badge">Check-out uploads</span></td><td>—</td><td style="color:#6B7A8D">⋯</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <strong>Subs don't use Drive.</strong> They scan the laminated QR at the job site → app resource page → view files &amp; upload EOD photos. You manage the list here; Drive is storage backend only.
+    </div>
+  </main>
+  <div class="frame-label">Desktop · Project Files (GC) · E14-S1/S2</div>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ContractorPro — Planning Calendar (Desktop)</title>
+<!-- E13; job-planning-workflow overlay view -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F4F6F8; color: #1A2332; display: flex; min-height: 100vh; }
+  .sidebar { width: 220px; background: #1B4B7A; color: white; padding: 24px 0; flex-shrink: 0; }
+  .logo { padding: 0 20px 24px; font-weight: 700; font-size: 18px; }
+  .main { flex: 1; padding: 28px 32px; }
+  .header-row { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+  h1 { font-size: 22px; }
+  .badge { font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: #FFF8E6; color: #C45A00; border: 1px dashed #F0D878; margin-left: 8px; }
+  .controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .btn { padding: 8px 14px; border-radius: 8px; border: 1px solid #D8DEE6; background: white; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .btn-accent { background: #E87722; color: white; border-color: #E87722; }
+  .legend { display: flex; gap: 16px; font-size: 12px; color: #6B7A8D; margin-bottom: 16px; flex-wrap: wrap; }
+  .legend span { display: flex; align-items: center; gap: 6px; }
+  .sw { width: 16px; height: 10px; border-radius: 2px; }
+  .cal { background: white; border: 1px solid #D8DEE6; border-radius: 12px; overflow: hidden; }
+  .cal-head { display: grid; grid-template-columns: repeat(7, 1fr); background: #F4F6F8; font-size: 12px; font-weight: 600; color: #6B7A8D; text-align: center; padding: 10px 0; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); min-height: 420px; }
+  .day { border: 1px solid #EEF1F5; padding: 8px; min-height: 80px; font-size: 12px; vertical-align: top; }
+  .day-num { font-weight: 600; color: #6B7A8D; margin-bottom: 6px; }
+  .bar { font-size: 10px; padding: 3px 6px; border-radius: 4px; margin-bottom: 4px; line-height: 1.3; }
+  .bar-plan { background: #FFF8E6; border: 1px dashed #F0D878; color: #8B6914; }
+  .bar-live { background: #E8EEF5; border: 1px solid #1B4B7A; color: #1B4B7A; }
+  .bar-warn { background: #FDEDEC; border: 1px solid #C0392B; color: #922B21; }
+  .conflicts { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .panel { background: white; border: 1px solid #D8DEE6; border-radius: 12px; padding: 16px; }
+  .panel h3 { font-size: 14px; margin-bottom: 10px; color: #1B4B7A; }
+  .panel li { font-size: 13px; color: #6B7A8D; margin-bottom: 8px; line-height: 1.4; }
+  .frame-label { position: fixed; bottom: 12px; right: 16px; font-size: 11px; color: #6B7A8D; background: white; padding: 4px 10px; border-radius: 4px; border: 1px solid #D8DEE6; }
+</style>
+</head>
+<body>
+  <aside class="sidebar"><div class="logo">ContractorPro</div></aside>
+  <main class="main">
+    <div class="header-row">
+      <div>
+        <h1>Maple St Kitchen <span class="badge">Planning</span></h1>
+        <p style="font-size:14px;color:#6B7A8D;margin-top:4px">September 2026 · start date Sep 5 · overlay vs committed jobs</p>
+      </div>
+      <div class="controls">
+        <button class="btn">← Aug</button>
+        <button class="btn">Oct →</button>
+        <button class="btn">List view</button>
+        <button class="btn btn-accent">Publish prelim</button>
+      </div>
+    </div>
+
+    <div class="legend">
+      <span><span class="sw" style="background:#FFF8E6;border:1px dashed #F0D878"></span> This job (plan)</span>
+      <span><span class="sw" style="background:#E8EEF5;border:1px solid #1B4B7A"></span> Other active jobs</span>
+      <span><span class="sw" style="background:#FDEDEC;border:1px solid #C0392B"></span> Conflict</span>
+    </div>
+
+    <div class="cal">
+      <div class="cal-head"><div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div></div>
+      <div class="cal-grid">
+        <div class="day"><div class="day-num">31</div></div>
+        <div class="day"><div class="day-num">1</div></div>
+        <div class="day"><div class="day-num">2</div></div>
+        <div class="day"><div class="day-num">3</div></div>
+        <div class="day"><div class="day-num">4</div></div>
+        <div class="day"><div class="day-num">5</div><div class="bar bar-plan">Demo · PLAN</div></div>
+        <div class="day"><div class="day-num">6</div><div class="bar bar-plan">Demo · PLAN</div></div>
+        <div class="day"><div class="day-num">7</div></div>
+        <div class="day"><div class="day-num">8</div><div class="bar bar-plan">Rough elec</div></div>
+        <div class="day"><div class="day-num">9</div><div class="bar bar-plan">Rough elec</div></div>
+        <div class="day"><div class="day-num">10</div><div class="bar bar-plan">Rough elec</div><div class="bar bar-live">Oak walkthrough</div><div class="bar bar-warn">⚠ Nate double-book</div></div>
+        <div class="day"><div class="day-num">11</div><div class="bar bar-plan">Drywall</div></div>
+        <div class="day"><div class="day-num">12</div><div class="bar bar-plan">Drywall</div></div>
+        <div class="day"><div class="day-num">13</div></div>
+        <div class="day"><div class="day-num">14</div></div>
+        <div class="day"><div class="day-num">15</div></div>
+        <div class="day"><div class="day-num">16</div></div>
+        <div class="day"><div class="day-num">17</div></div>
+        <div class="day"><div class="day-num">18</div><div class="bar bar-live">Oak · Jesse paint</div><div class="bar bar-plan">Paint · PLAN</div><div class="bar bar-warn">⚠ Jesse conflict</div></div>
+        <div class="day"><div class="day-num">19</div><div class="bar bar-plan">Paint</div></div>
+        <div class="day"><div class="day-num">20</div></div>
+        <div class="day"><div class="day-num">21</div></div>
+        <div class="day"><div class="day-num">22</div></div>
+        <div class="day"><div class="day-num">23</div></div>
+        <div class="day"><div class="day-num">24</div></div>
+        <div class="day"><div class="day-num">25</div></div>
+        <div class="day"><div class="day-num">26</div><div class="bar bar-plan">Cabinets · milestone</div></div>
+        <div class="day"><div class="day-num">27</div></div>
+        <div class="day"><div class="day-num">28</div></div>
+        <div class="day"><div class="day-num">29</div></div>
+        <div class="day"><div class="day-num">30</div></div>
+      </div>
+    </div>
+
+    <div class="conflicts">
+      <div class="panel">
+        <h3>⚠ Subs at risk</h3>
+        <ul style="list-style:none;padding:0">
+          <li><strong>Nate Torres</strong> — Sep 10: Maple rough elec + Oak walkthrough</li>
+          <li><strong>Jesse Torres</strong> — Sep 18–19: Oak paint + Maple paint (plan)</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Customer constraints</h3>
+        <ul style="list-style:none;padding:0">
+          <li>Lauren away Oct 12–14 (blackout)</li>
+          <li>No work before 8am (HOA)</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+  <div class="frame-label">Desktop · Planning Calendar + Overlay · E13, FR-21</div>
+</body>
+</html>

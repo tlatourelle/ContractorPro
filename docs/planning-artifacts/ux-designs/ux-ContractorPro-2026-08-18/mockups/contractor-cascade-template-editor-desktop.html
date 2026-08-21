@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ContractorPro — Cascade Template Editor (Desktop)</title>
+<!-- E13-S1; FR-22 company templates -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F4F6F8; color: #1A2332; display: flex; min-height: 100vh; }
+  .sidebar { width: 220px; background: #1B4B7A; color: white; padding: 24px 0; flex-shrink: 0; }
+  .logo { padding: 0 20px 24px; font-weight: 700; font-size: 18px; }
+  .nav-item { padding: 10px 20px; font-size: 14px; opacity: 0.75; }
+  .nav-item.active { background: rgba(255,255,255,0.12); opacity: 1; font-weight: 600; border-left: 3px solid #E87722; }
+  .main { flex: 1; padding: 28px 32px; }
+  .header-row { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+  h1 { font-size: 22px; }
+  .subtitle { font-size: 14px; color: #6B7A8D; margin-top: 4px; }
+  .btn { padding: 10px 16px; border-radius: 8px; border: none; font-weight: 600; font-size: 13px; cursor: pointer; }
+  .btn-primary { background: #1B4B7A; color: white; }
+  .btn-accent { background: #E87722; color: white; }
+  .btn-ghost { background: white; border: 1px solid #D8DEE6; color: #1A2332; }
+  .layout { display: grid; grid-template-columns: 200px 1fr 320px; gap: 20px; align-items: start; }
+  .template-list { background: white; border: 1px solid #D8DEE6; border-radius: 12px; overflow: hidden; }
+  .template-list h3 { font-size: 12px; text-transform: uppercase; color: #6B7A8D; padding: 12px 14px; background: #F4F6F8; }
+  .tpl { padding: 12px 14px; border-bottom: 1px solid #EEF1F5; font-size: 14px; cursor: pointer; }
+  .tpl.active { background: #E8EEF5; font-weight: 600; border-left: 3px solid #1B4B7A; }
+  .editor { background: white; border: 1px solid #D8DEE6; border-radius: 12px; padding: 20px; }
+  .editor h3 { font-size: 15px; margin-bottom: 16px; }
+  .phase-row { display: grid; grid-template-columns: 1fr 70px 70px 100px; gap: 10px; padding: 8px 0; border-bottom: 1px dashed #EEF1F5; font-size: 13px; align-items: center; }
+  .phase-row.head { font-size: 11px; font-weight: 600; color: #6B7A8D; text-transform: uppercase; border-bottom: 1px solid #D8DEE6; padding-bottom: 10px; }
+  input, select { width: 100%; padding: 6px 8px; border: 1px solid #D8DEE6; border-radius: 6px; font-size: 13px; font-family: inherit; }
+  .cascade-panel { background: white; border: 1px solid #D8DEE6; border-radius: 12px; padding: 18px; }
+  .cascade-panel h3 { font-size: 14px; margin-bottom: 12px; color: #1B4B7A; }
+  .wave { border: 1px solid #EEF1F5; border-radius: 8px; padding: 12px; margin-bottom: 10px; font-size: 13px; }
+  .wave-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .wave-name { font-weight: 600; }
+  .tag { font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; }
+  .tag-par { background: #E8EEF5; color: #1B4B7A; }
+  .tag-seq { background: #FFF8E6; color: #8B6914; }
+  .wave-phases { color: #6B7A8D; font-size: 12px; }
+  .add { font-size: 12px; color: #1B4B7A; font-weight: 600; margin-top: 8px; cursor: pointer; }
+  .note { font-size: 12px; color: #6B7A8D; margin-top: 14px; line-height: 1.5; padding-top: 12px; border-top: 1px solid #EEF1F5; }
+  .frame-label { position: fixed; bottom: 12px; right: 16px; font-size: 11px; color: #6B7A8D; background: white; padding: 4px 10px; border-radius: 4px; border: 1px solid #D8DEE6; }
+</style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="logo">ContractorPro</div>
+    <div class="nav-item">Projects</div>
+    <div class="nav-item active">Templates</div>
+    <div class="nav-item">Settings</div>
+  </aside>
+  <main class="main">
+    <div class="header-row">
+      <div>
+        <h1>Job templates</h1>
+        <p class="subtitle">Reusable phase sequences + default sub invite waves · editable per project at finalize</p>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost">Duplicate</button>
+        <button class="btn btn-accent">Save template</button>
+      </div>
+    </div>
+
+    <div class="layout">
+      <div class="template-list">
+        <h3>Company templates</h3>
+        <div class="tpl active">Kitchen remodel</div>
+        <div class="tpl">Bath refresh</div>
+        <div class="tpl">Whole-home reno</div>
+        <div class="tpl" style="color:#1B4B7A;font-weight:600">+ New template</div>
+      </div>
+
+      <div class="editor">
+        <h3>Phases — Kitchen remodel</h3>
+        <div class="phase-row head">
+          <div>Phase</div><div>Days</div><div>Buffer</div><div>Default sub</div>
+        </div>
+        <div class="phase-row">
+          <div><input type="text" value="Demo"></div>
+          <div><input type="text" value="3"></div>
+          <div><input type="text" value="1"></div>
+          <div><select><option>Demo crew</option></select></div>
+        </div>
+        <div class="phase-row">
+          <div><input type="text" value="Rough plumbing"></div>
+          <div><input type="text" value="3"></div>
+          <div><input type="text" value="2"></div>
+          <div><select><option>Plumber</option></select></div>
+        </div>
+        <div class="phase-row">
+          <div><input type="text" value="Rough electric"></div>
+          <div><input type="text" value="2"></div>
+          <div><input type="text" value="1"></div>
+          <div><select><option>Electrician</option></select></div>
+        </div>
+        <div class="phase-row">
+          <div><input type="text" value="Drywall"></div>
+          <div><input type="text" value="4"></div>
+          <div><input type="text" value="2"></div>
+          <div><select><option>—</option></select></div>
+        </div>
+        <div class="phase-row">
+          <div><input type="text" value="Paint"></div>
+          <div><input type="text" value="3"></div>
+          <div><input type="text" value="0"></div>
+          <div><select><option>Painter</option></select></div>
+        </div>
+        <div class="phase-row">
+          <div><input type="text" value="Flooring"></div>
+          <div><input type="text" value="3"></div>
+          <div><input type="text" value="1"></div>
+          <div><select><option>Flooring</option></select></div>
+        </div>
+        <span class="add">+ Add phase</span>
+      </div>
+
+      <div class="cascade-panel">
+        <h3>Default invite waves</h3>
+        <p style="font-size:12px;color:#6B7A8D;margin-bottom:12px">Applied at finalize · override per job in <a href="contractor-finalize-cascade-desktop.html" style="color:#1B4B7A">finalize screen</a></p>
+
+        <div class="wave">
+          <div class="wave-head">
+            <span class="wave-name">Wave 1</span>
+            <span class="tag tag-par">Parallel</span>
+          </div>
+          <div class="wave-phases">Demo</div>
+        </div>
+        <div class="wave">
+          <div class="wave-head">
+            <span class="wave-name">Wave 2</span>
+            <span class="tag tag-seq">Sequential</span>
+          </div>
+          <div class="wave-phases">Rough plumbing → then rough electric</div>
+        </div>
+        <div class="wave">
+          <div class="wave-head">
+            <span class="wave-name">Wave 3</span>
+            <span class="tag tag-seq">Sequential</span>
+          </div>
+          <div class="wave-phases">Drywall → Paint → Flooring</div>
+        </div>
+        <span class="add">+ Add wave · drag phases</span>
+
+        <div class="note">
+          <strong>Customer gate slot</strong> (off by default until SME 2B): optional pause between prelim and Wave 1.
+        </div>
+      </div>
+    </div>
+  </main>
+  <div class="frame-label">Desktop · Template Editor · E13-S1, FR-22</div>
+</body>
+</html>

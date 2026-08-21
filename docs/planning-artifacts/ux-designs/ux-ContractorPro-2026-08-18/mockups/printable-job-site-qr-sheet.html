@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Maple St Kitchen — Job Site QR Sheet (Print)</title>
+<!-- E14-S3; printable laminate; RC-1 single QR -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  @media print { body { background: white; } .no-print { display: none; } }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #E8ECF0; padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 24px; }
+  .print-btn { padding: 12px 24px; background: #1B4B7A; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
+  .sheet { width: 8.5in; min-height: 11in; background: white; border: 1px solid #ccc; box-shadow: 0 4px 24px rgba(0,0,0,0.12); padding: 0.6in; display: flex; flex-direction: column; }
+  .header { text-align: center; border-bottom: 3px solid #1B4B7A; padding-bottom: 20px; margin-bottom: 24px; }
+  .header h1 { font-size: 28px; color: #1B4B7A; margin-bottom: 4px; }
+  .header .co { font-size: 16px; color: #6B7A8D; font-weight: 600; }
+  .header .addr { font-size: 14px; color: #6B7A8D; margin-top: 8px; }
+  .main { display: grid; grid-template-columns: 1fr 1.2fr; gap: 32px; flex: 1; align-items: start; }
+  .qr-block { text-align: center; }
+  .qr { width: 200px; height: 200px; margin: 0 auto 16px; border: 4px solid #1A2332; padding: 8px; background: white; display: grid; grid-template-columns: repeat(10, 1fr); grid-template-rows: repeat(10, 1fr); gap: 2px; }
+  .qr div { background: #1A2332; border-radius: 1px; }
+  .qr div:nth-child(odd) { opacity: 0.9; }
+  .qr-label { font-size: 13px; color: #6B7A8D; }
+  .steps h2 { font-size: 18px; color: #1B4B7A; margin-bottom: 16px; }
+  .step { display: flex; gap: 14px; margin-bottom: 20px; align-items: flex-start; }
+  .step-num { width: 32px; height: 32px; background: #E87722; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+  .step h3 { font-size: 16px; margin-bottom: 4px; }
+  .step p { font-size: 14px; color: #6B7A8D; line-height: 1.5; }
+  .divider { border-top: 2px dashed #D8DEE6; margin: 24px 0; position: relative; }
+  .divider span { position: absolute; left: 50%; top: -10px; transform: translateX(-50%); background: white; padding: 0 12px; font-size: 12px; color: #6B7A8D; font-weight: 600; text-transform: uppercase; }
+  .footer { margin-top: auto; padding-top: 20px; border-top: 1px solid #EEF1F5; font-size: 12px; color: #6B7A8D; text-align: center; line-height: 1.6; }
+  .warn { background: #FFF8E6; border: 1px solid #F0D878; border-radius: 8px; padding: 12px; font-size: 13px; color: #8B6914; margin-top: 16px; }
+</style>
+</head>
+<body>
+  <button class="print-btn no-print" onclick="window.print()">Print / Save as PDF</button>
+
+  <div class="sheet">
+    <div class="header">
+      <div class="co">Riverside Remodeling</div>
+      <h1>Maple St Kitchen</h1>
+      <div class="addr">142 Maple St, Riverside · Job site check-in</div>
+    </div>
+
+    <div class="main">
+      <div class="qr-block">
+        <div class="qr" aria-label="QR code placeholder">
+          <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+          <div></div><div style="opacity:0"></div><div></div><div style="opacity:0"></div><div></div><div></div><div style="opacity:0"></div><div></div><div style="opacity:0"></div><div></div>
+          <div></div><div></div><div style="opacity:0"></div><div></div><div></div><div style="opacity:0"></div><div></div><div></div><div style="opacity:0"></div><div></div>
+          <div></div><div style="opacity:0"></div><div></div><div></div><div style="opacity:0"></div><div></div><div></div><div></div><div style="opacity:0"></div><div></div>
+          <div></div><div></div><div></div><div style="opacity:0"></div><div></div><div style="opacity:0"></div><div></div><div></div><div></div><div></div>
+          <div></div><div style="opacity:0"></div><div></div><div></div><div></div><div></div><div style="opacity:0"></div><div></div><div style="opacity:0"></div><div></div>
+          <div></div><div></div><div style="opacity:0"></div><div></div><div style="opacity:0"></div><div></div><div></div><div></div><div style="opacity:0"></div><div></div>
+          <div></div><div style="opacity:0"></div><div></div><div></div><div></div><div style="opacity:0"></div><div></div><div></div><div></div><div></div>
+          <div></div><div></div><div></div><div style="opacity:0"></div><div></div><div></div><div style="opacity:0"></div><div></div><div style="opacity:0"></div><div></div>
+          <div></div><div style="opacity:0"></div><div></div><div></div><div style="opacity:0"></div><div></div><div></div><div style="opacity:0"></div><div></div><div></div>
+        </div>
+        <p class="qr-label">Scan with your phone camera</p>
+      </div>
+
+      <div class="steps">
+        <h2>When you arrive</h2>
+        <div class="step">
+          <div class="step-num">1</div>
+          <div>
+            <h3>Check in</h3>
+            <p>Scan the QR → confirm your name &amp; phone. First visit links you to this job. View plans &amp; scope on your phone — no app install.</p>
+          </div>
+        </div>
+        <div class="divider"><span>End of day</span></div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div>
+            <h3>Upload today's work</h3>
+            <p>Scan again (same QR) → add progress photos &amp; optional notes. Photos go to the project folder automatically.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn">Do not share door codes on this sheet. Questions? Text <strong>Acme Co (555) 482-0100</strong> — not Ryan's personal cell.</div>
+
+    <div class="footer">
+      contractorpro.com/p/maple-st-resources · Printed Aug 2026<br>
+      Laminate and post at job-site entry · Single QR for check-in &amp; check-out (RC-1)
+    </div>
+  </div>
+</body>
+</html>

@@ -31,8 +31,8 @@ Decided in [planning-decision-checklist.md](../../../planning-decision-checklist
 | **BL-6** | Batch cascade confirm (customer) | **One digest** per cascade event |
 | **BL-7** | Quiet hours | **Company default** 8pm–8am local; queue SMS |
 | **BL-8** | `notify_via` per sub | **GC sets at invite**; editable by GC |
-| **BL-13** | MMS before handle ready | **Queue + warn Ryan** — do not drop |
-| **BL-14** | Unified inbox | **Mirror-only** — no merged single-thread UI |
+| ~~**BL-13**~~ | ~~MMS before handle ready~~ | **Retired 2026-08-20** — company # model; no per-project handle |
+| ~~**BL-14**~~ | ~~Unified inbox mirror-only~~ | **Superseded 2026-08-20** — app inbox + SMS relay (E8) |
 | **BL-18** | Courtesy SMS on reassignment | **Auto-send** when sub replaced on task |
 
 ### v0.1.1
@@ -45,7 +45,7 @@ Decided in [planning-decision-checklist.md](../../../planning-decision-checklist
 | **BL-11** | Partial cascade | Full cascade only until then |
 | **BL-12** | Business days / holidays | Calendar days in MVP |
 | **BL-15** | Project photo timeline | Cross-thread photo feed |
-| **BL-23** | Handle # reuse | E8-S5 + SP-1 |
+| ~~**BL-23**~~ | ~~Handle # reuse~~ | **Retired 2026-08-20** — one company # per contractor; no per-project pool |
 
 ### v0.2+
 
@@ -103,10 +103,30 @@ Decided in [planning-decision-checklist.md](../../../planning-decision-checklist
 
 | ID | Spike | Delivers | Prereq in MVP | Ref |
 |----|-------|----------|---------------|-----|
-| **SP-1** | **Number reuse + history routing** | E8-S5: `cooling` → `available` → reassign; inbound resolves sender against `phone_number_assignments` when number served multiple projects | E8-S4: `phone_number_assignments` logged on every assign/archive; MVP inbound = current project only | [project-handle-numbers.md](../../../technical-exploration/project-handle-numbers.md) § Same-company reuse |
-| **SP-2** | Twilio vs Telnyx group MMS E2E | Vendor lock for E8 | Webhook + group MMS receive | [project-handle-numbers.md](../../../technical-exploration/project-handle-numbers.md) |
+| ~~**SP-1**~~ | ~~Number reuse + history routing~~ | **Retired 2026-08-20** — per-project handle model removed |
+| ~~**SP-2**~~ | ~~Twilio vs Telnyx group MMS E2E~~ | **Retired 2026-08-20** — Programmable Messaging 1:1 only; see [company-number-messaging.md](../../../technical-exploration/company-number-messaging.md) |
+| **SP-3** | Google Drive API + QR resource page | E14 prereq | OAuth scopes, folder create, portal proxy, preview strategy | [decision-workbook.md](../../../sme-meetings/decision-workbook.md) §4 |
+| **SP-4** | SMS relay SME validation | Pre-build gate | Scripted flows with Ryan/Macie | [company-number-sms-relay.md](../../../sme-meetings/sme-follow-ups/company-number-sms-relay.md) |
 
 **SP-1 acceptance (spike output):** sequence diagram for Marcus texting old Maple # after number reassigned to Oak; test cases; decision on reuse gate vs pure history routing.
+
+---
+
+## Roadmap — post correct-course thin spots (2026-08-20)
+
+Approved in [sprint-change-proposal-2026-08-20.md](../../../sprint-change-proposal-2026-08-20.md). Decisions locked in [decision-workbook.md](../../../sme-meetings/decision-workbook.md); items below need **more discussion or UX detail** before build lock.
+
+| ID | Topic | Bucket | Notes |
+|----|-------|--------|-------|
+| **RC-1** | Single QR vs two QRs (check-in / check-out) | MVP UX | Workbook intent: one laminated QR → resource page with Check in + Upload actions; validate with Ryan |
+| **RC-2** | Milestone comms vs date-change notifications | MVP copy/rules | Automated prep messages (FR-24) distinct from event-driven schedule-change alerts (FR-16); template boundaries TBD |
+| **RC-3** | Default `notify_via` at join | MVP defaults | Workbook: subs SMS, customers both — confirm editable-by-participant vs GC-only (BL-8 overlap) |
+| **RC-4** | GC staff notification defaults | MVP settings | Email + in-app for Ryan/Macie — separate from participant `notify_via`; relay SMS alert rules already locked |
+| **RC-5** | SMS relay implementation tuning | v0.1 polish | Staff STOP allowlist; 72h open-thread TTL; polling 60s vs SignalR; staff MMS outbound deferred — see [company-number-messaging.md](../../../technical-exploration/company-number-messaging.md) |
+| **RC-6** | Planning stretch features | v0.1.1 | Reverse-schedule from anchor trade; multi-job portfolio balance panel (FJ-2) |
+| **RC-7** | Secondary doc sync | Pre-dev | Align [messaging-and-media.md](../../../technical-exploration/messaging-and-media.md), [invite-join-flow.md](../../../technical-exploration/invite-join-flow.md), [schedule-confirmation-workflow.md](../../../technical-exploration/schedule-confirmation-workflow.md) with company # + plan-first model |
+
+**Also deferred to SME follow-up (not RC):** 2B customer gate, 1b company # provision timing, 1B SMS relay validation, #9 Twilio portability research.
 
 ---
 
@@ -114,10 +134,10 @@ Decided in [planning-decision-checklist.md](../../../planning-decision-checklist
 
 Documented in [future-journeys-v02.md](./future-journeys-v02.md):
 
-| ID | Journey | Persona |
-|----|---------|---------|
-| **FJ-1** | Plan mode → Finalize schedule | Ryan / Maci |
-| **FJ-2** | Portfolio balance / sub conflict across jobs | Ryan |
+| ID | Journey | Persona | Notes |
+|----|---------|---------|-------|
+| ~~**FJ-1**~~ | ~~Plan mode → Finalize schedule~~ | Ryan / Maci | **Promoted to MVP** (2026-08-20 correct-course) — Epic E13 |
+| **FJ-2** | Portfolio balance / sub conflict across jobs | Ryan | RC-6 v0.1.1 |
 | **FJ-3** | AI draft "what changed" on schedule shift | Ryan |
 | **FJ-4** | Unified person portal (all projects, one phone) | Jesse / Lauren |
 | **FJ-5** | Project template (kitchen remodel phases) | Ryan / Maci |

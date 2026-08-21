@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ContractorPro — Connect Google (Desktop)</title>
+<!-- E3-S1; onboarding checklist; Drive scope coupled -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F4F6F8; color: #1A2332; display: flex; min-height: 100vh; }
+  .sidebar { width: 220px; background: #1B4B7A; color: white; padding: 24px 0; flex-shrink: 0; }
+  .logo { padding: 0 20px 24px; font-weight: 700; font-size: 18px; }
+  .main { flex: 1; padding: 28px 32px; max-width: 720px; }
+  .breadcrumb { font-size: 13px; color: #6B7A8D; margin-bottom: 8px; }
+  h1 { font-size: 22px; margin-bottom: 6px; }
+  .subtitle { font-size: 14px; color: #6B7A8D; margin-bottom: 24px; line-height: 1.5; }
+  .checklist { background: white; border: 1px solid #D8DEE6; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+  .checklist h2 { font-size: 14px; color: #6B7A8D; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
+  .item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid #EEF1F5; font-size: 14px; align-items: flex-start; }
+  .item:last-child { border-bottom: none; }
+  .item.done { color: #6B7A8D; }
+  .item.active { font-weight: 600; }
+  .icon { width: 22px; flex-shrink: 0; text-align: center; }
+  .card { background: white; border: 1px solid #D8DEE6; border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+  .google-btn { display: inline-flex; align-items: center; gap: 12px; padding: 12px 20px; border: 1px solid #D8DEE6; border-radius: 8px; background: white; font-weight: 600; font-size: 14px; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
+  .google-btn img { width: 20px; height: 20px; }
+  .g-logo { width: 20px; height: 20px; background: conic-gradient(from -45deg, #ea4335, #fbbc05, #34a853, #4285f4, #ea4335); border-radius: 4px; }
+  .scopes { margin-top: 20px; font-size: 13px; color: #6B7A8D; }
+  .scopes li { margin-bottom: 8px; margin-left: 18px; line-height: 1.4; }
+  .scopes strong { color: #1A2332; }
+  .connected { background: #E8F5EC; border: 1px solid #A8D5B5; border-radius: 10px; padding: 16px; display: flex; gap: 14px; align-items: flex-start; margin-bottom: 16px; }
+  .connected strong { color: #2D8A4E; display: block; margin-bottom: 4px; }
+  .connected p { font-size: 13px; color: #6B7A8D; line-height: 1.5; }
+  .rules { background: #E8EEF5; border-radius: 8px; padding: 14px; font-size: 13px; color: #1B4B7A; line-height: 1.5; }
+  .rules strong { display: block; margin-bottom: 6px; }
+  .btn-link { font-size: 13px; color: #1B4B7A; font-weight: 600; background: none; border: none; cursor: pointer; margin-top: 12px; }
+  .frame-label { position: fixed; bottom: 12px; right: 16px; font-size: 11px; color: #6B7A8D; background: white; padding: 4px 10px; border-radius: 4px; border: 1px solid #D8DEE6; }
+</style>
+</head>
+<body>
+  <aside class="sidebar"><div class="logo">ContractorPro</div></aside>
+  <main class="main">
+    <div class="breadcrumb">Settings › Integrations › Google</div>
+    <h1>Connect Google</h1>
+    <p class="subtitle">Calendar for schedule sync · Drive for project file folders. One OAuth connection for Riverside Remodeling.</p>
+
+    <div class="checklist">
+      <h2>Onboarding checklist</h2>
+      <div class="item done"><span class="icon">✓</span><span>Create company profile</span></div>
+      <div class="item active"><span class="icon">→</span><span><strong>Connect Google</strong> — you are here</span></div>
+      <div class="item"><span class="icon">○</span><span>Create first project</span></div>
+      <div class="item"><span class="icon">○</span><span>Invite first sub</span></div>
+    </div>
+
+    <div class="card">
+      <div class="connected">
+        <span style="font-size:24px">✓</span>
+        <div>
+          <strong>Connected as ryan@riversideremodeling.com</strong>
+          <p>Calendar + Drive scopes granted · Last synced 2 min ago</p>
+        </div>
+      </div>
+
+      <button class="google-btn" style="opacity:0.5;pointer-events:none">
+        <span class="g-logo"></span>
+        Sign in with Google
+      </button>
+      <button class="btn-link">Disconnect · Re-authorize if scopes change</button>
+
+      <ul class="scopes">
+        <li><strong>Calendar</strong> — create shared project calendars; write events when subs <em>accept</em> dates (not during planning)</li>
+        <li><strong>Drive</strong> — create/link project folders; store plans &amp; QR upload photos (subs never open Drive directly)</li>
+      </ul>
+    </div>
+
+    <div class="rules">
+      <strong>What does NOT sync to Google during planning?</strong>
+      Draft phases, prelim publish, and cascade previews stay in ContractorPro until subs confirm. Google gets committed dates only.
+    </div>
+  </main>
+  <div class="frame-label">Desktop · Google Connect · E3-S1 (+ Drive for E14)</div>
+</body>
+</html>
