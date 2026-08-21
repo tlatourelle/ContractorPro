@@ -24,6 +24,23 @@ Require-Command npm
 
 Push-Location $repoRoot
 try {
+    Write-Host "==> Cleaning up any running processes"
+    $dotnetProcs = @(Get-Process -Name dotnet -ErrorAction SilentlyContinue)
+    foreach ($proc in $dotnetProcs) {
+        Write-Host "   - Stopping dotnet process (PID $($proc.Id))"
+        Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
+    }
+    
+    $nodeProcs = @(Get-Process -Name node -ErrorAction SilentlyContinue)
+    foreach ($proc in $nodeProcs) {
+        Write-Host "   - Stopping node process (PID $($proc.Id))"
+        Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
+    }
+    
+    if ($dotnetProcs.Count -gt 0 -or $nodeProcs.Count -gt 0) {
+        Start-Sleep -Seconds 2
+    }
+    
     if (-not $SkipDocker) {
         if (Get-Command docker -ErrorAction SilentlyContinue) {
             Write-Host "==> Starting PostgreSQL with docker compose"
@@ -51,6 +68,12 @@ try {
         Write-Host "==> Installing frontend dependencies"
         Push-Location (Join-Path $repoRoot "src/ContractorPro.Web")
         try {
+            # Clean up node_modules in case of file locks from previous runs
+            $nodeModulesPath = Join-Path (Get-Location) "node_modules"
+            if (Test-Path $nodeModulesPath) {
+                Remove-Item -Path $nodeModulesPath -Recurse -Force -ErrorAction SilentlyContinue
+            }
+            
             if (Test-Path "package-lock.json") {
                 npm ci
             }
